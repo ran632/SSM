@@ -1,0 +1,44 @@
+application: shiftssm
+version: 1-1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: /static
+  static_dir: web/static
+
+- url: /
+  script: web.pages.Home.app
+
+- url: /Home
+  script: web.pages.Home.app
+
+- url: /Submission_shifts
+  script: web.pages.Submission_shifts.app
+  
+- url: /Switch_shifts
+  script: web.pages.Switch_shifts.app
+  
+- url: /History
+  script: web.pages.History.app
+  
+- url: /About
+  script: web.pages.About.app
+  
+- url: /Admin
+  script: web.pages.Admin.app
+  
+#cacthes everything that wasn't cought until now
+- url: /(.*)
+  script: web.pages.Home.app
+  
+
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
