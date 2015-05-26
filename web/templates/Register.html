@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block head %}
+	{{block.super}}
+{%endblock%}
+
+{% block content %}
+  <div class="login-card">
+    <h1>Registration</h1><br>
+  <form>
+    <input type="text" name="FirstName" id="FirstName" placeholder="First Name">
+    <input type="text" name="LastName" id="LastName" placeholder="Last Name">
+    <input type="text" name="EmployeeNumber" id="EmployeeNumber" placeholder="Employee Number">
+    <input type="text" name="Email" id="Email" placeholder="Email">
+    <input type="password" name="Pass" id="Pass" placeholder="Password">
+    <input type="submit" name="login" class="login login-submit" value="Register">
+  </form>
+
+  <div class="login-help">
+    <a href="#">Have Account ?</a> • <a href="/Login">Login</a>
+  </div>
+</div>
+
+
+{%endblock%}

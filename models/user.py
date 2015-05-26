@@ -1,44 +1,30 @@
-#this model represents a user in our system
-
-from google.appengine.api import users
 from google.appengine.ext import ndb
+import hashlib      #we need this to safely store passwords
+import logging
+
 
 class User(ndb.Model):
-	email = ndb.StringProperty()
-	
-	
-	@staticmethod
-	def checkUser():
-		googleUser = users.get_current_user()
-		if not googleUser:
-			return False
-		
-		user = User.query(User.email == googleUser.email()).get()
-		if user:
-			return user
-		
-		return False
-	
-	#generates a url at which the user can login, and then will be redirected back to his original location
-	@staticmethod
-	def loginUrl():
-		return users.create_login_url('/connect')
-	
-	#generates a url at which the user can logout, and then will be redirected back to his original location
-	@staticmethod
-	def logoutUrl():
-		return users.create_logout_url('/')
-	
-	@staticmethod
-	def connect():
-		googleUser = users.get_current_user()
-		if googleUser:
-			user = User.query(User.email == googleUser.email()).get()
-			if not user:
-				user = User()
-				user.email = googleUser.email()
-				user.put()
-			return user
+    first_name = ndb.StringProperty()
+    last_name = ndb.StringProperty()
+    employee_number = ndb.StringProperty()
+    email = ndb.StringProperty()
+    password = ndb.StringProperty()
 
-		else:
-			return "not connected"
+
+    @staticmethod
+    def check_token(token):
+        user = User.get_by_id(long(token))
+        return user
+
+    def set_password(self, password):
+        self.password = hashlib.md5(password).hexdigest()
+        self.put()
+
+    def check_password(self, password):
+        if not password:
+            return False
+        logging.info("self.pass: {}, hashed pass: {}".format(self.password, hashlib.md5(password).hexdigest()))
+        if self.password == hashlib.md5(password).hexdigest():
+            return True
+
+        return False
