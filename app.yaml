@@ -21,6 +21,9 @@ handlers:
 - url: /Submission_shifts
   script: web.pages.Submission_shifts.app
   
+- url: /Login
+  script: web.pages.Login.app
+  
 - url: /Switch_shifts
   script: web.pages.Switch_shifts.app
   
