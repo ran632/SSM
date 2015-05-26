@@ -1,21 +1,24 @@
 from google.appengine.ext import ndb
 import hashlib      #we need this to safely store passwords
 import logging
-
 class User(ndb.Model):
+    first_name = ndb.StringProperty()
+    last_name = ndb.StringProperty()
+    employee_number = ndb.StringProperty()
     email = ndb.StringProperty()
     password = ndb.StringProperty()
 
+
     @staticmethod
-    def checkToken(token):
+    def check_token(token):
         user = User.get_by_id(long(token))
         return user
 
-    def setPassword(self, password):
+    def set_password(self, password):
         self.password = hashlib.md5(password).hexdigest()
         self.put()
 
-    def checkPassword(self, password):
+    def check_password(self, password):
         if not password:
             return False
         logging.info("self.pass: {}, hashed pass: {}".format(self.password, hashlib.md5(password).hexdigest()))

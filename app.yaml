@@ -20,7 +20,10 @@ handlers:
 
 - url: /Submission_shifts
   script: web.pages.Submission_shifts.app
-  
+
+- url: /Register
+  script: web.pages.Register.app
+
 - url: /Login
   script: web.pages.Login.app
   
