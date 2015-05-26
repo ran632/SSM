@@ -24,6 +24,9 @@ handlers:
 - url: /Login
   script: web.pages.Login.app
   
+- url: /LoginTest
+  script: web.pages.LoginTest.app
+  
 - url: /Switch_shifts
   script: web.pages.Switch_shifts.app
   
