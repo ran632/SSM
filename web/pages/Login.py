@@ -1,31 +1,79 @@
-
 from google.appengine.ext.webapp import template
-from models.user import User
+
 import webapp2
 import json
+from models.user import User
 
-
-class IndexHandler(webapp2.RequestHandler):
+class LoginHandler(webapp2.RequestHandler):
     def get(self):
-        template_params = {}
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
 
-        html = template.render("web/templates/Login.html", template_params)
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
+
+        html = template.render('web/templates/Login.html', template_variables)
         self.response.write(html)
 
-
-class LoginUserHandler(webapp2.RequestHandler):
+class LoginAttHandler(webapp2.RequestHandler):
     def get(self):
-        email = self.request.get('Email')
-        password = self.request.get('Pass')
-        employee = User.query(User.email == email).get()
-        if not employee or not employee.checkPassword(password):
-            self.response.write("Wrong username or password")
+        email = self.request.get('email')
+        password = self.request.get('password')
+        user = User.query(User.email == email).get()
+        if not user or not user.checkPassword(password):
+            self.error(403)
+            self.response.write('Wrong username or password')
             return
 
-        self.response.write(json.dumps({'status': 'OK'}))
+        self.response.set_cookie('our_token', str(user.key.id()))
+        self.response.write(json.dumps({'status':'OK'}))
+
+class RegisterHandler(webapp2.RequestHandler):
+    def get(self):
+        email = self.request.get('email')
+        password = self.request.get('password')
+        if not password:
+            self.error(403)
+            self.response.write('Empty password submitted')
+            return
+
+        user = User.query(User.email == email).get()
+        if user:
+            self.error(402)
+            self.response.write('Email taken')
+            return
+
+        user = User()
+        user.email = email
+        user.setPassword(password)
+        user.put()
+        self.response.set_cookie('our_token', str(user.key.id()))
+        self.response.write(json.dumps({'status':'OK'}))
+		
+
+class LogoutHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.delete_cookie('our_token')
+        self.redirect('/')
+
+class PersonalHandler(webapp2.RequestHandler):
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+
+        if not user:
+            self.redirect('web/templates/History.html')
+
+        html = template.render('web/templates/Admin.html', {})
+        self.response.write(html)
 
 app = webapp2.WSGIApplication([
-    ('/Login', IndexHandler),
-    ('/Home', LoginUserHandler),
-    ('/', LoginUserHandler)
+    ('/Login', LoginHandler),
+    ('/loginAtt', LoginAttHandler),
+    ('/registerAtt', RegisterHandler),
+    ('/logout', LogoutHandler),
+    ('/personal', PersonalHandler)
 ], debug=True)

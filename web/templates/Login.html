@@ -1,21 +1,20 @@
 {% extends "base.html" %}
 {% block head %}
 	{{block.super}}
+	<script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="application/javascript" src="static/js/index-login.js"></script>
 {%endblock%}
 
 {% block content %}
-  <div class="login-card">
-    <h1>Log-in</h1><br>
-  <form>
-    <input type="text" name="email" placeholder="Email">
-    <input type="password" name="pass" placeholder="Password">
-    <input type="submit" name="login" class="login login-submit" value="login">
-  </form>
 
-  <div class="login-help">
-    <a href="/Register">Register</a> • <a href="#">Forgot Password</a>
-  </div>
-</div>
-
-
+    {%if user%}
+    <div>Hello, {{user}}. You can <a href="/logout">logout</a> here</div>
+    {% else %}
+    <div id="login_div" class="login-card">
+        <h1>Login</h1><br>
+        <input type="text" placeholder="email@example.com" id="login_email"><br>
+        <input type="password" placeholder="password" id="login_password"><br>
+        <button id="login">Login</button>
+    </div>
+    {%endif%}
 {%endblock%}

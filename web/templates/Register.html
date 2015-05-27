@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 {% block head %}
 	{{block.super}}
+	<script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="application/javascript" src="static/js/index-login.js"></script>
 {%endblock%}
 
 {% block content %}
   <div class="login-card">
     <h1>Registration</h1><br>
-  <form>
     <input type="text" name="FirstName" id="FirstName" placeholder="First Name">
     <input type="text" name="LastName" id="LastName" placeholder="Last Name">
     <input type="text" name="EmployeeNumber" id="EmployeeNumber" placeholder="Employee Number">
-    <input type="text" name="Email" id="Email" placeholder="Email">
-    <input type="password" name="Pass" id="Pass" placeholder="Password">
-    <input type="submit" name="login" class="login login-submit" value="Register">
-  </form>
+    <input type="text" placeholder="email@example.com" id="reg_email"><br>
+    <input type="password" placeholder="password" id="reg_password"><br>
+    <button id="register">Register</button>
+  
 
   <div class="login-help">
     <a href="#">Have Account ?</a> • <a href="/Login">Login</a>

@@ -11,7 +11,7 @@ function submitLogin() {
     var email = $('#login_email').val();
     var password = $('#login_password').val();
     $.ajax({
-		url:'/LoginTest/login2',
+		url:'/loginAtt',
 		type:'GET',
 		dataType:'json',
         data:{email:email, password:password},
@@ -29,12 +29,13 @@ function submitRegister() {
     var email = $('#reg_email').val();
     var password = $('#reg_password').val();
     $.ajax({
-		url:'/LoginTest/register',
+		url:'/registerAtt',
 		type:'GET',
 		dataType:'json',
         data:{email:email, password:password},
 		success:function(data, status, xhr) {
-            location.reload();
+        document.location.href = '/';
+			
 		},
 		error:function(xhr, status, error) {
             alert(xhr.responseText);
