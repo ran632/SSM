@@ -55,7 +55,7 @@ class RegisterHandler(webapp2.RequestHandler):
 class LogoutHandler(webapp2.RequestHandler):
     def get(self):
         self.response.delete_cookie('our_token')
-        self.redirect('/LoginTest')
+        self.redirect('/')
 
 class PersonalHandler(webapp2.RequestHandler):
     def get(self):
@@ -64,9 +64,9 @@ class PersonalHandler(webapp2.RequestHandler):
             user = User.checkToken(self.request.cookies.get('our_token'))
 
         if not user:
-            self.redirect('/LoginTest')
+            self.redirect('web/templates/History.html')
 
-        html = template.render('web/templates/History.html', {})
+        html = template.render('web/templates/Admin.html', {})
         self.response.write(html)
 
 app = webapp2.WSGIApplication([

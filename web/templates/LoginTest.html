@@ -1,12 +1,14 @@
-<!DOCTYPE html>
 {% extends "base.html" %}
 {% block head %}
 	{{block.super}}
+	<script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="application/javascript" src="static/js/index-login.js"></script>
 {%endblock%}
 
 {% block content %}
+
     {%if user%}
-    <div>Hello, {{user}}. You can <a href="/logout">logout</a> here</div>
+    <div>Hello, {{user}}. You can <a href="/LoginTest/logout">logout</a> here</div>
     {% else %}
     <div id="login_div" class="info">
         Login info:<br>
@@ -21,5 +23,4 @@
         <button id="register">Register</button>
     </div>
     {%endif%}
-	
 {%endblock%}
