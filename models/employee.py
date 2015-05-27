@@ -6,7 +6,7 @@ from google.appengine.ext import ndb
 
 class Employee(ndb.Model):
     email = ndb.StringProperty()
-
+    employee_number = ndb.StringProperty()
 
     @staticmethod
     def checkUser():
