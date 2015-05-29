@@ -4,41 +4,82 @@ import webapp2
 import json
 from models.user import User
 class HomeHandler(webapp2.RequestHandler):
-	def get(self):
-		template_params = {}
+    def get(self):
 
-		html = template.render("web/templates/Home.html", template_params)
-		self.response.write(html)
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
+
+        html = template.render('web/templates/Home.html', template_variables)
+        self.response.write(html)
 
 class HistoryHandler(webapp2.RequestHandler):
-	def get(self):
-		template_params = {}
-		
-		html = template.render("web/templates/History.html", template_params)
-		self.response.write(html)
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+                user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
+
+        html = template.render('web/templates/History.html', template_variables)
+        self.response.write(html)
 		
 class AboutHandler(webapp2.RequestHandler):
-	def get(self):
-		template_params = {}
-		
-		html = template.render("web/templates/About.html", template_params)
-		self.response.write(html)
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+                user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
+
+        html = template.render('web/templates/About.html', template_variables)
+        self.response.write(html)
 		
 class AdminHandler(webapp2.RequestHandler):
-	def get(self):
-		template_params = {}
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+                user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
+
+        html = template.render('web/templates/Admin.html', template_variables)
+        self.response.write(html)
 		
-		html = template.render("web/templates/Admin.html", template_params)
-		self.response.write(html)
 class SubmissionShiftsHandler(webapp2.RequestHandler):
     def get(self):
-        template_params = {}
-        html = template.render("web/templates/Submission_shifts.html", template_params)
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+                user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
+
+        html = template.render('web/templates/Submission_shifts.html', template_variables)
         self.response.write(html)
+		
 class SwitchShiftsHandler(webapp2.RequestHandler):
     def get(self):
-        template_params = {}
-        html = template.render("web/templates/Switch_shifts.html", template_params)
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+                user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
+
+        html = template.render('web/templates/Switch_shifts.html', template_variables)
         self.response.write(html)
 		
 class FourOFourHandler(webapp2.RequestHandler):
@@ -110,10 +151,11 @@ class PersonalHandler(webapp2.RequestHandler):
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
 
-        if not user:
-            self.redirect('web/templates/History.html')
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
 
-        html = template.render('web/templates/Admin.html', {})
+        html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
 
 app = webapp2.WSGIApplication([
