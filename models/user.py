@@ -5,7 +5,7 @@ import logging
 class User(ndb.Model):
     email = ndb.StringProperty()
     password = ndb.StringProperty()
-    type = ndb.BooleanProperty()
+    isAdmin = ndb.BooleanProperty()
 
     @staticmethod
     def checkToken(token):

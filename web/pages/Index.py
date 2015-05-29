@@ -116,11 +116,25 @@ class LoginAttHandler(webapp2.RequestHandler):
 
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-
+		
 class RegisterHandler(webapp2.RequestHandler):
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+                user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        if user:
+            self.redirect('/')
+
+        html = template.render('web/templates/Register.html', template_variables)
+        self.response.write(html)
+
+class RegisterAttHandler(webapp2.RequestHandler):
     def get(self):
         email = self.request.get('email')
         password = self.request.get('password')
+        isAdmin = self.request.get('isAdmin')
         if not password:
             self.error(403)
             self.response.write('Empty password submitted')
@@ -136,6 +150,7 @@ class RegisterHandler(webapp2.RequestHandler):
         user.email = email
         user.setPassword(password)
         user.put()
+        user.isAdmin = isAdmin
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
 		
@@ -168,7 +183,8 @@ app = webapp2.WSGIApplication([
 	('/SwitchShifts', SwitchShiftsHandler),
 	('/Login', LoginHandler),
     ('/loginAtt', LoginAttHandler),
-    ('/registerAtt', RegisterHandler),
+	('/Register', RegisterHandler),
+    ('/registerAtt', RegisterAttHandler),
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
 	('/(.*)', FourOFourHandler)

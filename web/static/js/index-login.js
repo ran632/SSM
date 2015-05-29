@@ -28,11 +28,15 @@ function submitLogin() {
 function submitRegister() {
     var email = $('#reg_email').val();
     var password = $('#reg_password').val();
+	var isAdmin = 0;
+	if($('#isAdmin').is(':checked')){
+            isAdmin = 1;
+          }
     $.ajax({
 		url:'/registerAtt',
 		type:'GET',
 		dataType:'json',
-        data:{email:email, password:password},
+        data:{email:email, password:password, isAdmin:isAdmin},
 		success:function(data, status, xhr) {
         document.location.href = '/';
 			
