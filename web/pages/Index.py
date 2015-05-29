@@ -1,9 +1,54 @@
-from google.appengine.ext.webapp import template
 
+from google.appengine.ext.webapp import template
 import webapp2
 import json
 from models.user import User
+class HomeHandler(webapp2.RequestHandler):
+	def get(self):
+		template_params = {}
 
+		html = template.render("web/templates/Home.html", template_params)
+		self.response.write(html)
+
+class HistoryHandler(webapp2.RequestHandler):
+	def get(self):
+		template_params = {}
+		
+		html = template.render("web/templates/History.html", template_params)
+		self.response.write(html)
+		
+class AboutHandler(webapp2.RequestHandler):
+	def get(self):
+		template_params = {}
+		
+		html = template.render("web/templates/About.html", template_params)
+		self.response.write(html)
+		
+class AdminHandler(webapp2.RequestHandler):
+	def get(self):
+		template_params = {}
+		
+		html = template.render("web/templates/Admin.html", template_params)
+		self.response.write(html)
+class SubmissionShiftsHandler(webapp2.RequestHandler):
+    def get(self):
+        template_params = {}
+        html = template.render("web/templates/Submission_shifts.html", template_params)
+        self.response.write(html)
+class SwitchShiftsHandler(webapp2.RequestHandler):
+    def get(self):
+        template_params = {}
+        html = template.render("web/templates/Switch_shifts.html", template_params)
+        self.response.write(html)
+		
+class FourOFourHandler(webapp2.RequestHandler):
+	def get(self, args=None):
+		template_params = {}
+		html = template.render("web/templates/404.html", template_params)
+		self.response.write(html)
+
+		
+#============Login system handlers===================================
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -16,6 +61,7 @@ class LoginHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Login.html', template_variables)
         self.response.write(html)
+		
 
 class LoginAttHandler(webapp2.RequestHandler):
     def get(self):
@@ -71,9 +117,18 @@ class PersonalHandler(webapp2.RequestHandler):
         self.response.write(html)
 
 app = webapp2.WSGIApplication([
-    ('/Login', LoginHandler),
+    ('/', HomeHandler),
+	('/Home', HomeHandler),
+	('/History', HistoryHandler),
+	('/About', AboutHandler),
+	('/Admin', AdminHandler),
+	('/SubmissionShifts', SubmissionShiftsHandler),
+	('/SwitchShifts', SwitchShiftsHandler),
+	('/Login', LoginHandler),
     ('/loginAtt', LoginAttHandler),
     ('/registerAtt', RegisterHandler),
     ('/logout', LogoutHandler),
-    ('/personal', PersonalHandler)
+    ('/personal', PersonalHandler),
+	('/(.*)', FourOFourHandler)
+	
 ], debug=True)

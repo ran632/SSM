@@ -9,55 +9,11 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: /
-  script: web.pages.Home.app
-
 - url: /static
   static_dir: web/static
 
-- url: /Home
-  script: web.pages.Home.app
-
-- url: /Submission_shifts
-  script: web.pages.Submission_shifts.app
-
-- url: /Register
-  script: web.pages.Register.app
-
-- url: /Login
-  script: web.pages.Login.app
-
-- url: /Login/(.*)
-  script: web.pages.Login.app
-  
-- url: /Switch_shifts
-  script: web.pages.Switch_shifts.app
-  
-- url: /History
-  script: web.pages.History.app
-  
-- url: /About
-  script: web.pages.About.app
-  
-- url: /Admin
-  script: web.pages.Admin.app
-
-#login system
-- url: /loginAtt
-  script: web.pages.Login.app
-  
-- url: /registerAtt
-  script: web.pages.Login.app
-  
-- url: /logout
-  script: web.pages.Login.app
-  
-- url: /personal
-  script: web.pages.Login.app
-  
-#cacthes everything that wasn't cought until now
 - url: /(.*)
-  script: web.pages.404.app
+  script: web.pages.Index.app
   
 
 
