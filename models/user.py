@@ -33,3 +33,15 @@ class User(ndb.Model):
     def getAllActiveUsers():
         qry = "SELECT email,employee_number,first_name,last_name FROM User WHERE isActive=True"
         return ndb.gql(qry)
+
+    @staticmethod
+    def getAllUsers():
+        qry = "SELECT email,employee_number,first_name,last_name FROM User"
+        return ndb.gql(qry)
+
+    @staticmethod
+    def strNameByEmpNo(empno):
+        for emp in User.getAllUsers():
+            if empno == emp.employee_number and emp.first_name != None and emp.last_name != None:
+                return emp.first_name + " " + emp.last_name
+        return ""

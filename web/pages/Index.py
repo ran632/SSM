@@ -61,6 +61,21 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
         if user:
             template_variables['user'] = user.email
 
+            nws = Submission.qryGetNextWeekSubmissionsByEmp(user.employee_number) #next week submission by empno
+            template_variables['submissions'] = []
+            for sub in nws:
+                print sub
+                template_variables['submissions'].append({
+                    "shift_hour": sub.shift_hour,
+                    "day_of_the_week": sub.day_of_the_week
+                })
+
+            noteqr = Note.qryGetNoteByEmp(user.employee_number)
+            for nt in noteqr:
+                note = nt.note
+            template_variables['note'] = note
+
+
             for x in range(1,8):
                 template_variables['day%d' % (x)] = Staticfunctions.nextWeekDate(x)
         else:
@@ -211,31 +226,32 @@ class SubmissionAttHandler(webapp2.RequestHandler):
             user = User.checkToken(self.request.cookies.get('our_token'))
         if not user:
             self.redirect("/")
-        submission = Submission()
-        submission.dateSent = datetime.today()
-        submission.shift_hour = int(self.request.get('shiftHour'))
-        submission.day_of_the_week = int(self.request.get('weekDay'))
-        submission.week_sunday_date = Staticfunctions.nextWeekDate(1)
-        submission.employee_number = user.employee_number
-        submission.put()
+        nws = Submission.qryGetNextWeekSubmissionsByEmp(user.employee_number)
+        for sub in nws:
+            sub.key.delete()
 
-        self.response.set_cookie('our_token', str(user.key.id()))
-        self.response.write(json.dumps({'status':'OK'}))
+        shifts = json.loads(self.request.get('shifts'))
+        for tmpshift in shifts:
+            submission = Submission()
+            submission.dateSent = datetime.today()
+            submission.shift_hour = int(tmpshift['shiftHour'])
+            submission.day_of_the_week = int(tmpshift['weekDay'])
+            submission.week_sunday_date = Staticfunctions.nextWeekDate(1)
+            submission.employee_number = user.employee_number
+            submission.put()
 
-class submissionNoteAttHandler(webapp2.RequestHandler):
-    def get(self):
-        user = None
-        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
-            user = User.checkToken(self.request.cookies.get('our_token'))
-        if not user:
-            self.redirect("/")
+        lastnote = Note.qryGetNoteByEmp(user.employee_number)
+        for tmpnote in lastnote:
+            tmpnote.key.delete()
+
         notes = Note()
         notes.note = self.request.get('notes')
         notes.employee_number = user.employee_number
         notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
         notes.put()
-        self.response.set_cookie('our_token', str(user.key.id()))
+
         self.response.write(json.dumps({'status':'OK'}))
+
 
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
@@ -252,7 +268,6 @@ app = webapp2.WSGIApplication([
     ('/personal', PersonalHandler),
 
     ('/submissionAtt', SubmissionAttHandler),
-    ('/submissionNoteAtt', submissionNoteAttHandler),
 
 	('/(.*)', FourOFourHandler)
 	

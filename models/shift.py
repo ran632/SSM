@@ -4,6 +4,7 @@ from google.appengine.ext import ndb
 
 class Shift(ndb.Model):
     employee_number = ndb.StringProperty()
-    start_date = ndb.DateTimeProperty()
-    end_date = ndb.DateTimeProperty()
-    shift_id = ndb.StringProperty()
+    shift_hour = ndb.IntegerProperty()
+    day_of_the_week = ndb.IntegerProperty()
+    role = ndb.IntegerProperty()
+    week_sunday_date = ndb.DateProperty()

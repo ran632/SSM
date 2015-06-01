@@ -42,7 +42,18 @@
                                                 <td>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="{{ forloop.counter }}0" id="{{ forloop.counter }}0">Morning
+                                                            <input type="checkbox" name="{{ forloop.counter }}0" id="{{ forloop.counter }}0"
+                                                                    {% for sub in submissions%}
+                                                                        {% if sub.day_of_the_week == forloop.parentloop.counter %}
+                                                                            {% if sub.shift_hour == 0 %}
+                                                                                checked
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                    >
+                                                        {% for sub in submissions%}
+
+                                                                    {% endfor %}
                                                         </label>
                                                     </div>
                                                 </td>
@@ -53,7 +64,15 @@
                                                 <td>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="{{ forloop.counter }}1" id="{{ forloop.counter }}1"> Evening
+                                                            <input type="checkbox" name="{{ forloop.counter }}1" id="{{ forloop.counter }}1"
+                                                                    {% for sub in submissions%}
+                                                                        {% if sub.day_of_the_week == forloop.parentloop.counter %}
+                                                                            {% if sub.shift_hour == 1 %}
+                                                                                checked
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                    > Evening
                                                         </label>
                                                     </div>
                                                 </td>
@@ -64,7 +83,15 @@
                                                 <td>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="{{ forloop.counter }}2" id="{{ forloop.counter }}2"> Night
+                                                            <input type="checkbox" name="{{ forloop.counter }}2" id="{{ forloop.counter }}2"
+                                                                    {% for sub in submissions%}
+                                                                        {% if sub.day_of_the_week == forloop.parentloop.counter %}
+                                                                            {% if sub.shift_hour == 2 %}
+                                                                                checked
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                    > Night
                                                         </label>
                                                     </div>
                                                 </td>
@@ -80,7 +107,7 @@
                 
                     <div class="form-group">
                         <label>Notes</label>
-                        <textarea class="form-control" rows="3" name="notes" id="notes"></textarea>
+                        <textarea class="form-control" rows="3" name="notes" id="notes">{{ note }}</textarea>
                     </div>
                     
                     <div class="form-group">

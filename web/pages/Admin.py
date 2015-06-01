@@ -24,7 +24,8 @@ class AdminHandler(webapp2.RequestHandler):
             template_variables['nextWeekSubmissions'].append({
                 "day": sub.day_of_the_week,
                 "hour": sub.shift_hour,
-                "sub_empno": sub.employee_number
+                "sub_empno": sub.employee_number,
+                "full_name": User.strNameByEmpNo(sub.employee_number)
             })
 
         usersList = User.getAllActiveUsers()
@@ -48,8 +49,20 @@ class AdminHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Admin.html', template_variables)
         self.response.write(html)
 
+class SchedulizeHandler(webapp2.RequestHandler):
+    def get(self):
+        print 'in schedulize'
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+        if not user:
+            self.redirect("/")
+        print "data" + self.request.get('data')
+        self.redirect("/History")
+
 app = webapp2.WSGIApplication([
 	('/Admin', AdminHandler),
+    ('/Admin/schedulizeAtt', SchedulizeHandler),
 	('/Admin/(.*)', FourOFourHandler)
 	
 ], debug=True)

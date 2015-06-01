@@ -15,6 +15,9 @@ handlers:
 - url: /Admin
   script: web.pages.Admin.app
 
+- url: /Admin/(.*)
+  script: web.pages.Admin.app
+
 - url: /(.*)
   script: web.pages.Index.app
   

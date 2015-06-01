@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block head %}
 	{{block.super}}
+    <script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="application/javascript" src="static/js/submit-schedule.js"></script>
 {%endblock%}
 
 {% block content %}
@@ -72,27 +74,16 @@
                                             </td>
                                             {% for i in "xxxxxxx" %}
                                             <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown"
-                                                          {% if forloop.parentloop.parentloop.counter == 1 %}
-                                                                class="btn btn-success dropdown-toggle"
-                                                                {% endif %}
-                                                            {% if forloop.parentloop.parentloop.counter == 2 %}
-                                                                class="btn btn-info dropdown-toggle"
-                                                                {% endif %}
-                                                            {% if forloop.parentloop.parentloop.counter == 3 %}
-                                                                class="btn btn-warning dropdown-toggle"
-                                                                {% endif %}>
-                                                      <span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
+                                            <!-- sel[day][hour][role]-->
+                                                      <select class="form-control" id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
+                                                      <option></option>
                                                       {% for sub in nextWeekSubmissions %}
                                                           {% if forloop.parentloop.counter == sub.day and forloop.parentloop.parentloop.parentloop.counter0 == sub.hour %}
-                                                            <li><a href="#">{{ sub.sub_empno }}</a></li>
+                                                            <option value="{{ sub.sub_empno }}">{{ sub.full_name }}</option>
                                                           {% endif %}
                                                       {% endfor %}
-                                                      </ul>
-										        </div>
+                                                      </select>
+
                                             </td>
                                             {% endfor %}
                                         </tr>
@@ -103,8 +94,12 @@
                             </div>
                         </div>
                     </div>
+
                     {% endfor %}
                         </div>
+                    <div class="form-group">
+                        <button id="submit">Submit</button>
+                    </div>
                 <!-- /. ROW  -->
 
                     <div class="col-md-8 col-sm-12 col-xs-12">
