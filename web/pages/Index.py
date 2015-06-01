@@ -3,6 +3,8 @@ from google.appengine.ext.webapp import template
 import webapp2
 import json
 from models.user import User
+
+
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
 
@@ -19,6 +21,7 @@ class HomeHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
 
+
 class HistoryHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -33,7 +36,8 @@ class HistoryHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/History.html', template_variables)
         self.response.write(html)
-		
+
+
 class AboutHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -100,13 +104,15 @@ class SwitchShiftsHandler(webapp2.RequestHandler):
 
 
 class FourOFourHandler(webapp2.RequestHandler):
-	def get(self, args=None):
-		template_params = {}
-		html = template.render("web/templates/404.html", template_params)
-		self.response.write(html)
+    def get(self, args=None):
+        template_params = {}
+        html = template.render("web/templates/404.html", template_params)
+        self.response.write(html)
 
 
 #============Login system handlers===================================
+
+
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -133,7 +139,8 @@ class LoginAttHandler(webapp2.RequestHandler):
 
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-		
+
+
 class RegisterHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -146,6 +153,7 @@ class RegisterHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Register.html', template_variables)
         self.response.write(html)
+
 
 class RegisterAttHandler(webapp2.RequestHandler):
     def get(self):
