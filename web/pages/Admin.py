@@ -2,6 +2,7 @@ from google.appengine.ext.webapp import template
 import webapp2
 import json
 from web.pages.Index import *
+from models.shift import Shift
 from models.user import User
 from models.submission import *
 from models.staticfunctions import Staticfunctions
@@ -51,14 +52,27 @@ class AdminHandler(webapp2.RequestHandler):
 
 class SchedulizeHandler(webapp2.RequestHandler):
     def get(self):
-        print 'in schedulize'
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
         if not user:
             self.redirect("/")
-        print "data" + self.request.get('data')
-        self.redirect("/History")
+        schedule = json.loads(self.request.get('schedule'))
+        #{"empno": empno, "day": dayCount, "hour": hourCount, "role": roleCount}
+        for ob in schedule:
+            if ob['empno'] == '':
+                continue
+            shift = Shift()
+            shift.employee_number = ob['empno']
+            shift.week_sunday_date = Staticfunctions.nextWeekDate(1)
+            shift.day_of_the_week = int(ob['day'])
+            shift.shift_hour = int(ob['hour'])
+            shift.role = int(ob['role'])
+            shift.put()
+
+        self.response.write(json.dumps({'status':'OK'}))
+
+
 
 app = webapp2.WSGIApplication([
 	('/Admin', AdminHandler),
