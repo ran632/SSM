@@ -10,6 +10,7 @@ class User(ndb.Model):
     email = ndb.StringProperty()
     password = ndb.StringProperty()
     isAdmin = ndb.BooleanProperty()
+    isActive = ndb.BooleanProperty()
 
     @staticmethod
     def checkToken(token):

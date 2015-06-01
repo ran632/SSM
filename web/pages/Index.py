@@ -156,6 +156,7 @@ class RegisterAttHandler(webapp2.RequestHandler):
         user.first_name = firstname
         user.last_name = lastname
         user.employee_number = empno
+        user.isActive = True
         user.put()
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
