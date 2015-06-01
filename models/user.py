@@ -2,7 +2,11 @@ from google.appengine.ext import ndb
 import hashlib      #we need this to safely store passwords
 import logging
 
+
 class User(ndb.Model):
+    first_name = ndb.StringProperty()
+    last_name = ndb.StringProperty()
+    employee_number = ndb.StringProperty()
     email = ndb.StringProperty()
     password = ndb.StringProperty()
     isAdmin = ndb.BooleanProperty()
