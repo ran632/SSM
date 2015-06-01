@@ -13,6 +13,8 @@ class HomeHandler(webapp2.RequestHandler):
         template_variables = {}
         if user:
             template_variables['user'] = user.email
+        else:
+            self.redirect('/Login')
 
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
@@ -26,6 +28,8 @@ class HistoryHandler(webapp2.RequestHandler):
         template_variables = {}
         if user:
             template_variables['user'] = user.email
+        else:
+            self.redirect('/Login')
 
         html = template.render('web/templates/History.html', template_variables)
         self.response.write(html)
@@ -50,8 +54,13 @@ class AdminHandler(webapp2.RequestHandler):
                 user = User.checkToken(self.request.cookies.get('our_token'))
 
         template_variables = {}
-        if user:
+        if user and user.isAdmin == True:
             template_variables['user'] = user.email
+        else:
+            if user:
+                self.redirect('/Home')
+            else:
+                self.redirect('/Login')
 
         html = template.render('web/templates/Admin.html', template_variables)
         self.response.write(html)
@@ -65,6 +74,8 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
         template_variables = {}
         if user:
             template_variables['user'] = user.email
+        else:
+            self.redirect('/Login')
 
         html = template.render('web/templates/Submission_shifts.html', template_variables)
         self.response.write(html)
@@ -78,6 +89,8 @@ class SwitchShiftsHandler(webapp2.RequestHandler):
         template_variables = {}
         if user:
             template_variables['user'] = user.email
+        else:
+            self.redirect('/Login')
 
         html = template.render('web/templates/Switch_shifts.html', template_variables)
         self.response.write(html)
