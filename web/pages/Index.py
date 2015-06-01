@@ -135,6 +135,9 @@ class RegisterAttHandler(webapp2.RequestHandler):
         email = self.request.get('email')
         password = self.request.get('password')
         isAdmin = self.request.get('isAdmin')
+        firstname = self.request.get('firstname')
+        lastname = self.request.get('lastname')
+        empno = self.request.get('empno')
         if not password:
             self.error(403)
             self.response.write('Empty password submitted')
@@ -149,8 +152,11 @@ class RegisterAttHandler(webapp2.RequestHandler):
         user = User()
         user.email = email
         user.setPassword(password)
+        user.isAdmin = ('1' == isAdmin)
+        user.first_name = firstname
+        user.last_name = lastname
+        user.employee_number = empno
         user.put()
-        user.isAdmin = isAdmin
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
 		

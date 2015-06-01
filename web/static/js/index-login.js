@@ -30,20 +30,23 @@ function submitRegister() {
     var password = $('#reg_password').val();
 	var isAdmin = 0;
 	if($('#isAdmin').is(':checked')){
-            isAdmin = 1;
-          }
+		isAdmin = 1;
+	}
+	var firstname = $('#FirstName').val();
+	var lastname = $('#LastName').val();
+	var empno = $('#EmployeeNumber').val();
     $.ajax({
 		url:'/registerAtt',
 		type:'GET',
 		dataType:'json',
-        data:{email:email, password:password, isAdmin:isAdmin},
+        data:{email:email, password:password, isAdmin:isAdmin, firstname:firstname, lastname:lastname, empno:empno},
 		success:function(data, status, xhr) {
-        document.location.href = '/';
-			
+			document.location.href = '/';
 		},
 		error:function(xhr, status, error) {
             alert(xhr.responseText);
 			console.error(xhr, status, error);
+			document.location.href = '/err';
 		}
 	});
 }
