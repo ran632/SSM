@@ -46,7 +46,6 @@ function submitRegister() {
 		error:function(xhr, status, error) {
             alert(xhr.responseText);
 			console.error(xhr, status, error);
-			document.location.href = '/err';
 		}
 	});
 }

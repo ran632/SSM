@@ -151,15 +151,21 @@ class RegisterAttHandler(webapp2.RequestHandler):
         firstname = self.request.get('firstname')
         lastname = self.request.get('lastname')
         empno = self.request.get('empno')
-        if not password:
+        if not password or not email or not isAdmin or not firstname or not lastname or not empno:
             self.error(403)
-            self.response.write('Empty password submitted')
+            self.response.write('Missing fields!')
             return
 
         user = User.query(User.email == email).get()
         if user:
             self.error(402)
             self.response.write('Email taken')
+            return
+
+        num = User.query(User.employee_number == empno).get()
+        if num:
+            self.error(402)
+            self.response.write('Employee Number taken')
             return
 
         user = User()
@@ -173,12 +179,13 @@ class RegisterAttHandler(webapp2.RequestHandler):
         user.put()
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-		
+
 
 class LogoutHandler(webapp2.RequestHandler):
     def get(self):
         self.response.delete_cookie('our_token')
         self.redirect('/')
+
 
 class PersonalHandler(webapp2.RequestHandler):
     def get(self):
@@ -195,18 +202,18 @@ class PersonalHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
-	('/Home', HomeHandler),
-	('/History', HistoryHandler),
-	('/About', AboutHandler),
-	('/Admin', AdminHandler),
-	('/SubmissionShifts', SubmissionShiftsHandler),
-	('/SwitchShifts', SwitchShiftsHandler),
-	('/Login', LoginHandler),
+    ('/Home', HomeHandler),
+    ('/History', HistoryHandler),
+    ('/About', AboutHandler),
+    ('/Admin', AdminHandler),
+    ('/SubmissionShifts', SubmissionShiftsHandler),
+    ('/SwitchShifts', SwitchShiftsHandler),
+    ('/Login', LoginHandler),
     ('/loginAtt', LoginAttHandler),
-	('/Register', RegisterHandler),
+    ('/Register', RegisterHandler),
     ('/registerAtt', RegisterAttHandler),
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
-	('/(.*)', FourOFourHandler)
-	
+    ('/(.*)', FourOFourHandler)
+
 ], debug=True)
