@@ -46,7 +46,8 @@ class AboutHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/About.html', template_variables)
         self.response.write(html)
-		
+
+
 class AdminHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -64,7 +65,8 @@ class AdminHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Admin.html', template_variables)
         self.response.write(html)
-		
+
+
 class SubmissionShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -79,7 +81,8 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Submission_shifts.html', template_variables)
         self.response.write(html)
-		
+
+
 class SwitchShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -94,14 +97,15 @@ class SwitchShiftsHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Switch_shifts.html', template_variables)
         self.response.write(html)
-		
+
+
 class FourOFourHandler(webapp2.RequestHandler):
 	def get(self, args=None):
 		template_params = {}
 		html = template.render("web/templates/404.html", template_params)
 		self.response.write(html)
 
-		
+
 #============Login system handlers===================================
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -115,7 +119,7 @@ class LoginHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Login.html', template_variables)
         self.response.write(html)
-		
+
 
 class LoginAttHandler(webapp2.RequestHandler):
     def get(self):
