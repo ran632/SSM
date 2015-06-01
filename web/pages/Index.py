@@ -3,6 +3,9 @@ from google.appengine.ext.webapp import template
 import webapp2
 import json
 from models.user import User
+from models.submission import Submission
+from datetime import *
+
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
 
@@ -192,6 +195,27 @@ class PersonalHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
+#============submission system handlers===================================
+class SubmissionAttHandler(webapp2.RequestHandler):
+     def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+
+        date = datetime.today()
+        shift_hour = 'Morning'
+        week_number = int(datetime.today().strftime("%U"))
+        empno = user.employee_number
+
+        submission = Submission()
+        submission.date = date
+        submission.shift_hour = shift_hour
+        submission.week_number = week_number
+        submission.employee_number = empno
+        submission.put()
+        self.response.set_cookie('our_token', str(user.key.id()))
+        self.response.write(json.dumps({'status':'OK'}))
+
 
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
@@ -207,6 +231,7 @@ app = webapp2.WSGIApplication([
     ('/registerAtt', RegisterAttHandler),
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
+    ('/submissionAtt', SubmissionAttHandler),
 	('/(.*)', FourOFourHandler)
 	
 ], debug=True)
