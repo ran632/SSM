@@ -151,16 +151,30 @@ class RegisterAttHandler(webapp2.RequestHandler):
         firstname = self.request.get('firstname')
         lastname = self.request.get('lastname')
         empno = self.request.get('empno')
-        if not password:
+        if not password or not email or not isAdmin or not firstname or not lastname or not empno:
             self.error(403)
-            self.response.write('Empty password submitted')
+            self.response.write('Missing Fields!')
             return
 
         user = User.query(User.email == email).get()
         if user:
             self.error(402)
-            self.response.write('Email taken')
+            self.response.write('Email taken!')
             return
+
+        num = User.query(User.employee_number == empno).get()
+        if num:
+            self.error(402)
+            self.response.write('Employee Number Taken!')
+            return
+
+        import django.core.validators
+        from django.core.exceptions import ValidationError
+        try:
+            django.core.validators.validate_email(email)
+            print 'lalala'
+        except ValidationError:
+            return False
 
         user = User()
         user.email = email
