@@ -168,13 +168,13 @@ class RegisterAttHandler(webapp2.RequestHandler):
             self.response.write('Employee Number Taken!')
             return
 
-        import django.core.validators
-        from django.core.exceptions import ValidationError
-        try:
-            django.core.validators.validate_email(email)
-            print 'lalala'
-        except ValidationError:
-            return False
+        # import django.core.validators
+        # from django.core.exceptions import ValidationError
+        # try:
+        #     django.core.validators.validate_email(email)
+        #     print 'lalala'
+        # except ValidationError:
+        #     return False
 
         user = User()
         user.email = email
