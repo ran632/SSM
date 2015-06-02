@@ -6,6 +6,7 @@ from google.appengine.ext import ndb
 
 class Submission(ndb.Model):
     employee_number = ndb.StringProperty()
-    date = ndb.DateTimeProperty()
-    shift_hour = ndb.StringProperty()
+    dateSent = ndb.DateTimeProperty()
+    shift_hour = ndb.IntegerProperty()
+    day_of_the_week = ndb.IntegerProperty()
     week_number = ndb.IntegerProperty()

@@ -6,9 +6,9 @@ from models.user import User
 from models.submission import Submission
 from datetime import *
 
+
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
-
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
@@ -77,6 +77,8 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
         template_variables = {}
         if user:
             template_variables['user'] = user.email
+            for x in range(1,8):
+                template_variables['day%d' % (x)] = SubmissionAttHandler.tofirstdayinisoweek(2015, int(datetime.today().strftime("%U"))+2,x)
         else:
             self.redirect('/Login')
 
@@ -201,20 +203,26 @@ class SubmissionAttHandler(webapp2.RequestHandler):
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
-
-        date = datetime.today()
-        shift_hour = 'Morning'
-        week_number = int(datetime.today().strftime("%U"))
-        empno = user.employee_number
-
+        weekno = int(datetime.today().strftime("%U"))
         submission = Submission()
-        submission.date = date
-        submission.shift_hour = shift_hour
-        submission.week_number = week_number
-        submission.employee_number = empno
+        submission.dateSent = datetime.today()
+        submission.shift_hour = int(self.request.get('shiftHour'))
+        submission.day_of_the_week = int(self.request.get('weekDay'))
+        submission.week_number = weekno+2
+        submission.employee_number = user.employee_number
         submission.put()
+
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
+
+     @staticmethod
+     def tofirstdayinisoweek(year, week, day):
+        ret = datetime.strptime('%04d-%02d-1' % (year, week), '%Y-%W-%w').date()
+        if date(year, 1, 4).isoweekday() > 4:
+            ret -= timedelta(days=7)
+        ret += timedelta(days=(day-1))
+        return ret
+
 
 
 app = webapp2.WSGIApplication([
