@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block head %}
 	{{block.super}}
+    <script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="application/javascript" src="static/js/submit-shift.js"></script>
 {%endblock%}
 
 {% block content %}
@@ -25,168 +27,48 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>Sunday dd/mm/yy</th>
-                                            <th>Monday dd/mm/yy</th>
-                                            <th>Tuseday dd/mm/yy</th>
-                                            <th>Wednesday dd/mm/yy</th>
-                                            <th>Thursday dd/mm/yy</th>
-                                            <th>Friday dd/mm/yy</th>
-                                            <th>Saturday dd/mm/yy</th>
+                                            <th>Sunday<br>{{ day1 }}</th>
+                                            <th>Monday<br>{{ day2 }}</th>
+                                            <th>Tuseday<br>{{ day3 }}</th>
+                                            <th>Wednesday<br>{{ day4 }}</th>
+                                            <th>Thursday<br>{{ day5 }}</th>
+                                            <th>Friday<br>{{ day6 }}</th>
+                                            <th>Saturday<br>{{ day7 }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="success">
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Morning
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Morning
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Morning
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Morning
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Morning
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Morning
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Morning
-                                                    </label>
-                                                </div>
-                                            </td>
+                                            {% for i in "xxxxxxx" %}
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="{{ forloop.counter }}0" id="{{ forloop.counter }}0"> Morning
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            {% endfor %}
                                         </tr>
                                         <tr class="info">
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Evenig
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Evenig
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Evenig
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Evenig
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Evenig
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Evenig
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Evenig
-                                                    </label>
-                                                </div>
-                                            </td>
+                                            {% for i in "xxxxxxx" %}
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="{{ forloop.counter }}1" id="{{ forloop.counter }}1"> Evening
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            {% endfor %}
                                         </tr>
                                         <tr class="warning">
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Night
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Night
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Night
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Night
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Night
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Night
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> Night
-                                                    </label>
-                                                </div>
-                                            </td>
+                                            {% for i in "xxxxxxx" %}
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="{{ forloop.counter }}2" id="{{ forloop.counter }}2"> Night
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            {% endfor %}
                                         </tr>
                                         
                                     </tbody>
@@ -202,7 +84,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <button type="submit" class="btn btn-default center-block">Submit</button>
+                        <button id="submit">Submit</button>
                     </div>
                     
 				</div>

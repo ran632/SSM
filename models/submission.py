@@ -4,9 +4,9 @@ __author__ = 'Elad'
 from google.appengine.ext import ndb
 
 
-class Shift(ndb.Model):
+class Submission(ndb.Model):
     employee_number = ndb.StringProperty()
-    date = ndb.DateTimeProperty()
-    shift_hour = StringProperty()
-    week_number = ndb.StringProperty()
-    shift_id = ndb.StringProperty()
+    dateSent = ndb.DateTimeProperty()
+    shift_hour = ndb.IntegerProperty()
+    day_of_the_week = ndb.IntegerProperty()
+    week_number = ndb.IntegerProperty()

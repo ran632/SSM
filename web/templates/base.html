@@ -179,9 +179,13 @@
                     <li>
                         <a href="About"><i class="fa fa-info-circle"></i> About </a>
                     </li>
-                    <li>
-                        <a href="Admin"><i class="fa fa-edit"></i> Admin </a>
-                    </li>
+                    {%if user%}
+                        {% if user.isAdmin == True %}
+                            <li>
+                                <a href="Admin"><i class="fa fa-edit"></i> Admin </a>
+                            </li>
+                        {% endif %}
+                    {%endif%}
  
  
  

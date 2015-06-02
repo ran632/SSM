@@ -3,8 +3,6 @@ from google.appengine.ext.webapp import template
 import webapp2
 import json
 from models.user import User
-
-
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
 
@@ -21,7 +19,6 @@ class HomeHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
 
-
 class HistoryHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -36,8 +33,7 @@ class HistoryHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/History.html', template_variables)
         self.response.write(html)
-
-
+		
 class AboutHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -50,8 +46,7 @@ class AboutHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/About.html', template_variables)
         self.response.write(html)
-
-
+		
 class AdminHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -69,8 +64,7 @@ class AdminHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Admin.html', template_variables)
         self.response.write(html)
-
-
+		
 class SubmissionShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -85,8 +79,7 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Submission_shifts.html', template_variables)
         self.response.write(html)
-
-
+		
 class SwitchShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -101,18 +94,15 @@ class SwitchShiftsHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Switch_shifts.html', template_variables)
         self.response.write(html)
-
-
+		
 class FourOFourHandler(webapp2.RequestHandler):
-    def get(self, args=None):
-        template_params = {}
-        html = template.render("web/templates/404.html", template_params)
-        self.response.write(html)
+	def get(self, args=None):
+		template_params = {}
+		html = template.render("web/templates/404.html", template_params)
+		self.response.write(html)
 
-
+		
 #============Login system handlers===================================
-
-
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -125,7 +115,7 @@ class LoginHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Login.html', template_variables)
         self.response.write(html)
-
+		
 
 class LoginAttHandler(webapp2.RequestHandler):
     def get(self):
@@ -139,8 +129,7 @@ class LoginAttHandler(webapp2.RequestHandler):
 
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-
-
+		
 class RegisterHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -154,7 +143,6 @@ class RegisterHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Register.html', template_variables)
         self.response.write(html)
 
-
 class RegisterAttHandler(webapp2.RequestHandler):
     def get(self):
         email = self.request.get('email')
@@ -163,9 +151,9 @@ class RegisterAttHandler(webapp2.RequestHandler):
         firstname = self.request.get('firstname')
         lastname = self.request.get('lastname')
         empno = self.request.get('empno')
-        if not password or not email or not isAdmin or not firstname or not lastname or not empno:
+        if not password:
             self.error(403)
-            self.response.write('Missing fields!')
+            self.response.write('Empty password submitted')
             return
 
         user = User.query(User.email == email).get()
@@ -173,22 +161,6 @@ class RegisterAttHandler(webapp2.RequestHandler):
             self.error(402)
             self.response.write('Email taken')
             return
-
-        num = User.query(User.employee_number == empno).get()
-        if num:
-            self.error(402)
-            self.response.write('Employee Number taken')
-            return
-
-
-        # from django.core.exceptions import ValidationError
-        # from django.core.validators import validate_email
-        #
-        # is_valid = validate_email(email)
-        # if is_valid:
-        #     self.error(402)
-        #     self.response.write('Email valid')
-        #     return
 
         user = User()
         user.email = email
@@ -201,13 +173,12 @@ class RegisterAttHandler(webapp2.RequestHandler):
         user.put()
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-
+		
 
 class LogoutHandler(webapp2.RequestHandler):
     def get(self):
         self.response.delete_cookie('our_token')
         self.redirect('/')
-
 
 class PersonalHandler(webapp2.RequestHandler):
     def get(self):
@@ -224,18 +195,18 @@ class PersonalHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
-    ('/Home', HomeHandler),
-    ('/History', HistoryHandler),
-    ('/About', AboutHandler),
-    ('/Admin', AdminHandler),
-    ('/SubmissionShifts', SubmissionShiftsHandler),
-    ('/SwitchShifts', SwitchShiftsHandler),
-    ('/Login', LoginHandler),
+	('/Home', HomeHandler),
+	('/History', HistoryHandler),
+	('/About', AboutHandler),
+	('/Admin', AdminHandler),
+	('/SubmissionShifts', SubmissionShiftsHandler),
+	('/SwitchShifts', SwitchShiftsHandler),
+	('/Login', LoginHandler),
     ('/loginAtt', LoginAttHandler),
-    ('/Register', RegisterHandler),
+	('/Register', RegisterHandler),
     ('/registerAtt', RegisterAttHandler),
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
-    ('/(.*)', FourOFourHandler)
-
+	('/(.*)', FourOFourHandler)
+	
 ], debug=True)
