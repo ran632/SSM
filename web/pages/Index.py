@@ -168,13 +168,28 @@ class RegisterAttHandler(webapp2.RequestHandler):
             self.response.write('Employee Number Taken!')
             return
 
-        # import django.core.validators
+        # from django.core import validators
         # from django.core.exceptions import ValidationError
         # try:
-        #     django.core.validators.validate_email(email)
-        #     print 'lalala'
+        #     validators.validate_email(email)
+        #     print 'success'
         # except ValidationError:
-        #     return False
+        #     return
+
+        import re
+
+        def validate_email(email):
+            if len(email) > 7:
+                if re.match("^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$", email):
+                    return 1
+            return 0
+
+        is_valid = validate_email(email)
+
+        if is_valid == 0:
+            self.error(402)
+            self.response.write('Email Is Not valid!')
+            return
 
         user = User()
         user.email = email
@@ -187,7 +202,7 @@ class RegisterAttHandler(webapp2.RequestHandler):
         user.put()
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-		
+
 
 class LogoutHandler(webapp2.RequestHandler):
     def get(self):
