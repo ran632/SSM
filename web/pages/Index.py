@@ -3,7 +3,8 @@ from google.appengine.ext.webapp import template
 import webapp2
 import json
 from models.user import User
-from models.submission import Submission
+from models.submission import *
+from models.staticfunctions import Staticfunctions
 from datetime import *
 
 
@@ -78,7 +79,7 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
         if user:
             template_variables['user'] = user.email
             for x in range(1,8):
-                template_variables['day%d' % (x)] = SubmissionAttHandler.tofirstdayinisoweek(2015, int(datetime.today().strftime("%U"))+2,x)
+                template_variables['day%d' % (x)] = Staticfunctions.nextWeekDate(x)
         else:
             self.redirect('/Login')
 
@@ -203,26 +204,31 @@ class SubmissionAttHandler(webapp2.RequestHandler):
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
-        weekno = int(datetime.today().strftime("%U"))
+        if not user:
+            self.redirect("/")
         submission = Submission()
         submission.dateSent = datetime.today()
         submission.shift_hour = int(self.request.get('shiftHour'))
         submission.day_of_the_week = int(self.request.get('weekDay'))
-        submission.week_number = weekno+2
+        submission.week_sunday_date = Staticfunctions.nextWeekDate(1)
         submission.employee_number = user.employee_number
         submission.put()
 
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
 
-     @staticmethod
-     def tofirstdayinisoweek(year, week, day):
-        ret = datetime.strptime('%04d-%02d-1' % (year, week), '%Y-%W-%w').date()
-        if date(year, 1, 4).isoweekday() > 4:
-            ret -= timedelta(days=7)
-        ret += timedelta(days=(day-1))
-        return ret
-
+class submissionNoteAttHandler(webapp2.RequestHandler):
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+        if not user:
+            self.redirect("/")
+        notes = Note()
+        notes.note = self.request.get('notes')
+        notes.employee_number = user.employee_number
+        notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
+        notes.put()
 
 
 app = webapp2.WSGIApplication([
@@ -240,6 +246,7 @@ app = webapp2.WSGIApplication([
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
     ('/submissionAtt', SubmissionAttHandler),
+    ('/submissionNoteAtt', submissionNoteAttHandler),
 	('/(.*)', FourOFourHandler)
 	
 ], debug=True)

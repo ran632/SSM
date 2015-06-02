@@ -9,4 +9,9 @@ class Submission(ndb.Model):
     dateSent = ndb.DateTimeProperty()
     shift_hour = ndb.IntegerProperty()
     day_of_the_week = ndb.IntegerProperty()
-    week_number = ndb.IntegerProperty()
+    week_sunday_date = ndb.DateProperty()
+
+class Note(ndb.Model):
+    note = ndb.StringProperty()
+    week_sunday_date = ndb.DateProperty()
+    employee_number = ndb.StringProperty()

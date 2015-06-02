@@ -29,5 +29,20 @@ function submitShift() {
 			}
 		}
 	}
+	var notes = $('textarea#notes').val();
+	$.ajax({
+		url:'/submissionNoteAtt',
+		type:'GET',
+		dataType:'json',
+		data:{notes:notes},
+		success:function(data, status, xhr) {
+			location.reload();
+		},
+		error:function(xhr, status, error) {
+			alert(xhr.responseText);
+			console.error(xhr, status, error);
+		}
+	});
+
 
 }
