@@ -7,9 +7,9 @@ from models.submission import *
 from models.staticfunctions import Staticfunctions
 from datetime import *
 
-
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
+
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
@@ -60,6 +60,7 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
         template_variables = {}
         if user:
             template_variables['user'] = user.email
+
             for x in range(1,8):
                 template_variables['day%d' % (x)] = Staticfunctions.nextWeekDate(x)
         else:
@@ -139,15 +140,36 @@ class RegisterAttHandler(webapp2.RequestHandler):
         firstname = self.request.get('firstname')
         lastname = self.request.get('lastname')
         empno = self.request.get('empno')
-        if not password:
+        if not password or not email or not isAdmin or not firstname or not lastname or not empno:
             self.error(403)
-            self.response.write('Empty password submitted')
+            self.response.write('Missing Fields!')
             return
 
         user = User.query(User.email == email).get()
         if user:
             self.error(402)
-            self.response.write('Email taken')
+            self.response.write('Email taken!')
+            return
+
+        num = User.query(User.employee_number == empno).get()
+        if num:
+            self.error(402)
+            self.response.write('Employee Number Taken!')
+            return
+
+        import re
+
+        def validate_email(email):
+            if len(email) > 7:
+                if re.match("^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$", email):
+                    return 1
+            return 0
+
+        is_valid = validate_email(email)
+
+        if is_valid == 0:
+            self.error(402)
+            self.response.write('Email Is Not valid!')
             return
 
         user = User()
@@ -161,7 +183,7 @@ class RegisterAttHandler(webapp2.RequestHandler):
         user.put()
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-		
+
 
 class LogoutHandler(webapp2.RequestHandler):
     def get(self):
@@ -180,7 +202,8 @@ class PersonalHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
-#============submission system handlers===================================
+
+
 class SubmissionAttHandler(webapp2.RequestHandler):
      def get(self):
         user = None
@@ -227,8 +250,10 @@ app = webapp2.WSGIApplication([
     ('/registerAtt', RegisterAttHandler),
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
+
     ('/submissionAtt', SubmissionAttHandler),
     ('/submissionNoteAtt', submissionNoteAttHandler),
+
 	('/(.*)', FourOFourHandler)
 	
 ], debug=True)
