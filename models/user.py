@@ -27,5 +27,9 @@ class User(ndb.Model):
         logging.info("self.pass: {}, hashed pass: {}".format(self.password, hashlib.md5(password).hexdigest()))
         if self.password == hashlib.md5(password).hexdigest():
             return True
-
         return False
+
+    @staticmethod
+    def getAllActiveUsers():
+        qry = "SELECT email,employee_number,first_name,last_name FROM User WHERE isActive=True"
+        return ndb.gql(qry)

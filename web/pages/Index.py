@@ -50,25 +50,7 @@ class AboutHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/About.html', template_variables)
         self.response.write(html)
-		
-class AdminHandler(webapp2.RequestHandler):
-    def get(self):
-        user = None
-        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
-                user = User.checkToken(self.request.cookies.get('our_token'))
 
-        template_variables = {}
-        if user and user.isAdmin == True:
-            template_variables['user'] = user.email
-        else:
-            if user:
-                self.redirect('/Home')
-            else:
-                self.redirect('/Login')
-
-        html = template.render('web/templates/Admin.html', template_variables)
-        self.response.write(html)
-		
 class SubmissionShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -229,14 +211,14 @@ class submissionNoteAttHandler(webapp2.RequestHandler):
         notes.employee_number = user.employee_number
         notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
         notes.put()
-
+        self.response.set_cookie('our_token', str(user.key.id()))
+        self.response.write(json.dumps({'status':'OK'}))
 
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
 	('/Home', HomeHandler),
 	('/History', HistoryHandler),
 	('/About', AboutHandler),
-	('/Admin', AdminHandler),
 	('/SubmissionShifts', SubmissionShiftsHandler),
 	('/SwitchShifts', SwitchShiftsHandler),
 	('/Login', LoginHandler),
