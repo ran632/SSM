@@ -15,7 +15,7 @@ class AdminHandler(webapp2.RequestHandler):
             user = User.checkToken(self.request.cookies.get('our_token'))
 
         template_variables = {}
-        usersList = User.getAllActiveUsers()
+        usersList = User.getAllActiveUsers() #QUERY
         template_variables['userlist'] = []
         for tmpuser in usersList:
             template_variables['userlist'].append({
