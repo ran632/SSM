@@ -20,9 +20,15 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                        <input type="date" value="{{ sundayDateISO }}" id="cal" >
-                        <br>
+                        <input type="date" value="{{ sundayDateISO }}" id="cal"
+                               {% if not useradmin %}
+                               style="display: none;"
+                               {% endif %}
+                                >
+
                             {% if useradmin %}
+
+                        <br>
                                 <select id="emplist" align="right">
                                     <option></option>
                                     {% for emp in userlist %}

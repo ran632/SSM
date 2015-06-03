@@ -17,7 +17,8 @@ function modArgs(){
 }
 
 function submitShift() {
-	var behalf = $('#emplist').find('option:selected').attr('id');
+	behalf = $('#emplist').find('option:selected').attr('id');
+	caldate = $('#cal').val();
 	var shifts = []
 	var notes = $('textarea#notes').val();
 	var numofshifts = $('#numofshifts').val();
@@ -34,7 +35,7 @@ function submitShift() {
 		url:'/submissionAtt',
 		type:'GET',
 		dataType:'json',
-		data:{shifts:JSON.stringify(shifts), notes:notes, numofshifts:numofshifts, behalf:behalf},
+		data:{shifts:JSON.stringify(shifts), notes:notes, numofshifts:numofshifts, behalf:behalf, date:caldate},
 		success:function(data, status, xhr) {
 			location.reload();
 		},
