@@ -3,6 +3,10 @@ from google.appengine.ext.webapp import template
 import webapp2
 import json
 from models.user import User
+from models.submission import *
+from models.staticfunctions import Staticfunctions
+from datetime import *
+
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
 
@@ -19,7 +23,6 @@ class HomeHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
 
-
 class HistoryHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -34,8 +37,7 @@ class HistoryHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/History.html', template_variables)
         self.response.write(html)
-
-
+		
 class AboutHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -49,26 +51,6 @@ class AboutHandler(webapp2.RequestHandler):
         html = template.render('web/templates/About.html', template_variables)
         self.response.write(html)
 
-
-class AdminHandler(webapp2.RequestHandler):
-    def get(self):
-        user = None
-        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
-                user = User.checkToken(self.request.cookies.get('our_token'))
-
-        template_variables = {}
-        if user and user.isAdmin == True:
-            template_variables['user'] = user.email
-        else:
-            if user:
-                self.redirect('/Home')
-            else:
-                self.redirect('/Login')
-
-        html = template.render('web/templates/Admin.html', template_variables)
-        self.response.write(html)
-
-
 class SubmissionShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -78,13 +60,15 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
         template_variables = {}
         if user:
             template_variables['user'] = user.email
+
+            for x in range(1,8):
+                template_variables['day%d' % (x)] = Staticfunctions.nextWeekDate(x)
         else:
             self.redirect('/Login')
 
         html = template.render('web/templates/Submission_shifts.html', template_variables)
         self.response.write(html)
-
-
+		
 class SwitchShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -99,15 +83,14 @@ class SwitchShiftsHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Switch_shifts.html', template_variables)
         self.response.write(html)
-
-
+		
 class FourOFourHandler(webapp2.RequestHandler):
 	def get(self, args=None):
 		template_params = {}
 		html = template.render("web/templates/404.html", template_params)
 		self.response.write(html)
 
-
+		
 #============Login system handlers===================================
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -121,7 +104,7 @@ class LoginHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Login.html', template_variables)
         self.response.write(html)
-
+		
 
 class LoginAttHandler(webapp2.RequestHandler):
     def get(self):
@@ -135,8 +118,7 @@ class LoginAttHandler(webapp2.RequestHandler):
 
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-
-
+		
 class RegisterHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -149,7 +131,6 @@ class RegisterHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Register.html', template_variables)
         self.response.write(html)
-
 
 class RegisterAttHandler(webapp2.RequestHandler):
     def get(self):
@@ -209,7 +190,6 @@ class LogoutHandler(webapp2.RequestHandler):
         self.response.delete_cookie('our_token')
         self.redirect('/')
 
-
 class PersonalHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -223,20 +203,57 @@ class PersonalHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
 
+
+class SubmissionAttHandler(webapp2.RequestHandler):
+     def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+        if not user:
+            self.redirect("/")
+        submission = Submission()
+        submission.dateSent = datetime.today()
+        submission.shift_hour = int(self.request.get('shiftHour'))
+        submission.day_of_the_week = int(self.request.get('weekDay'))
+        submission.week_sunday_date = Staticfunctions.nextWeekDate(1)
+        submission.employee_number = user.employee_number
+        submission.put()
+
+        self.response.set_cookie('our_token', str(user.key.id()))
+        self.response.write(json.dumps({'status':'OK'}))
+
+class submissionNoteAttHandler(webapp2.RequestHandler):
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+        if not user:
+            self.redirect("/")
+        notes = Note()
+        notes.note = self.request.get('notes')
+        notes.employee_number = user.employee_number
+        notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
+        notes.put()
+        self.response.set_cookie('our_token', str(user.key.id()))
+        self.response.write(json.dumps({'status':'OK'}))
+
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
-    ('/Home', HomeHandler),
-    ('/History', HistoryHandler),
-    ('/About', AboutHandler),
-    ('/Admin', AdminHandler),
-    ('/SubmissionShifts', SubmissionShiftsHandler),
-    ('/SwitchShifts', SwitchShiftsHandler),
-    ('/Login', LoginHandler),
+	('/Home', HomeHandler),
+	('/History', HistoryHandler),
+	('/About', AboutHandler),
+	('/SubmissionShifts', SubmissionShiftsHandler),
+	('/SwitchShifts', SwitchShiftsHandler),
+	('/Login', LoginHandler),
     ('/loginAtt', LoginAttHandler),
-    ('/Register', RegisterHandler),
+	('/Register', RegisterHandler),
     ('/registerAtt', RegisterAttHandler),
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
-    ('/(.*)', FourOFourHandler)
 
+    ('/submissionAtt', SubmissionAttHandler),
+    ('/submissionNoteAtt', submissionNoteAttHandler),
+
+	('/(.*)', FourOFourHandler)
+	
 ], debug=True)

@@ -12,6 +12,9 @@ handlers:
 - url: /static
   static_dir: web/static
 
+- url: /Admin
+  script: web.pages.Admin.app
+
 - url: /(.*)
   script: web.pages.Index.app
   

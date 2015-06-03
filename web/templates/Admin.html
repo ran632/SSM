@@ -27,9 +27,18 @@
                 <div class="row">
                 <div class="col-md-12">
                     <!-- Advanced Tables -->
+                {% for k in "xxx" %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                             Morning:
+                        {% if forloop.counter == 1 %}
+                            Morning:
+                            {% endif %}
+                        {% if forloop.counter == 2 %}
+                            Evening:
+                            {% endif %}
+                        {% if forloop.counter == 3 %}
+                            Night:
+                            {% endif %}
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -47,14 +56,35 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="success">
+                                    {% for j in "xxx" %}
+                                        {% if forloop.parentloop.counter == 1 %}
+                                            <tr class="success">
+                                            {% endif %}
+                                        {% if forloop.parentloop.counter == 2 %}
+                                            <tr class="info">
+                                            {% endif %}
+                                        {% if forloop.parentloop.counter == 3 %}
+                                            <tr class="warning">
+                                            {% endif %}
+
                                             <td>
-                                                <label> Role type 1 </label>
+                                                <label> Role type {{ forloop.counter }} </label>
                                             </td>
+                                            {% for i in "xxxxxxx" %}
                                             <td>
                                                 <div class="btn-group">
 										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
+										          <button data-toggle="dropdown"
+                                                          {% if forloop.parentloop.parentloop.counter == 1 %}
+                                                                class="btn btn-success dropdown-toggle"
+                                                                {% endif %}
+                                                            {% if forloop.parentloop.parentloop.counter == 2 %}
+                                                                class="btn btn-info dropdown-toggle"
+                                                                {% endif %}
+                                                            {% if forloop.parentloop.parentloop.counter == 3 %}
+                                                                class="btn btn-warning dropdown-toggle"
+                                                                {% endif %}>
+                                                      <span class="caret"></span></button>
                                                       <ul class="dropdown-menu">
                                                         <li><a href="#">Employee1</a></li>
                                                         <li><a href="#">Employee2</a></li>
@@ -62,795 +92,17 @@
                                                       </ul>
 										        </div>
                                             </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
+                                            {% endfor %}
                                         </tr>
-                                        <tr class="success">
-                                            <td>
-                                                <label>Role Type 2</label>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="success">
-                                            <td>
-                                                <label>Role Type 3</label>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                        </tr>
+                                    {% endfor %}
                                         
                                     </tbody>
                                 </table>
                             </div>
-                            
                         </div>
-                        
-                        <div class="panel-heading">
-                             Evening:
-                        </div>
-                        
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>Role</th>
-                                            <th>Sunday</th>
-                                            <th>Monday</th>
-                                            <th>Tuseday</th>
-                                            <th>Wednesday</th>
-                                            <th>Thursday</th>
-                                            <th>Friday</th>
-                                            <th>Saturday</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="info">
-                                            <td>
-                                                <label> Role type 1 </label>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="info">
-                                            <td>
-                                                <label>Role Type 2</label>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="info">
-                                            <td>
-                                                <label>Role Type 3</label>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-info dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                        </div>
-                        
-                        <div class="panel-heading">
-                             Night:
-                        </div>
-                        
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>Role</th>
-                                            <th>Sunday</th>
-                                            <th>Monday</th>
-                                            <th>Tuseday</th>
-                                            <th>Wednesday</th>
-                                            <th>Thursday</th>
-                                            <th>Friday</th>
-                                            <th>Saturday</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="warning">
-                                            <td>
-                                                <label> Role type 1 </label>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="warning">
-                                            <td>
-                                                <label>Role Type 2</label>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="warning">
-                                            <td>
-                                                <label>Role Type 3</label>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-										          <button class="btn btn-defult">-</button>
-										          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><span class="caret"></span></button>
-                                                      <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
-                                                      </ul>
-										        </div>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                        </div>
-                        
                     </div>
-                <!-- /. ROW  -->
-        
-
-
+                    {% endfor %}
+                        </div>
                 <!-- /. ROW  -->
 
                     <div class="col-md-8 col-sm-12 col-xs-12">
@@ -865,56 +117,24 @@
                                         <thead>
                                             <tr>
                                                 <th>S No.</th>
+                                                <th>Employee Number</th>
                                                 <th>First Name</th>
                                                 <th>Last Name</th>
-                                                <th>User Name</th>
-                                                <th>Email ID.</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>John</td>
-                                                <td>Doe</td>
-                                                <td>John15482</td>
-                                                <td>name@site.com</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Kimsila</td>
-                                                <td>Marriye</td>
-                                                <td>Kim1425</td>
-                                                <td>name@site.com</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Rossye</td>
-                                                <td>Nermal</td>
-                                                <td>Rossy1245</td>
-                                                <td>name@site.com</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>Richard</td>
-                                                <td>Orieal</td>
-                                                <td>Rich5685</td>
-                                                <td>name@site.com</td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td>Jacob</td>
-                                                <td>Hielsar</td>
-                                                <td>Jac4587</td>
-                                                <td>name@site.com</td>
-                                            </tr>
-                                            <tr>
-                                                <td>6</td>
-                                                <td>Wrapel</td>
-                                                <td>Dere</td>
-                                                <td>Wrap4585</td>
-                                                <td>name@site.com</td>
-                                            </tr>
-
+                                            {% for emp in userlist %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ emp.empno }}</td>
+                                                    <td>{{ emp.firstname }}</td>
+                                                    <td>{{ emp.lastname }}</td>
+                                                    <td>{{ emp.email }}</td>
+                                                    <td></td>
+                                                </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
