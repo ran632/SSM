@@ -19,6 +19,7 @@ class HomeHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
 
+
 class HistoryHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -33,7 +34,8 @@ class HistoryHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/History.html', template_variables)
         self.response.write(html)
-		
+
+
 class AboutHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -46,7 +48,8 @@ class AboutHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/About.html', template_variables)
         self.response.write(html)
-		
+
+
 class AdminHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -64,7 +67,8 @@ class AdminHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Admin.html', template_variables)
         self.response.write(html)
-		
+
+
 class SubmissionShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -79,7 +83,8 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Submission_shifts.html', template_variables)
         self.response.write(html)
-		
+
+
 class SwitchShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -94,14 +99,15 @@ class SwitchShiftsHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Switch_shifts.html', template_variables)
         self.response.write(html)
-		
+
+
 class FourOFourHandler(webapp2.RequestHandler):
 	def get(self, args=None):
 		template_params = {}
 		html = template.render("web/templates/404.html", template_params)
 		self.response.write(html)
 
-		
+
 #============Login system handlers===================================
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -115,7 +121,7 @@ class LoginHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Login.html', template_variables)
         self.response.write(html)
-		
+
 
 class LoginAttHandler(webapp2.RequestHandler):
     def get(self):
@@ -129,7 +135,8 @@ class LoginAttHandler(webapp2.RequestHandler):
 
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-		
+
+
 class RegisterHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -142,6 +149,7 @@ class RegisterHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Register.html', template_variables)
         self.response.write(html)
+
 
 class RegisterAttHandler(webapp2.RequestHandler):
     def get(self):
@@ -167,14 +175,6 @@ class RegisterAttHandler(webapp2.RequestHandler):
             self.error(402)
             self.response.write('Employee Number Taken!')
             return
-
-        # from django.core import validators
-        # from django.core.exceptions import ValidationError
-        # try:
-        #     validators.validate_email(email)
-        #     print 'success'
-        # except ValidationError:
-        #     return
 
         import re
 
@@ -209,6 +209,7 @@ class LogoutHandler(webapp2.RequestHandler):
         self.response.delete_cookie('our_token')
         self.redirect('/')
 
+
 class PersonalHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -224,18 +225,18 @@ class PersonalHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
-	('/Home', HomeHandler),
-	('/History', HistoryHandler),
-	('/About', AboutHandler),
-	('/Admin', AdminHandler),
-	('/SubmissionShifts', SubmissionShiftsHandler),
-	('/SwitchShifts', SwitchShiftsHandler),
-	('/Login', LoginHandler),
+    ('/Home', HomeHandler),
+    ('/History', HistoryHandler),
+    ('/About', AboutHandler),
+    ('/Admin', AdminHandler),
+    ('/SubmissionShifts', SubmissionShiftsHandler),
+    ('/SwitchShifts', SwitchShiftsHandler),
+    ('/Login', LoginHandler),
     ('/loginAtt', LoginAttHandler),
-	('/Register', RegisterHandler),
+    ('/Register', RegisterHandler),
     ('/registerAtt', RegisterAttHandler),
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
-	('/(.*)', FourOFourHandler)
-	
+    ('/(.*)', FourOFourHandler)
+
 ], debug=True)
