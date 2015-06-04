@@ -10,6 +10,19 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Submission
+  properties:
+  - name: week_sunday_date
+  - name: day_of_the_week
+  - name: shift_hour
+
+- kind: Submission
+  properties:
+  - name: week_sunday_date
+  - name: day_of_the_week
+  - name: shift_hour
+  - name: employee_number
+
 - kind: User
   properties:
   - name: isActive

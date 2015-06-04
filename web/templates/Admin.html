@@ -20,7 +20,7 @@
 
 
                 <h1 class="pager">
-                    <small>Weekly Schdule: dd/mm/yy - dd/mm/yy</small>  
+                    <small>Weekly Schdule: {{ sundayDate }} - {{ saturdayDate }}</small>
                 </h1>
 
                 
@@ -86,9 +86,11 @@
                                                                 {% endif %}>
                                                       <span class="caret"></span></button>
                                                       <ul class="dropdown-menu">
-                                                        <li><a href="#">Employee1</a></li>
-                                                        <li><a href="#">Employee2</a></li>
-                                                        <li><a href="#">Employee3</a></li>
+                                                      {% for sub in nextWeekSubmissions %}
+                                                          {% if forloop.parentloop.counter == sub.day and forloop.parentloop.parentloop.parentloop.counter0 == sub.hour %}
+                                                            <li><a href="#">{{ sub.sub_empno }}</a></li>
+                                                          {% endif %}
+                                                      {% endfor %}
                                                       </ul>
 										        </div>
                                             </td>
