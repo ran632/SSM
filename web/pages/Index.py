@@ -15,6 +15,16 @@ class HomeHandler(webapp2.RequestHandler):
             user = User.checkToken(self.request.cookies.get('our_token'))
 
         template_variables = {}
+        usersList = User.getAllActiveUsers() #QUERY
+        template_variables['userlist'] = []
+        for tmpuser in usersList:
+            template_variables['userlist'].append({
+                "empno": tmpuser.employee_number,
+                "email": tmpuser.email,
+                "firstname": tmpuser.first_name,
+                "lastname": tmpuser.last_name,
+                "phone_num": tmpuser.phone_num
+            })
         if user:
             template_variables['user'] = user.email
         else:
