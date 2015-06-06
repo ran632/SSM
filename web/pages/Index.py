@@ -68,7 +68,8 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Submission_shifts.html', template_variables)
         self.response.write(html)
-		
+
+
 class SwitchShiftsHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -83,14 +84,15 @@ class SwitchShiftsHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Switch_shifts.html', template_variables)
         self.response.write(html)
-		
-class FourOFourHandler(webapp2.RequestHandler):
-	def get(self, args=None):
-		template_params = {}
-		html = template.render("web/templates/404.html", template_params)
-		self.response.write(html)
 
-		
+
+class FourOFourHandler(webapp2.RequestHandler):
+    def get(self, args=None):
+        template_params = {}
+        html = template.render("web/templates/404.html", template_params)
+        self.response.write(html)
+
+
 #============Login system handlers===================================
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -104,7 +106,7 @@ class LoginHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/Login.html', template_variables)
         self.response.write(html)
-		
+
 
 class LoginAttHandler(webapp2.RequestHandler):
     def get(self):
@@ -118,7 +120,8 @@ class LoginAttHandler(webapp2.RequestHandler):
 
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status':'OK'}))
-		
+
+
 class RegisterHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -132,6 +135,7 @@ class RegisterHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Register.html', template_variables)
         self.response.write(html)
 
+
 class RegisterAttHandler(webapp2.RequestHandler):
     def get(self):
         email = self.request.get('email')
@@ -140,7 +144,8 @@ class RegisterAttHandler(webapp2.RequestHandler):
         firstname = self.request.get('firstname')
         lastname = self.request.get('lastname')
         empno = self.request.get('empno')
-        if not password or not email or not isAdmin or not firstname or not lastname or not empno:
+        phone_num = self.request.get('phone_num')
+        if not password or not email or not isAdmin or not firstname or not lastname or not empno or not phone_num:
             self.error(403)
             self.response.write('Missing Fields!')
             return
@@ -172,6 +177,13 @@ class RegisterAttHandler(webapp2.RequestHandler):
             self.response.write('Email Is Not valid!')
             return
 
+        phone_length = len(phone_num)
+
+        if phone_length != 10:
+            self.error(402)
+            self.response.write('Phone Number Not Valid!')
+            return
+
         user = User()
         user.email = email
         user.setPassword(password)
@@ -179,10 +191,11 @@ class RegisterAttHandler(webapp2.RequestHandler):
         user.first_name = firstname
         user.last_name = lastname
         user.employee_number = empno
+        user.phone_num = phone_num
         user.isActive = True
         user.put()
         self.response.set_cookie('our_token', str(user.key.id()))
-        self.response.write(json.dumps({'status':'OK'}))
+        self.response.write(json.dumps({'status': 'OK'}))
 
 
 class LogoutHandler(webapp2.RequestHandler):
@@ -206,7 +219,7 @@ class PersonalHandler(webapp2.RequestHandler):
 
 
 class SubmissionAttHandler(webapp2.RequestHandler):
-     def get(self):
+    def get(self):
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
@@ -221,7 +234,7 @@ class SubmissionAttHandler(webapp2.RequestHandler):
         submission.put()
 
         self.response.set_cookie('our_token', str(user.key.id()))
-        self.response.write(json.dumps({'status':'OK'}))
+        self.response.write(json.dumps({'status': 'OK'}))
 
 
 class submissionNoteAttHandler(webapp2.RequestHandler):
@@ -237,25 +250,53 @@ class submissionNoteAttHandler(webapp2.RequestHandler):
         notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
         notes.put()
         self.response.set_cookie('our_token', str(user.key.id()))
-        self.response.write(json.dumps({'status':'OK'}))
+        self.response.write(json.dumps({'status': 'OK'}))
+
+
+class UserProfileAttHandler(webapp2.RequestHandler):
+    def get(self):
+        email = self.request.get('email')
+        firstname = self.request.get('firstname')
+        lastname = self.request.get('lastname')
+        empno = self.request.get('empno')
+        phone_num = self.request.get('phone_num')
+        user = User.query(User.email == email).get()
+
+        # num = User.query(User.employee_number == empno).get()
+        # if num:
+        #     self.error(402)
+        #     self.response.write('Employee Number Taken!')
+        #     return
+
+        user.first_name = firstname
+        user.last_name = lastname
+        user.employee_number = empno
+        user.phone_num = phone_num
+
+        user.put()
+
+        self.response.set_cookie('our_token', str(user.key.id()))
+        self.response.write(json.dumps({'status': 'OK'}))
 
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
-	('/Home', HomeHandler),
-	('/History', HistoryHandler),
-	('/About', AboutHandler),
-	('/SubmissionShifts', SubmissionShiftsHandler),
-	('/SwitchShifts', SwitchShiftsHandler),
-	('/Login', LoginHandler),
+    ('/Home', HomeHandler),
+    ('/History', HistoryHandler),
+    ('/About', AboutHandler),
+    ('/SubmissionShifts', SubmissionShiftsHandler),
+    ('/SwitchShifts', SwitchShiftsHandler),
+    ('/Login', LoginHandler),
     ('/loginAtt', LoginAttHandler),
-	('/Register', RegisterHandler),
+    ('/Register', RegisterHandler),
     ('/registerAtt', RegisterAttHandler),
+
+    ('/UserProfileAtt', UserProfileAttHandler),
+
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
-
     ('/submissionAtt', SubmissionAttHandler),
     ('/submissionNoteAtt', submissionNoteAttHandler),
 
-	('/(.*)', FourOFourHandler)
-	
+    ('/(.*)', FourOFourHandler)
+
 ], debug=True)

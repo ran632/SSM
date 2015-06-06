@@ -22,7 +22,8 @@ class AdminHandler(webapp2.RequestHandler):
                 "empno": tmpuser.employee_number,
                 "email": tmpuser.email,
                 "firstname": tmpuser.first_name,
-                "lastname": tmpuser.last_name
+                "lastname": tmpuser.last_name,
+                "phone_num": tmpuser.phone_num
             })
 
         if user and user.isAdmin == True:
@@ -37,7 +38,7 @@ class AdminHandler(webapp2.RequestHandler):
         self.response.write(html)
 
 app = webapp2.WSGIApplication([
-	('/Admin', AdminHandler),
-	('/Admin/(.*)', FourOFourHandler)
-	
+    ('/Admin', AdminHandler),
+    ('/Admin/(.*)', FourOFourHandler)
+
 ], debug=True)

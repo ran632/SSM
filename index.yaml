@@ -22,3 +22,12 @@ indexes:
   - name: employee_number
   - name: first_name
   - name: last_name
+
+- kind: User
+  properties:
+  - name: isActive
+  - name: email
+  - name: employee_number
+  - name: first_name
+  - name: last_name
+  - name: phone_num
