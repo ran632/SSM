@@ -37,7 +37,8 @@ class AdminHandler(webapp2.RequestHandler):
                 "empno": tmpuser.employee_number,
                 "email": tmpuser.email,
                 "firstname": tmpuser.first_name,
-                "lastname": tmpuser.last_name
+                "lastname": tmpuser.last_name,
+                "phone_num": tmpuser.phone_num
             })
 
         if user and user.isAdmin == True:
@@ -87,4 +88,5 @@ app = webapp2.WSGIApplication([
     ('/Admin/schedulizeAtt', SchedulizeHandler),
 	('/Admin/(.*)', FourOFourHandler)
 	
+
 ], debug=True)

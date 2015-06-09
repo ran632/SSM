@@ -39,6 +39,23 @@ indexes:
 
 - kind: User
   properties:
+  - name: email
+  - name: employee_number
+  - name: first_name
+  - name: isActive
+  - name: last_name
+  - name: phone_num
+
+- kind: User
+  properties:
+  - name: email
+  - name: employee_number
+  - name: first_name
+  - name: last_name
+  - name: phone_num
+
+- kind: User
+  properties:
   - name: isActive
   - name: email
 
@@ -49,3 +66,12 @@ indexes:
   - name: employee_number
   - name: first_name
   - name: last_name
+
+- kind: User
+  properties:
+  - name: isActive
+  - name: email
+  - name: employee_number
+  - name: first_name
+  - name: last_name
+  - name: phone_num

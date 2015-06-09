@@ -11,6 +11,8 @@ class User(ndb.Model):
     password = ndb.StringProperty()
     isAdmin = ndb.BooleanProperty()
     isActive = ndb.BooleanProperty()
+    phone_num = ndb.StringProperty()
+
 
     @staticmethod
     def checkToken(token):
@@ -31,7 +33,12 @@ class User(ndb.Model):
 
     @staticmethod
     def getAllActiveUsers():
-        qry = "SELECT email,employee_number,first_name,last_name FROM User WHERE isActive=True"
+        qry = "SELECT email,employee_number,first_name,last_name,phone_num FROM User WHERE isActive=True"
+        return ndb.gql(qry)
+
+    @staticmethod
+    def getAllUsers():
+        qry = "SELECT email,employee_number,first_name,last_name,phone_num,isActive FROM User"
         return ndb.gql(qry)
 
     @staticmethod

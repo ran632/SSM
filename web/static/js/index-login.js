@@ -35,11 +35,12 @@ function submitRegister() {
 	var firstname = $('#FirstName').val();
 	var lastname = $('#LastName').val();
 	var empno = $('#EmployeeNumber').val();
+    var phone_num = $('#phone').val();
     $.ajax({
 		url:'/registerAtt',
 		type:'GET',
 		dataType:'json',
-        data:{email:email, password:password, isAdmin:isAdmin, firstname:firstname, lastname:lastname, empno:empno},
+        data:{email:email, password:password, isAdmin:isAdmin, firstname:firstname, lastname:lastname, empno:empno, phone_num:phone_num},
 		success:function(data, status, xhr) {
 			document.location.href = '/';
 		},
