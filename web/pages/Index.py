@@ -71,6 +71,8 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
                 })
 
             noteqr = Note.qryGetNoteByEmp(user.employee_number)
+
+            note = ""
             for nt in noteqr:
                 note = nt.note
             template_variables['note'] = note

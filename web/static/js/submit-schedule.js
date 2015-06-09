@@ -1,9 +1,7 @@
-/**
- *
- */
 
 $(function() {  //this is jQuery's short notation for "fire all this when page is ready"
     $('#submit').on('click', submitSchedule);
+	$('#date').on('change', dateChanged);
 });
 
 function submitSchedule() {
@@ -31,4 +29,20 @@ function submitSchedule() {
 		}
 	});
 
+}
+
+function dateChanged(){
+	$.ajax({
+		url:'/Admin/schedulizeAtt',
+		type:'GET',
+		dataType:'json',
+		data: {datepick:document.getElementById('date').value},
+		success:function(data, status, xhr) {
+			location.reload();
+		},
+		error:function(xhr, status, error) {
+			alert(xhr.responseText);
+			console.error(xhr, status, error);
+		}
+	});
 }

@@ -16,6 +16,7 @@ class AdminHandler(webapp2.RequestHandler):
             user = User.checkToken(self.request.cookies.get('our_token'))
 
         template_variables = {}
+
         template_variables['sundayDate'] = Staticfunctions.nextWeekDate(1)
         template_variables['saturdayDate'] = Staticfunctions.nextWeekDate(7)
 
@@ -57,6 +58,13 @@ class SchedulizeHandler(webapp2.RequestHandler):
             user = User.checkToken(self.request.cookies.get('our_token'))
         if not user:
             self.redirect("/")
+            return
+
+        #delete previous changes
+        nws = Shift.qryGetNextWeekShifts()
+        for sft in nws:
+            sft.key.delete()
+
         schedule = json.loads(self.request.get('schedule'))
         #{"empno": empno, "day": dayCount, "hour": hourCount, "role": roleCount}
         for ob in schedule:

@@ -31,5 +31,5 @@ class Note(ndb.Model):
     @staticmethod
     def qryGetNoteByEmp(empno):
         nextWeekDate = Staticfunctions.nextWeekDate(1)
-        qry = "SELECT * FROM Note WHERE employee_number = '%s'" % (empno)
+        qry = "SELECT * FROM Note WHERE week_sunday_date = DATE('%s') AND employee_number = '%s'" % (nextWeekDate, empno)
         return ndb.gql(qry)
