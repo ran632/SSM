@@ -33,3 +33,8 @@ class Note(ndb.Model):
         nextWeekDate = Staticfunctions.nextWeekDate(1)
         qry = "SELECT * FROM Note WHERE week_sunday_date = DATE('%s') AND employee_number = '%s'" % (nextWeekDate, empno)
         return ndb.gql(qry)
+
+    @staticmethod
+    def isSentSubmissionByEmp(empno):
+        query = Note.qryGetNoteByEmp(empno)
+        return query.count()

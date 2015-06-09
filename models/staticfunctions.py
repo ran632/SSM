@@ -11,3 +11,10 @@ class Staticfunctions():
             tmpDate += timedelta(days=1)
         tmpDate += timedelta(days=day-1)
         return tmpDate
+
+    @staticmethod
+    def thisWeekSunday():
+        tmpDate = date.today()
+        while(tmpDate.weekday() != 1):
+            tmpDate -= timedelta(days=1)
+        return tmpDate
