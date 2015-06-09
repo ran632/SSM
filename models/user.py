@@ -35,3 +35,8 @@ class User(ndb.Model):
     def getAllActiveUsers():
         qry = "SELECT email,employee_number,first_name,last_name,phone_num FROM User WHERE isActive=True"
         return ndb.gql(qry)
+
+    @staticmethod
+    def getAllUsers():
+        qry = "SELECT email,employee_number,first_name,last_name,phone_num,isActive FROM User"
+        return ndb.gql(qry)

@@ -2,10 +2,12 @@
 from google.appengine.ext.webapp import template
 import webapp2
 import json
+#import simplejson
 from models.user import User
 from models.submission import *
 from models.staticfunctions import Staticfunctions
 from datetime import *
+
 
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
@@ -265,27 +267,90 @@ class submissionNoteAttHandler(webapp2.RequestHandler):
 
 class UserProfileAttHandler(webapp2.RequestHandler):
     def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+        if not user:
+            self.redirect("/")
         email = self.request.get('email')
         firstname = self.request.get('firstname')
         lastname = self.request.get('lastname')
         empno = self.request.get('empno')
         phone_num = self.request.get('phone_num')
-        user = User.query(User.email == email).get()
-
+        user2 = User.query(User.email == email).get()
         # num = User.query(User.employee_number == empno).get()
         # if num:
         #     self.error(402)
         #     self.response.write('Employee Number Taken!')
         #     return
 
-        user.first_name = firstname
-        user.last_name = lastname
-        user.employee_number = empno
-        user.phone_num = phone_num
+        user2.first_name = firstname
+        user2.last_name = lastname
+        user2.employee_number = empno
+        user2.phone_num = phone_num
 
-        user.put()
+        user2.put()
 
-        self.response.set_cookie('our_token', str(user.key.id()))
+        self.response.write(json.dumps({'status': 'OK'}))
+
+
+class DeleteEmployeeHandler(webapp2.RequestHandler):
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+                user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        usersList = User.getAllUsers() #QUERY
+        template_variables['user_list'] = []
+        for tmpuser in usersList:
+            template_variables['user_list'].append({
+                "empno": tmpuser.employee_number,
+                "email": tmpuser.email,
+                "firstname": tmpuser.first_name,
+                "lastname": tmpuser.last_name,
+                "phone_num": tmpuser.phone_num,
+                "isActive": tmpuser.isActive
+            })
+        if user:
+            template_variables['user'] = user.email
+        else:
+            self.redirect('/Admin')
+
+        html = template.render('web/templates/DeleteEmployee.html', template_variables)
+        self.response.write(html)
+
+
+class DeleteEmployeeAttHandler(webapp2.RequestHandler):
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+        if not user:
+            self.redirect("/")
+        activation = json.loads(self.request.get('activation'))
+        non_activation = json.loads(self.request.get('non_activation'))
+
+        for act in activation:
+            #email = self.request.get(act['email'])
+            user2 = User.query(User.email == act['email']).get()
+            user2.isActive = True
+            user2.put()
+
+        for non_act in non_activation:
+            #non_email = self.request.get(non_act['non_email'])
+            user3 = User.query(User.email == non_act['non_email']).get()
+            user3.isActive = False
+            user3.put()
+
+        # email = self.request.get('email')
+        #
+        # user2 = User.query(User.email == email).get()
+        #
+        # user2.isActive = False
+        #
+        # user2.put()
+
         self.response.write(json.dumps({'status': 'OK'}))
 
 app = webapp2.WSGIApplication([
@@ -299,14 +364,13 @@ app = webapp2.WSGIApplication([
     ('/loginAtt', LoginAttHandler),
     ('/Register', RegisterHandler),
     ('/registerAtt', RegisterAttHandler),
-
     ('/UserProfileAtt', UserProfileAttHandler),
-
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
     ('/submissionAtt', SubmissionAttHandler),
     ('/submissionNoteAtt', submissionNoteAttHandler),
-
+    ('/DeleteEmployee', DeleteEmployeeHandler),
+    ('/DeleteEmployeeAtt', DeleteEmployeeAttHandler),
     ('/(.*)', FourOFourHandler)
 
 ], debug=True)

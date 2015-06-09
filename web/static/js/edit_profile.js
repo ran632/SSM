@@ -46,8 +46,6 @@ function saveProfile() {
             // get your cell info here
             var cellVal = oCells.item(j).innerHTML;
             arr[i][j] = cellVal;
-            //alert(arr[i][j]);
-            //alert(cellVal);
         }
     }
 

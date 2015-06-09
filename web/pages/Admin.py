@@ -37,8 +37,10 @@ class AdminHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Admin.html', template_variables)
         self.response.write(html)
 
+
 app = webapp2.WSGIApplication([
     ('/Admin', AdminHandler),
     ('/Admin/(.*)', FourOFourHandler)
+
 
 ], debug=True)
