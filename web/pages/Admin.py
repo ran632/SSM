@@ -54,6 +54,7 @@ class AdminHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Admin.html', template_variables)
         self.response.write(html)
 
+
 class SchedulizeHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -84,11 +85,10 @@ class SchedulizeHandler(webapp2.RequestHandler):
         self.response.write(json.dumps({'status':'OK'}))
 
 
-
 app = webapp2.WSGIApplication([
-	('/Admin', AdminHandler),
+    ('/Admin', AdminHandler),
     ('/Admin/schedulizeAtt', SchedulizeHandler),
-	('/Admin/(.*)', FourOFourHandler)
-	
+    ('/Admin/(.*)', FourOFourHandler)
+
 
 ], debug=True)

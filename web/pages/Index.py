@@ -2,7 +2,6 @@
 from google.appengine.ext.webapp import template
 import webapp2
 import json
-#import simplejson
 from models.user import User
 from models.submission import *
 from models.staticfunctions import Staticfunctions
@@ -35,6 +34,7 @@ class HomeHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
 
+
 class HistoryHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -49,7 +49,8 @@ class HistoryHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/History.html', template_variables)
         self.response.write(html)
-		
+
+
 class AboutHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -62,6 +63,7 @@ class AboutHandler(webapp2.RequestHandler):
 
         html = template.render('web/templates/About.html', template_variables)
         self.response.write(html)
+
 
 class SubmissionShiftsHandler(webapp2.RequestHandler):
     def get(self):
@@ -88,7 +90,6 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
             for nt in noteqr:
                 note = nt.note
             template_variables['note'] = note
-
 
             for x in range(1,8):
                 template_variables['day%d' % (x)] = Staticfunctions.nextWeekDate(x)
@@ -148,7 +149,7 @@ class LoginAttHandler(webapp2.RequestHandler):
             return
 
         self.response.set_cookie('our_token', str(user.key.id()))
-        self.response.write(json.dumps({'status':'OK'}))
+        self.response.write(json.dumps({'status': 'OK'}))
 
 
 class RegisterHandler(webapp2.RequestHandler):
@@ -272,7 +273,6 @@ class SubmissionAttHandler(webapp2.RequestHandler):
         for tmpnote in lastnote:
             tmpnote.key.delete()
 
-
         notes = Note()
         notes.note = self.request.get('notes')
         notes.employee_number = user.employee_number
@@ -296,7 +296,6 @@ class UserProfileAttHandler(webapp2.RequestHandler):
         empno = self.request.get('empno')
         phone_num = self.request.get('phone_num')
         user2 = User.query(User.email == email).get()
-
 
         user2.first_name = firstname
         user2.last_name = lastname
@@ -357,7 +356,68 @@ class DeleteEmployeeAttHandler(webapp2.RequestHandler):
             user3.isActive = False
             user3.put()
 
+        self.response.write(json.dumps({'status': 'OK'}))
 
+
+class ResetPasswordHandler(webapp2.RequestHandler):
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
+
+        html = template.render('web/templates/ResetPassword.html', template_variables)
+        self.response.write(html)
+
+
+class ResetPasswordAttHandler(webapp2.RequestHandler):
+    def get(self):
+        email = self.request.get('email')
+        password = self.request.get('password')
+
+        if not password or not email:
+            self.error(403)
+            self.response.write('Missing Fields!')
+            return
+
+        import re
+
+        def validate_email(email):
+            if len(email) > 7:
+                if re.match("^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$", email):
+                    return 1
+            return 0
+
+        is_valid = validate_email(email)
+
+        if is_valid == 0:
+            self.error(402)
+            self.response.write('Email Is Not valid!')
+            return
+
+        user = User.query(User.email == email).get()
+        if not user:
+            self.error(402)
+            self.response.write('Email Not Exist!')
+            return
+
+        user.setPassword(password)
+        user.put()
+
+        from google.appengine.api import mail
+        url = 'http://shiftssm.appspot.com'
+        user_address = "<" + email + ">"
+        sender_address = "SSM - Shift Submitter Support <ssmshift@shiftssm.appspotmail.com>"
+        subject = "New Password"
+        body = """Your new Password: """ + password + """\n"""
+        body += """Click here to go back to site """ + url
+
+        mail.send_mail(sender_address, user_address, subject, body)
+
+        #self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status': 'OK'}))
 
 
@@ -378,6 +438,8 @@ app = webapp2.WSGIApplication([
     ('/submissionAtt', SubmissionAttHandler),
     ('/DeleteEmployee', DeleteEmployeeHandler),
     ('/DeleteEmployeeAtt', DeleteEmployeeAttHandler),
+    ('/ResetPassword', ResetPasswordHandler),
+    ('/ResetPasswordAtt', ResetPasswordAttHandler),
     ('/(.*)', FourOFourHandler)
 
 ], debug=True)

@@ -23,6 +23,7 @@ class Submission(ndb.Model):
         qry = "SELECT * FROM Submission WHERE week_sunday_date = DATE('%s') AND employee_number = '%s' ORDER BY day_of_the_week ASC, shift_hour ASC" % (nextWeekDate, empno)
         return ndb.gql(qry)
 
+
 class Note(ndb.Model):
     note = ndb.StringProperty()
     week_sunday_date = ndb.DateProperty()
