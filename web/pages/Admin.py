@@ -51,7 +51,6 @@ class AdminHandler(webapp2.RequestHandler):
         usersList = User.getAllActiveUsers()
         template_variables['userlist'] = []
         for tmpuser in usersList:
-
             template_variables['userlist'].append({
                 "empno": tmpuser.employee_number,
                 "email": tmpuser.email,
@@ -59,6 +58,15 @@ class AdminHandler(webapp2.RequestHandler):
                 "lastname": tmpuser.last_name,
                 "phone_num": tmpuser.phone_num,
                 "isSent": Note.isSentSubmissionByEmp(tmpuser.employee_number)
+            })
+
+        allNotes = Note.qryGetNotesByDate(Staticfunctions.nextWeekDate(1)) #TODO
+        template_variables['notes'] = []
+        for note in allNotes:
+            template_variables['notes'].append({
+                "empno": note.employee_number,
+                "note": note.note,
+                "date_sent": note.date_sent
             })
 
         if user and user.isAdmin == True:

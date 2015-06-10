@@ -17,6 +17,7 @@ class Submission(ndb.Model):
         qry = "SELECT employee_number,shift_hour,day_of_the_week FROM Submission WHERE week_sunday_date = DATE('%s') ORDER BY day_of_the_week ASC, shift_hour ASC" % (sundayDate)
         return ndb.gql(qry)
 
+
     @staticmethod
     def qryGetNextWeekSubmissionsByEmp(empno):
         nextWeekDate = Staticfunctions.nextWeekDate(1)
@@ -27,11 +28,18 @@ class Note(ndb.Model):
     note = ndb.StringProperty()
     week_sunday_date = ndb.DateProperty()
     employee_number = ndb.StringProperty()
+    date_sent = ndb.DateTimeProperty()
 
     @staticmethod
     def qryGetNoteByEmp(empno):
         nextWeekDate = Staticfunctions.nextWeekDate(1)
         qry = "SELECT * FROM Note WHERE week_sunday_date = DATE('%s') AND employee_number = '%s'" % (nextWeekDate, empno)
+        return ndb.gql(qry)
+
+    @staticmethod
+    def qryGetNotesByDate(tmpDate):
+        tmp2Date = Staticfunctions.getSundayDate(tmpDate, 1)
+        qry = "SELECT * FROM Note WHERE week_sunday_date = DATE('%s')" % tmp2Date
         return ndb.gql(qry)
 
     @staticmethod

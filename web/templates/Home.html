@@ -54,7 +54,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for j in "xxx" %}
+                                    {% for j in "xxxx" %}
+                                        {% if not forloop.counter == 4 or forloop.parentloop.counter == 1 %}
                                         {% if forloop.parentloop.counter == 1 %}
                                             <tr class="success">
                                             {% endif %}
@@ -84,6 +85,7 @@
                                             </td>
                                             {% endfor %}
                                         </tr>
+                                        {% endif %}
                                     {% endfor %}
 
                                     </tbody>

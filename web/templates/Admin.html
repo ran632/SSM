@@ -34,7 +34,98 @@
                     <small>Weekly Schdule: {{ sundayDate }} - {{ saturdayDate }}</small>
                 </h1>
 
-                
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Employees' submission so far
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Sunday</th>
+                                        <th>Monday</th>
+                                        <th>Tuseday</th>
+                                        <th>Wednesday</th>
+                                        <th>Thursday</th>
+                                        <th>Friday</th>
+                                        <th>Saturday</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for j in "xxx" %}
+                                    <tr>
+                                        <td><b>
+                                            {% if forloop.counter0 == 0%}
+                                            Morning
+                                            {% endif %}
+                                        {% if forloop.counter0 == 1%}
+                                            Evening
+                                            {% endif %}
+                                        {% if forloop.counter0 == 2%}
+                                            Night
+                                            {% endif %}
+                                        </b></td>
+                                        {% for i in "xxxxxxx" %}
+                                            <td>
+                                            {% for sub in nextWeekSubmissions %}
+                                                {% if sub.day == forloop.parentloop.counter and sub.hour == forloop.parentloop.parentloop.counter0 %}
+                                                {{ sub.full_name }}<br>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                            </table>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Employees' Notes
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Employee Name </th>
+                                        <th>Note </th>
+                                        <th>Date sent </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for note in notes %}
+                                    <tr>
+                                        <td><b>
+                                            {% for emp in userlist %}
+                                                {% if emp.empno == note.empno %}
+                                                    {{ emp.firstname }} {{ emp.lastname }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </b></td>
+                                        <td> {{ note.note }}</td>
+                                        <td> {{ note.date_sent }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                            </table>
+                    </div>
+                    </div>
+                </div>
+
+
                 <div class="row">
                 <div class="col-md-12">
                     <!-- Advanced Tables -->
@@ -67,7 +158,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for j in "xxx" %}
+                                    {% for j in "xxxx" %}
+                                    {% if not forloop.counter == 4 or forloop.parentloop.counter == 1 %}
                                         {% if forloop.parentloop.counter == 1 %}
                                             <tr class="success">
                                             {% endif %}
@@ -104,10 +196,11 @@
 
 
                                                       </select>
-
                                             </td>
+
                                             {% endfor %}
                                         </tr>
+                                        {% endif %}
                                     {% endfor %}
                                         
                                     </tbody>

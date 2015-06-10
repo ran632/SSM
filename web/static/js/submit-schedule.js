@@ -8,7 +8,7 @@ function submitSchedule() {
 	var schedule = new Array();
 	for(dayCount = 1 ; dayCount < 8 ; dayCount++){
 		for(hourCount = 0 ; hourCount < 3 ; hourCount++){
-			for(roleCount = 1 ; roleCount < 4 ; roleCount++) {
+			for(roleCount = 1 ; roleCount < 5 ; roleCount++) {
 				var empno = document.getElementById("sel" + dayCount + hourCount + roleCount).value;
 				schedule.push({"empno": empno, "day": dayCount, "hour": hourCount, "role": roleCount})
 			}

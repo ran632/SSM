@@ -291,6 +291,7 @@ class SubmissionAttHandler(webapp2.RequestHandler):
         notes.note = self.request.get('notes')
         notes.employee_number = user.employee_number
         notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
+        notes.date_sent = datetime.today()
         notes.put()
 
         self.response.set_cookie('our_token', str(user.key.id()))
