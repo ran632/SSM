@@ -3,6 +3,7 @@ from google.appengine.ext.webapp import template
 import webapp2
 import json
 from models.user import User
+from models.shift import Shift
 from models.submission import *
 from models.staticfunctions import Staticfunctions
 from datetime import *
@@ -16,6 +17,19 @@ class HomeHandler(webapp2.RequestHandler):
             user = User.checkToken(self.request.cookies.get('our_token'))
 
         template_variables = {}
+
+        template_variables['sundayDate'] = Staticfunctions.nextWeekDate(1)
+        template_variables['saturdayDate'] = Staticfunctions.nextWeekDate(7)
+
+        schedule = Shift.qryGetNextWeekShifts()
+        template_variables['schedule'] = []
+        for sft in schedule:
+            template_variables['schedule'].append({
+                "empno": sft.employee_number,
+                "day": sft.day_of_the_week,
+                "hour": sft.shift_hour,
+                "role": sft.role
+            })
         usersList = User.getAllActiveUsers() #QUERY
         template_variables['userlist'] = []
         for tmpuser in usersList:
