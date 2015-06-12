@@ -16,17 +16,35 @@ class AdminHandler(webapp2.RequestHandler):
             user = User.checkToken(self.request.cookies.get('our_token'))
 
         template_variables = {}
+        print "DATE = " + self.request.get('date')
+        if self.request.get('date') == "":
+            givendate = Staticfunctions.nextWeekDate(1)
+        else:
+            givendate = datetime.strptime(self.request.get('date'), '%Y-%m-%d').date()
 
-        template_variables['sundayDate'] = Staticfunctions.nextWeekDate(1)
-        template_variables['saturdayDate'] = Staticfunctions.nextWeekDate(7)
+        sundayOfGivenDate = Staticfunctions.getSundayDate(givendate,1)
 
-        nextWeekSubmissions = Submission.qryGetNextWeekSubmissions()
+        template_variables['sundayDateISO'] = sundayOfGivenDate.isoformat()
+        template_variables['sundayDate'] = sundayOfGivenDate
+        template_variables['saturdayDate'] = sundayOfGivenDate + timedelta(days=6)
+
+        shifts = Shift.qryGetWeekShiftsByDate(givendate)
+        template_variables['shifts'] = []
+        for sft in shifts:
+            template_variables['shifts'].append({
+                "day": sft.day_of_the_week,
+                "hour": sft.shift_hour,
+                "role": sft.role,
+                "empno": sft.employee_number
+            })
+
+        nextWeekSubmissions = Submission.qryGetWeekSubmissionsByDate(givendate)
         template_variables['nextWeekSubmissions'] = []
         for sub in nextWeekSubmissions:
             template_variables['nextWeekSubmissions'].append({
                 "day": sub.day_of_the_week,
                 "hour": sub.shift_hour,
-                "sub_empno": sub.employee_number,
+                "empno": sub.employee_number,
                 "full_name": User.strNameByEmpNo(sub.employee_number)
             })
 

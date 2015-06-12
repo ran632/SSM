@@ -4,6 +4,14 @@
     <script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="application/javascript" src="static/js/submit-schedule.js"></script>
     <script type="application/javascript" src="static/js/edit_profile.js"></script>
+    <style type="text/css">
+        .greenColor{
+            background-color: #33CC33;
+        }
+        .redColor{
+            background-color: #E60000;
+        }
+    </style>
 {%endblock%}
 
 {% block content %}
@@ -21,7 +29,7 @@
                 <button class="btn btn-success"><i class="fa fa-user "></i> Create New Employee</button>
                 <button  onclick="window.location='DeleteEmployee'" class="btn btn-danger"><i class="fa fa-pencil"></i> Delete Employee</button>
 
-
+                <input type="date" value="{{ sundayDateISO }}" id="cal">
                 <h1 class="pager">
                     <small>Weekly Schdule: {{ sundayDate }} - {{ saturdayDate }}</small>
                 </h1>
@@ -78,15 +86,23 @@
                                             <!-- sel[day][hour][role]-->
                                                       <select class="form-control" id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
                                                       <option></option>
-                                                      {% for sub in nextWeekSubmissions %}
-                                                          {% if forloop.parentloop.counter == sub.day and forloop.parentloop.parentloop.parentloop.counter0 == sub.hour %}
-                                                            <option value="{{ sub.sub_empno }}">{{ sub.full_name }}</option>
-                                                          {% endif %}
-                                                      {% endfor %}
-                                                      <option>-----------</option>
                                                       {% for emp in userlist %}
-                                                          <option value ="{{ emp.empno }}">{{ emp.firstname }} {{ emp.lastname }}</option>
-                                                        {% endfor %}
+                                                              <option
+                                                                {% for sub in nextWeekSubmissions %}
+                                                                        {% if emp.empno == sub.empno and sub.day == forloop.parentloop.parentloop.counter and sub.hour == forloop.parentloop.parentloop.parentloop.parentloop.counter0 %}
+                                                                            data ="1" class ="greenColor"
+                                                                        {% endif %}
+                                                                {% endfor %}
+                                                                       value ="{{ emp.empno }}"
+                                                                      {% for sft in shifts %}
+                                                                            {% if sft.empno == emp.empno and sft.day == forloop.parentloop.parentloop.counter and sft.hour == forloop.parentloop.parentloop.parentloop.parentloop.counter0 and sft.role == forloop.parentloop.parentloop.parentloop.counter %}
+                                                                                selected
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                      >{{ emp.firstname }} {{ emp.lastname }}</option>
+                                                                        {% endfor %}
+
+
                                                       </select>
 
                                             </td>

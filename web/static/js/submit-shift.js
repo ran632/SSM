@@ -4,7 +4,6 @@
 
 $(function() {  //this is jQuery's short notation for "fire all this when page is ready"
     $('#submit').on('click', submitShift);
-
 });
 
 function submitShift() {

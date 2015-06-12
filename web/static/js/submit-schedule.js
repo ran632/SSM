@@ -1,7 +1,7 @@
 
 $(function() {  //this is jQuery's short notation for "fire all this when page is ready"
     $('#submit').on('click', submitSchedule);
-	$('#date').on('change', dateChanged);
+    $('#cal').on('change', changeDate);
 });
 
 function submitSchedule() {
@@ -14,7 +14,6 @@ function submitSchedule() {
 			}
 		}
 	}
-
 	$.ajax({
 		url:'/Admin/schedulizeAtt',
 		type:'GET',
@@ -28,21 +27,22 @@ function submitSchedule() {
 			console.error(xhr, status, error);
 		}
 	});
-
 }
 
-function dateChanged(){
-	$.ajax({
-		url:'/Admin/schedulizeAtt',
-		type:'GET',
-		dataType:'json',
-		data: {datepick:document.getElementById('date').value},
-		success:function(data, status, xhr) {
-			location.reload();
-		},
-		error:function(xhr, status, error) {
-			alert(xhr.responseText);
-			console.error(xhr, status, error);
-		}
-	});
+function changeDate() {
+    alert(document.getElementById("cal").value);
+    $.ajax({
+        url: '/Admin',
+        type: 'GET',
+        dataType: 'html',
+        data: {date:document.getElementById("cal").value},
+        success: function (data, status, xhr) {
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
+            console.error(xhr, status, error);
+        }
+    });
 }
+

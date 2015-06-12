@@ -10,7 +10,7 @@ class Shift(ndb.Model):
     week_sunday_date = ndb.DateProperty()
 
     @staticmethod
-    def qryGetNextWeekShifts():
-        nextWeekDate = Staticfunctions.nextWeekDate(1)
-        qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s')" % (nextWeekDate)
+    def qryGetWeekShiftsByDate(tmpdate):
+        sundayDate = Staticfunctions.getSundayDate(tmpdate,1)
+        qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s')" % (sundayDate)
         return ndb.gql(qry)

@@ -22,7 +22,7 @@ class HomeHandler(webapp2.RequestHandler):
         template_variables['sundayDate'] = Staticfunctions.nextWeekDate(1)
         template_variables['saturdayDate'] = Staticfunctions.nextWeekDate(7)
 
-        schedule = Shift.qryGetNextWeekShifts()
+        schedule = Shift.qryGetWeekShiftsByDate(date.today() + timedelta(days=7))
         template_variables['schedule'] = []
         for sft in schedule:
             template_variables['schedule'].append({

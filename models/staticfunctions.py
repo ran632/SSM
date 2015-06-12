@@ -5,16 +5,12 @@ from datetime import *
 class Staticfunctions():
     @staticmethod
     def nextWeekDate(day):
-        tmpDate = date.today()
-        tmpDate += timedelta(days=1)
-        while(tmpDate.weekday() != 6):
-            tmpDate += timedelta(days=1)
-        tmpDate += timedelta(days=day-1)
-        return tmpDate
+        nextWeek = date.today() + timedelta(days=7)
+        return Staticfunctions.getSundayDate(nextWeek, day) #reduction
 
     @staticmethod
-    def thisWeekSunday():
-        tmpDate = date.today()
-        while(tmpDate.weekday() != 1):
-            tmpDate -= timedelta(days=1)
-        return tmpDate
+    def getSundayDate(someDate, day):
+        while(someDate.weekday() != 6):
+            someDate -= timedelta(days=1)
+        someDate += timedelta(days=day-1)
+        return someDate
