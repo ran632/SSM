@@ -82,7 +82,18 @@ class SchedulizeHandler(webapp2.RequestHandler):
             shift.role = int(ob['role'])
             shift.put()
 
-        self.response.write('Working schedule has been sent successfully')
+        email_list = User.getAllUsersEmail()
+        from google.appengine.api import mail
+        url = 'http://shiftssm.appspot.com'
+
+        for email in email_list:
+            user_address = "<" + email.email + ">"
+            sender_address = "SSM - Shift Submitter Support <ssmshift@shiftssm.appspotmail.com>"
+            subject = "New Schedule"
+            body = """New working schedule published, enter site to view it - """ + url
+            mail.send_mail(sender_address, user_address, subject, body)
+
+        self.response.write('Working schedule has been sent successfully to all users')
         self.response.write(json.dumps({'status': 'OK'}))
 
 

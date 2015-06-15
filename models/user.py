@@ -47,3 +47,8 @@ class User(ndb.Model):
             if empno == emp.employee_number and emp.first_name != None and emp.last_name != None:
                 return emp.first_name + " " + emp.last_name
         return ""
+
+    @staticmethod
+    def getAllUsersEmail():
+        qry = "SELECT email FROM User WHERE isActive=True"
+        return ndb.gql(qry)
