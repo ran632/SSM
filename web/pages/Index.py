@@ -293,6 +293,7 @@ class SubmissionAttHandler(webapp2.RequestHandler):
         notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
         notes.put()
 
+        self.response.write('Shifts sent successfully')
         self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status': 'OK'}))
 
@@ -359,13 +360,11 @@ class DeleteEmployeeAttHandler(webapp2.RequestHandler):
         non_activation = json.loads(self.request.get('non_activation'))
 
         for act in activation:
-            #email = self.request.get(act['email'])
             user2 = User.query(User.email == act['email']).get()
             user2.isActive = True
             user2.put()
 
         for non_act in non_activation:
-            #non_email = self.request.get(non_act['non_email'])
             user3 = User.query(User.email == non_act['non_email']).get()
             user3.isActive = False
             user3.put()

@@ -82,7 +82,8 @@ class SchedulizeHandler(webapp2.RequestHandler):
             shift.role = int(ob['role'])
             shift.put()
 
-        self.response.write(json.dumps({'status':'OK'}))
+        self.response.write('Working schedule has been sent successfully')
+        self.response.write(json.dumps({'status': 'OK'}))
 
 
 app = webapp2.WSGIApplication([
