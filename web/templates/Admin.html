@@ -132,7 +132,7 @@
                                             {% for emp in userlist %}
                                                 <tr class="{% if emp.isSent == 0 %}danger{% else %}success{% endif %}">
                                                     <td>{{ forloop.counter }}</td>
-                                                    <td contenteditable='false' id="empno">{{ emp.empno }}</td>
+                                                    <td id="empno">{{ emp.empno }}</td>
                                                     <td contenteditable='false' id="firstname">{{ emp.firstname }}</td>
                                                     <td contenteditable='false' id="lastname">{{ emp.lastname }}</td>
                                                     <td id="email">{{ emp.email }}</td>
