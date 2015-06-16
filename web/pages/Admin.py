@@ -82,6 +82,7 @@ class AdminHandler(webapp2.RequestHandler):
 
 class SchedulizeHandler(webapp2.RequestHandler):
     def get(self):
+        print "in sch1"
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
@@ -89,8 +90,9 @@ class SchedulizeHandler(webapp2.RequestHandler):
             self.redirect("/")
             return
 
+        print "in sch2"
         #delete previous changes
-        nws = Shift.qryGetNextWeekShifts()
+        nws = Shift.qryGetWeekShiftsByDate(date.today() + timedelta(days=7))
         for sft in nws:
             sft.key.delete()
 
@@ -106,7 +108,7 @@ class SchedulizeHandler(webapp2.RequestHandler):
             shift.shift_hour = int(ob['hour'])
             shift.role = int(ob['role'])
             shift.put()
-
+        print "in sch3"
         self.response.write(json.dumps({'status':'OK'}))
 
 

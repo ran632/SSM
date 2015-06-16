@@ -1,19 +1,22 @@
 
 $(function() {  //this is jQuery's short notation for "fire all this when page is ready"
     $('#submit').on('click', submitSchedule);
-    $('#cal').on('change', changeDate);
 });
 
 function submitSchedule() {
 	var schedule = new Array();
 	for(dayCount = 1 ; dayCount < 8 ; dayCount++){
 		for(hourCount = 0 ; hourCount < 3 ; hourCount++){
-			for(roleCount = 1 ; roleCount < 5 ; roleCount++) {
+			var hfa = 4;
+			if(hourCount == 0)
+				hfa = 5;
+			for(roleCount = 1 ; roleCount < hfa ; roleCount++) {
 				var empno = document.getElementById("sel" + dayCount + hourCount + roleCount).value;
 				schedule.push({"empno": empno, "day": dayCount, "hour": hourCount, "role": roleCount})
 			}
 		}
 	}
+	alert("lalalala");
 	$.ajax({
 		url:'/Admin/schedulizeAtt',
 		type:'GET',
