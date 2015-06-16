@@ -18,10 +18,10 @@ class HomeHandler(webapp2.RequestHandler):
 
         template_variables = {}
 
-        template_variables['sundayDate'] = Staticfunctions.nextWeekDate(1)
-        template_variables['saturdayDate'] = Staticfunctions.nextWeekDate(7)
+        template_variables['sundayDate'] = Staticfunctions.getSundayDate(date.today(), 1)
+        template_variables['saturdayDate'] = Staticfunctions.getSundayDate(date.today(), 7)
 
-        schedule = Shift.qryGetNextWeekShifts()
+        schedule = Shift.qryGetWeekShiftsByDate(date.today())
         template_variables['schedule'] = []
         for sft in schedule:
             template_variables['schedule'].append({
@@ -30,6 +30,19 @@ class HomeHandler(webapp2.RequestHandler):
                 "hour": sft.shift_hour,
                 "role": sft.role
             })
+
+        schedule2 = Shift.qryGetWeekShiftsByDate(date.today()+ timedelta(days=7))
+        if schedule2.count == 0:
+            print 0
+        else:
+            template_variables['schedule2'] = []
+            for sft in schedule:
+                template_variables['schedule2'].append({
+                    "empno": sft.employee_number,
+                    "day": sft.day_of_the_week,
+                    "hour": sft.shift_hour,
+                    "role": sft.role
+                })
         usersList = User.getAllActiveUsers() #QUERY
         template_variables['userlist'] = []
         for tmpuser in usersList:
@@ -291,6 +304,7 @@ class SubmissionAttHandler(webapp2.RequestHandler):
         notes.note = self.request.get('notes')
         notes.employee_number = user.employee_number
         notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
+        notes.date_sent = datetime.today()
         notes.put()
 
         self.response.write('Shifts sent successfully')

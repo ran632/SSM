@@ -14,6 +14,7 @@ function submitSchedule() {
 			}
 		}
 	}
+
 	$.ajax({
 		url:'/Admin/schedulizeAtt',
 		type:'GET',

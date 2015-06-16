@@ -54,7 +54,6 @@ class AdminHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Admin.html', template_variables)
         self.response.write(html)
 
-
 class SchedulizeHandler(webapp2.RequestHandler):
     def get(self):
         user = None
@@ -82,25 +81,14 @@ class SchedulizeHandler(webapp2.RequestHandler):
             shift.role = int(ob['role'])
             shift.put()
 
-        email_list = User.getAllUsersEmail()
-        from google.appengine.api import mail
-        url = 'http://shiftssm.appspot.com'
+        self.response.write(json.dumps({'status':'OK'}))
 
-        for email in email_list:
-            user_address = "<" + email.email + ">"
-            sender_address = "SSM - Shift Submitter Support <ssmshift@shiftssm.appspotmail.com>"
-            subject = "New Schedule"
-            body = """New working schedule published, enter site to view it - """ + url
-            mail.send_mail(sender_address, user_address, subject, body)
-
-        self.response.write('Working schedule has been sent successfully to all users')
-        self.response.write(json.dumps({'status': 'OK'}))
 
 
 app = webapp2.WSGIApplication([
-    ('/Admin', AdminHandler),
+	('/Admin', AdminHandler),
     ('/Admin/schedulizeAtt', SchedulizeHandler),
-    ('/Admin/(.*)', FourOFourHandler)
-
+	('/Admin/(.*)', FourOFourHandler)
+	
 
 ], debug=True)
