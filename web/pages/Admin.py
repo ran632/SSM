@@ -48,6 +48,27 @@ class AdminHandler(webapp2.RequestHandler):
                 "full_name": User.strNameByEmpNo(sub.employee_number)
             })
 
+        #add Saturday evening as 02 and sunday morning as 80
+        empsOnSatBefore = Shift.qryGetSatNightBefore(givendate)
+        for emp in empsOnSatBefore:
+            template_variables['nextWeekSubmissions'].append({
+                "day": 0,
+                "hour": 2,
+                "empno": emp.employee_number,
+                "full_name": User.strNameByEmpNo(emp.employee_number)
+            })
+
+        empsOnSunAfter = Shift.qryGetSunMorningAfter(givendate)
+        for emp in empsOnSunAfter:
+            template_variables['nextWeekSubmissions'].append({
+                "day": 8,
+                "hour": 0,
+                "empno": emp.employee_number,
+                "full_name": User.strNameByEmpNo(emp.employee_number)
+            })
+
+        #===============================================
+
         usersList = User.getAllActiveUsers()
         template_variables['userlist'] = []
         for tmpuser in usersList:
@@ -89,8 +110,10 @@ class SchedulizeHandler(webapp2.RequestHandler):
             self.redirect("/")
             return
 
+        givendate = datetime.strptime(self.request.get('date'), '%Y-%m-%d').date()
+        print givendate
         #delete previous changes
-        nws = Shift.qryGetWeekShiftsByDate(date.today() + timedelta(days=7))
+        nws = Shift.qryGetWeekShiftsByDate(givendate)
         for sft in nws:
             sft.key.delete()
 
@@ -101,7 +124,7 @@ class SchedulizeHandler(webapp2.RequestHandler):
                 continue
             shift = Shift()
             shift.employee_number = ob['empno']
-            shift.week_sunday_date = Staticfunctions.nextWeekDate(1)
+            shift.week_sunday_date = Staticfunctions.getSundayDate(givendate, 1)
             shift.day_of_the_week = int(ob['day'])
             shift.shift_hour = int(ob['hour'])
             shift.role = int(ob['role'])

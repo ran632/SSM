@@ -28,7 +28,13 @@
                 <button class="btn btn-primary"><i class="fa fa-edit "></i> Edit Schdule</button>
                 <button class="btn btn-success"><i class="fa fa-user "></i> Create New Employee</button>
                 <button  onclick="window.location='DeleteEmployee'" class="btn btn-danger"><i class="fa fa-pencil"></i> Delete Employee</button>
-
+                {% for sub in nextWeekSubmissions %}
+                    {% if sub.day == 0 or sub.day == 8 %}
+                        <select class = "shiftselect" name="{{ sub.day }}{{ sub.hour }}" style="display:none;">
+                            <option value="{{ sub.empno }}" selected></option>
+                        </select>
+                    {% endif %}
+                {% endfor %}
                 <input type="date" value="{{ sundayDateISO }}" id="cal">
                 <h1 class="pager">
                     <small>Weekly Schdule: {{ sundayDate }} - {{ saturdayDate }}</small>
@@ -96,7 +102,7 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th width="10%">Employee Name </th>
+                                        <th width="10%">Name </th>
                                         <th width="65%">Note </th>
                                         <th width="20%">Date sent </th>
                                         <th width="5%">  </th>
@@ -188,7 +194,9 @@
                                             {% for i in "xxxxxxx" %}
                                             <td>
                                             <!-- sel[day][hour][role]-->
-                                                      <select class="form-control shiftselect " id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
+                                                      <select class="form-control shiftselect thisweek"
+                                                              name="{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}"
+                                                              id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
                                                       <option></option>
                                                       {% for emp in userlist %}
                                                               <option
