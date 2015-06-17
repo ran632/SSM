@@ -97,22 +97,34 @@
                                 <thead>
                                     <tr>
                                         <th width="10%">Employee Name </th>
-                                        <th width="70%">Note </th>
+                                        <th width="65%">Note </th>
                                         <th width="20%">Date sent </th>
+                                        <th width="5%">  </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for note in notes %}
-                                    <tr>
+                                {% for emp in userlist %}
+                                    <tr id="tr{{ emp.empno }}">
                                         <td><b>
-                                            {% for emp in userlist %}
+                                            {{ emp.firstname }} {{ emp.lastname }}
+                                        </b></td>
+                                        <td>
+                                            {% for note in notes %}
                                                 {% if emp.empno == note.empno %}
-                                                    {{ emp.firstname }} {{ emp.lastname }}
+                                                    {{ note.note }}
                                                 {% endif %}
                                             {% endfor %}
-                                        </b></td>
-                                        <td> {{ note.note }}</td>
-                                        <td> {{ note.date_sent }}</td>
+                                        </td>
+                                        <td>
+                                            {% for note in notes %}
+                                                {% if emp.empno == note.empno %}
+                                                    {{ note.date_sent }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                    <td id="count{{ emp.empno }}">
+                                        <!-- sum of chosen-->
+                                    </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -176,7 +188,7 @@
                                             {% for i in "xxxxxxx" %}
                                             <td>
                                             <!-- sel[day][hour][role]-->
-                                                      <select class="form-control" id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
+                                                      <select class="form-control shiftselect " id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
                                                       <option></option>
                                                       {% for emp in userlist %}
                                                               <option
@@ -242,7 +254,7 @@
                                             {% for emp in userlist %}
                                                 <tr class="{% if emp.isSent == 0 %}danger{% else %}success{% endif %}">
                                                     <td>{{ forloop.counter }}</td>
-                                                    <td contenteditable='false' id="empno">{{ emp.empno }}</td>
+                                                    <td class="empno" contenteditable='false' id="empno">{{ emp.empno }}</td>
                                                     <td contenteditable='false' id="firstname">{{ emp.firstname }}</td>
                                                     <td contenteditable='false' id="lastname">{{ emp.lastname }}</td>
                                                     <td contenteditable='false' id="email">{{ emp.email }}</td>

@@ -57,10 +57,10 @@ class AdminHandler(webapp2.RequestHandler):
                 "firstname": tmpuser.first_name,
                 "lastname": tmpuser.last_name,
                 "phone_num": tmpuser.phone_num,
-                "isSent": Note.isSentSubmissionByEmp(tmpuser.employee_number)
+                "isSent": Note.isSentSubmissionByEmp(sundayOfGivenDate, tmpuser.employee_number)
             })
 
-        allNotes = Note.qryGetNotesByDate(Staticfunctions.nextWeekDate(1)) #TODO
+        allNotes = Note.qryGetNotesByDate(sundayOfGivenDate) #TODO
         template_variables['notes'] = []
         for note in allNotes:
             template_variables['notes'].append({
@@ -82,7 +82,6 @@ class AdminHandler(webapp2.RequestHandler):
 
 class SchedulizeHandler(webapp2.RequestHandler):
     def get(self):
-        print "in sch1"
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
@@ -90,7 +89,6 @@ class SchedulizeHandler(webapp2.RequestHandler):
             self.redirect("/")
             return
 
-        print "in sch2"
         #delete previous changes
         nws = Shift.qryGetWeekShiftsByDate(date.today() + timedelta(days=7))
         for sft in nws:
@@ -108,7 +106,6 @@ class SchedulizeHandler(webapp2.RequestHandler):
             shift.shift_hour = int(ob['hour'])
             shift.role = int(ob['role'])
             shift.put()
-        print "in sch3"
         self.response.write(json.dumps({'status':'OK'}))
 
 

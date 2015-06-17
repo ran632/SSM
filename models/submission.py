@@ -31,9 +31,8 @@ class Note(ndb.Model):
     date_sent = ndb.DateTimeProperty()
 
     @staticmethod
-    def qryGetNoteByEmp(empno):
-        nextWeekDate = Staticfunctions.nextWeekDate(1)
-        qry = "SELECT * FROM Note WHERE week_sunday_date = DATE('%s') AND employee_number = '%s'" % (nextWeekDate, empno)
+    def qryGetNoteByEmp(sundate, empno):
+        qry = "SELECT * FROM Note WHERE week_sunday_date = DATE('%s') AND employee_number = '%s'" % (sundate, empno)
         return ndb.gql(qry)
 
     @staticmethod
@@ -43,6 +42,6 @@ class Note(ndb.Model):
         return ndb.gql(qry)
 
     @staticmethod
-    def isSentSubmissionByEmp(empno):
-        query = Note.qryGetNoteByEmp(empno)
+    def isSentSubmissionByEmp(tmpdate, empno):
+        query = Note.qryGetNoteByEmp(Staticfunctions.getSundayDate(tmpdate,1), empno)
         return query.count()

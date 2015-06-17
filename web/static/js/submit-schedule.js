@@ -1,7 +1,27 @@
-
+var empnoArr = [];
 $(function() {  //this is jQuery's short notation for "fire all this when page is ready"
     $('#submit').on('click', submitSchedule);
+	$('#cal').on('change', function(){
+		location.href = '/Admin?date='+$('#cal').val();
+	});
+	$('.shiftselect').on('change', updateAll);
+
+	$('.empno').each(function(){
+		empnoArr.push($(this).text());
+	});
+	updateAll();
 });
+
+function updateAll(){
+	$.each(empnoArr, function(index, value){
+		updateNum(value);
+	})
+}
+
+function updateNum(empno){
+		numberOfSelected = $("select:has(option[value='" + empno + "']:selected)").length;
+		document.getElementById("count" + empno).innerHTML = numberOfSelected;
+	}
 
 function submitSchedule() {
 	var schedule = new Array();
@@ -16,7 +36,6 @@ function submitSchedule() {
 			}
 		}
 	}
-	alert("lalalala");
 	$.ajax({
 		url:'/Admin/schedulizeAtt',
 		type:'GET',
@@ -31,21 +50,3 @@ function submitSchedule() {
 		}
 	});
 }
-
-function changeDate() {
-    alert(document.getElementById("cal").value);
-    $.ajax({
-        url: '/Admin',
-        type: 'GET',
-        dataType: 'html',
-        data: {date:document.getElementById("cal").value},
-        success: function (data, status, xhr) {
-            location.reload();
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-            console.error(xhr, status, error);
-        }
-    });
-}
-
