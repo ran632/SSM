@@ -47,3 +47,11 @@ class User(ndb.Model):
             if empno == emp.employee_number and emp.first_name != None and emp.last_name != None:
                 return emp.first_name + " " + emp.last_name
         return ""
+
+    @staticmethod
+    def emailToEmpno(email):
+        users =  User.getAllUsers()
+        for user in users:
+            if user.email == email:
+                return user.employee_number
+        return ""

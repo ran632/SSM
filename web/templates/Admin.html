@@ -103,8 +103,9 @@
                                 <thead>
                                     <tr>
                                         <th width="10%">Name </th>
-                                        <th width="65%">Note </th>
+                                        <th width="60%">Note </th>
                                         <th width="20%">Date sent </th>
+                                        <th width="5%">  </th>
                                         <th width="5%">  </th>
                                     </tr>
                                 </thead>
@@ -128,6 +129,13 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </td>
+                                    <td>
+                                        {% for note in notes %}
+                                                {% if emp.empno == note.empno %}
+                                                    {{ note.numofshifts }}
+                                                {% endif %}
+                                            {% endfor %}
+                                    </td>
                                     <td id="count{{ emp.empno }}">
                                         <!-- sum of chosen-->
                                     </td>

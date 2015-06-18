@@ -86,7 +86,8 @@ class AdminHandler(webapp2.RequestHandler):
             template_variables['notes'].append({
                 "empno": note.employee_number,
                 "note": note.note,
-                "date_sent": note.date_sent
+                "date_sent": note.date_sent,
+                "numofshifts": note.num
             })
 
         if user and user.isAdmin == True:

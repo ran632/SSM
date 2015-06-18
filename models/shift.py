@@ -26,3 +26,20 @@ class Shift(ndb.Model):
         sundayDate = Staticfunctions.getSundayDate(tmpdate,1)
         qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s')" % (sundayDate)
         return ndb.gql(qry)
+
+    @staticmethod
+    def qryGetWeekShiftsByDateEmpFromNow(tmpdate, empno):
+        sundayDate = Staticfunctions.getSundayDate(tmpdate,1)
+        today = date.today().isoweekday()+1
+        if today == 8:
+            today = 1
+        qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s') AND employee_number = '%s' AND day_of_the_week >= %s  ORDER BY day_of_the_week ASC, shift_hour ASC" % (sundayDate,empno,today)
+        return ndb.gql(qry)
+
+    @staticmethod
+    def qryGetWeekShiftsByDateEmp(tmpdate, empno):
+        sundayDate = Staticfunctions.getSundayDate(tmpdate,1)
+        qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s') AND employee_number = '%s'" % (sundayDate,empno)
+        return ndb.gql(qry)
+
+

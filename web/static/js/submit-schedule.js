@@ -22,6 +22,8 @@ $(function() {  //this is jQuery's short notation for "fire all this when page i
 			alert($(this).find("option:selected").text() + " is already selected for " + dayToString(parseInt(parseInt(shiftNumBefore(this.name)/10))) + " " + hourToString(parseInt(parseInt(shiftNumAfter(this.name)%10))));
 
 		}
+
+
 	});
 
 	$('.empno').each(function(){

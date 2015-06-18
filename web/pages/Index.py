@@ -17,8 +17,15 @@ class HomeHandler(webapp2.RequestHandler):
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
 
+
         template_variables = {}
 
+        thisUserThisWeekShifts = Shift.qryGetWeekShiftsByDateEmpFromNow(date.today(),User.emailToEmpno(user.email)).get()
+        template_variables['ShiftsNum'] = Shift.qryGetWeekShiftsByDateEmp(date.today(),User.emailToEmpno(user.email)).count()
+        if thisUserThisWeekShifts != None:
+            template_variables['Nextshift'] = Staticfunctions.dayToString(thisUserThisWeekShifts.day_of_the_week) + " " + Staticfunctions.hourToString(thisUserThisWeekShifts.shift_hour)
+        if Note.isSentSubmissionByEmp(date.today()+timedelta(days=7), User.emailToEmpno(user.email)):
+            template_variables['isSent'] = True
         template_variables['sundayDate'] = Staticfunctions.getSundayDate(date.today(), 1)
         template_variables['saturdayDate'] = Staticfunctions.getSundayDate(date.today(), 7)
         template_variables['nextSundayDate'] = Staticfunctions.getSundayDate(date.today()+timedelta(days=7), 1)
@@ -331,7 +338,7 @@ class SubmissionAttHandler(webapp2.RequestHandler):
             submission.employee_number = user.employee_number
             submission.put()
 
-        lastnote = Note.qryGetNoteByEmp(user.employee_number)
+        lastnote = Note.qryGetNoteByEmp(Staticfunctions.nextWeekDate(1),user.employee_number)
         for tmpnote in lastnote:
             tmpnote.key.delete()
 
@@ -340,7 +347,8 @@ class SubmissionAttHandler(webapp2.RequestHandler):
         notes.note = self.request.get('notes')
         notes.employee_number = user.employee_number
         notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
-        notes.date_sent = datetime.today()
+        notes.date_sent = datetime.now()
+        notes.num = int(self.request.get('numofshifts'))
         notes.put()
 
         self.response.set_cookie('our_token', str(user.key.id()))

@@ -9,6 +9,7 @@ $(function() {  //this is jQuery's short notation for "fire all this when page i
 function submitShift() {
 	var shifts = []
 	var notes = $('textarea#notes').val();
+	var numofshifts = $('#numofshifts').val();
 	for(i = 1 ; i < 8 ; i++){
 		for(j = 0 ; j < 3 ; j++){
 			var shiftHour = j;
@@ -22,7 +23,7 @@ function submitShift() {
 		url:'/submissionAtt',
 		type:'GET',
 		dataType:'json',
-		data:{shifts:JSON.stringify(shifts), notes:notes},
+		data:{shifts:JSON.stringify(shifts), notes:notes, numofshifts:numofshifts},
 		success:function(data, status, xhr) {
 			location.reload();
 		},

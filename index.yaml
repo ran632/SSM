@@ -17,6 +17,13 @@ indexes:
   - name: week_sunday_date
   - name: employee_number
 
+- kind: Shift
+  properties:
+  - name: employee_number
+  - name: week_sunday_date
+  - name: day_of_the_week
+  - name: shift_hour
+
 - kind: Submission
   properties:
   - name: employee_number
@@ -35,6 +42,11 @@ indexes:
   - name: week_sunday_date
   - name: day_of_the_week
   - name: shift_hour
+  - name: employee_number
+
+- kind: User
+  properties:
+  - name: email
   - name: employee_number
 
 - kind: User

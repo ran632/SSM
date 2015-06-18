@@ -14,3 +14,24 @@ class Staticfunctions():
             someDate -= timedelta(days=1)
         someDate += timedelta(days=day-1)
         return someDate
+
+    @staticmethod
+    def dayToString(day):
+        return{
+            1:'Sunday',
+            2:'Monday',
+            3:'Tuesday',
+            4:'Wednesday',
+            5:'Thursday',
+            6:'Friday',
+            7:'Saturday'
+        }.get(day, 'noday')
+
+    @staticmethod
+    def hourToString(hour):
+        int(hour)
+        return{
+            0:'Morning',
+            1:'Evening',
+            2:'Night'
+        }.get(hour, 'nohour')

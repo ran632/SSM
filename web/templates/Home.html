@@ -15,7 +15,68 @@
                         </h1>
                     </div>
                 </div>
-                
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-green">
+                            <div class="panel-body">
+                                <i class="fa fa-clock-o fa-5x"></i>
+                                <h3>{{ ShiftsNum }}</h3>
+                            </div>
+                            <div class="panel-footer back-footer-green">
+                                No. of Shifts
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-blue">
+                            <div class="panel-body">
+                                <i class="fa fa-coffee fa-5x"></i>
+                                <h3>{{ Nextshift }} </h3>
+                            </div>
+                            <div class="panel-footer back-footer-blue">
+                                Next shift
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-red">
+                            <div class="panel-body">
+                                <i class="fa
+                                {% if isSent %}
+                                fa-smile-o
+                                {% else %}
+                                fa-warning
+                                {% endif %}
+                                fa-5x"></i>
+                                <h3>
+                                    {% if isSent %}
+                                    Sent.
+                                    {% else %}
+                                    Have not sent yet
+                                    {% endif %}
+                                </h3>
+                            </div>
+                            <div class="panel-footer back-footer-red">
+                                Next Week Schedule
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder bg-color-brown">
+                            <div class="panel-body">
+                                <i class="fa fa-users fa-5x"></i>
+                                <h3>0</h3>
+                            </div>
+                            <div class="panel-footer back-footer-brown">
+                                Switch Requests
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
     
 
 
@@ -35,56 +96,6 @@
                     {% endwith %}
                 {% endif %}
 
-                <div class="row">
-                    <div class="col-md-3 col-sm-12 col-xs-12">
-                        <div class="panel panel-primary text-center no-boder bg-color-green">
-                            <div class="panel-body">
-                                <i class="fa fa-clock-o fa-5x"></i>
-                                <h3>20</h3>
-                            </div>
-                            <div class="panel-footer back-footer-green">
-                                No. of Hours 
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-12 col-xs-12">
-                        <div class="panel panel-primary text-center no-boder bg-color-blue">
-                            <div class="panel-body">
-                                <i class="fa fa-coffee fa-5x"></i>
-                                <h3>2 </h3>
-                            </div>
-                            <div class="panel-footer back-footer-blue">
-                                Free Days
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-12 col-xs-12">
-                        <div class="panel panel-primary text-center no-boder bg-color-red">
-                            <div class="panel-body">
-                                <i class="fa fa fa-warning fa-5x"></i>
-                                <h3>1 </h3>
-                            </div>
-                            <div class="panel-footer back-footer-red">
-                                Warning
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-12 col-xs-12">
-                        <div class="panel panel-primary text-center no-boder bg-color-brown">
-                            <div class="panel-body">
-                                <i class="fa fa-users fa-5x"></i>
-                                <h3>20 </h3>
-                            </div>
-                            <div class="panel-footer back-footer-brown">
-                                No. of Employee
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 
                 <!-- /. ROW  -->
