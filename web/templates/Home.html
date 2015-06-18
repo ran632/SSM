@@ -17,88 +17,22 @@
                 </div>
                 
     
-                <h1 class="pager">
-                    <small>Weekly Schdule: {{ sundayDate }} - {{ saturdayDate }}</small>
-                </h1>
+
 
                 
                 <div class="row">
                 <div class="col-md-12">
                     <!-- Advanced Tables -->
-                {% for k in "xxx" %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                        {% if forloop.counter == 1 %}
-                            Morning:
-                            {% endif %}
-                        {% if forloop.counter == 2 %}
-                            Evening:
-                            {% endif %}
-                        {% if forloop.counter == 3 %}
-                            Night:
-                            {% endif %}
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover " id="dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>Role</th>
-                                            <th>Sunday</th>
-                                            <th>Monday</th>
-                                            <th>Tuseday</th>
-                                            <th>Wednesday</th>
-                                            <th>Thursday</th>
-                                            <th>Friday</th>
-                                            <th>Saturday</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for j in "xxxx" %}
-                                        {% if not forloop.counter == 4 or forloop.parentloop.counter == 1 %}
-                                        {% if forloop.parentloop.counter == 1 %}
-                                            <tr class="success">
-                                            {% endif %}
-                                        {% if forloop.parentloop.counter == 2 %}
-                                            <tr class="info">
-                                            {% endif %}
-                                        {% if forloop.parentloop.counter == 3 %}
-                                            <tr class="warning">
-                                            {% endif %}
+                {% include "shifttable.html" %}
+                <!-- ROW  -->
+                {% with nextSundayDate as sundayDate %}
+                    {% with nextSaturdayDate as saturdayDate %}
+                        {% with scheduleNext as schedule %}
+                    {% include "shifttable.html" %}
+                            {% endwith %}
+                {% endwith %}
+                {% endwith %}
 
-                                            <td>
-                                                <label> Role type {{ forloop.counter }} </label>
-                                            </td>
-                                            {% for i in "xxxxxxx" %}
-                                            <td>
-                                            <!-- sel[day][hour][role]-->
-                                                      {% for sft in schedule %}
-                                                          {% if sft.day == forloop.parentloop.counter and sft.hour == forloop.parentloop.parentloop.parentloop.counter0 and sft.role == forloop.parentloop.parentloop.counter %}
-                                                              {% for emp in userlist %}
-                                                                {% if emp.empno == sft.empno %}
-                                                                    {{ emp.firstname }} {{ emp.lastname }}
-                                                                {% endif %}
-                                                              {% endfor %}
-                                                          {% endif %}
-                                                      {% endfor %}
-
-                                            </td>
-                                            {% endfor %}
-                                        </tr>
-                                        {% endif %}
-                                    {% endfor %}
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% endfor %}
-                        </div>
-                    </div>
-                <!-- /. ROW  -->
-                
                 <div class="row">
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="panel panel-primary text-center no-boder bg-color-green">
@@ -148,97 +82,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                {% if schedule2 %}
-                <div class="row">
-                <div class="col-md-12">
-                    <!-- Advanced Tables -->
-                {% for k in "xxx" %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                        {% if forloop.counter == 1 %}
-                            Morning:
-                            {% endif %}
-                        {% if forloop.counter == 2 %}
-                            Evening:
-                            {% endif %}
-                        {% if forloop.counter == 3 %}
-                            Night:
-                            {% endif %}
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover " id="dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>Role</th>
-                                            <th>Sunday</th>
-                                            <th>Monday</th>
-                                            <th>Tuseday</th>
-                                            <th>Wednesday</th>
-                                            <th>Thursday</th>
-                                            <th>Friday</th>
-                                            <th>Saturday</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for j in "xxxx" %}
-                                        {% if not forloop.counter == 4 or forloop.parentloop.counter == 1 %}
-                                        {% if forloop.parentloop.counter == 1 %}
-                                            <tr class="success">
-                                            {% endif %}
-                                        {% if forloop.parentloop.counter == 2 %}
-                                            <tr class="info">
-                                            {% endif %}
-                                        {% if forloop.parentloop.counter == 3 %}
-                                            <tr class="warning">
-                                            {% endif %}
-
-                                            <td>
-                                                <label> Role type {{ forloop.counter }} </label>
-                                            </td>
-                                            {% for i in "xxxxxxx" %}
-                                            <td>
-                                            <!-- sel[day][hour][role]-->
-                                                      {% for sft in schedule2 %}
-                                                          {% if sft.day == forloop.parentloop.counter and sft.hour == forloop.parentloop.parentloop.parentloop.counter0 and sft.role == forloop.parentloop.parentloop.counter %}
-                                                              {% for emp in userlist %}
-                                                                {% if emp.empno == sft.empno %}
-                                                                    {{ emp.firstname }} {{ emp.lastname }}
-                                                                {% endif %}
-                                                              {% endfor %}
-                                                          {% endif %}
-                                                      {% endfor %}
-
-                                            </td>
-                                            {% endfor %}
-                                        </tr>
-                                        {% endif %}
-                                    {% endfor %}
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% endfor %}
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="col-md-3 col-sm-12 col-xs-12">
-                        <div class="panel panel-primary text-center no-boder bg-color-red">
-                            <div class="panel-body">
-                                <i class="fa fa fa-warning fa-5x"></i>
-                                <h3>1 </h3>
-                            </div>
-                            <div class="panel-footer back-footer-red">
-                                Warning
-
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
 
                 <!-- /. ROW  -->
 

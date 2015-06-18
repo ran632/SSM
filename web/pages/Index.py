@@ -21,6 +21,8 @@ class HomeHandler(webapp2.RequestHandler):
 
         template_variables['sundayDate'] = Staticfunctions.getSundayDate(date.today(), 1)
         template_variables['saturdayDate'] = Staticfunctions.getSundayDate(date.today(), 7)
+        template_variables['nextSundayDate'] = Staticfunctions.getSundayDate(date.today()+timedelta(days=7), 1)
+        template_variables['nextSaturdayDate'] = Staticfunctions.getSundayDate(date.today()+timedelta(days=7), 7)
 
         schedule = Shift.qryGetWeekShiftsByDate(date.today())
         template_variables['schedule'] = []
@@ -32,18 +34,19 @@ class HomeHandler(webapp2.RequestHandler):
                 "role": sft.role
             })
 
-        schedule2 = Shift.qryGetWeekShiftsByDate(date.today()+ timedelta(days=7))
-        if schedule2.count == 0:
+        scheduleNext = Shift.qryGetWeekShiftsByDate(date.today()+ timedelta(days=7))
+        if scheduleNext.count == 0:
             print 0
         else:
-            template_variables['schedule2'] = []
-            for sft in schedule:
-                template_variables['schedule2'].append({
+            template_variables['scheduleNext'] = []
+            for sft in scheduleNext:
+                template_variables['scheduleNext'].append({
                     "empno": sft.employee_number,
                     "day": sft.day_of_the_week,
                     "hour": sft.shift_hour,
                     "role": sft.role
                 })
+
         usersList = User.getAllActiveUsers() #QUERY
         template_variables['userlist'] = []
         for tmpuser in usersList:
@@ -109,7 +112,7 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
                     "day_of_the_week": sub.day_of_the_week
                 })
 
-            noteqr = Note.qryGetNoteByEmp(user.employee_number)
+            noteqr = Note.qryGetNoteByEmp(Staticfunctions.nextWeekDate(1) ,user.employee_number)
 
             note = ""
             for nt in noteqr:
@@ -159,6 +162,7 @@ class LoginHandler(webapp2.RequestHandler):
         template_variables = {}
         if user:
             template_variables['user'] = user.email
+            self.redirect('/')
 
         html = template.render('web/templates/Login.html', template_variables)
         self.response.write(html)
