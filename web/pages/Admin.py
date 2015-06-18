@@ -16,7 +16,6 @@ class AdminHandler(webapp2.RequestHandler):
             user = User.checkToken(self.request.cookies.get('our_token'))
 
         template_variables = {}
-        print "DATE = " + self.request.get('date')
         if self.request.get('date') == "":
             givendate = Staticfunctions.nextWeekDate(1)
         else:

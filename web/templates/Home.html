@@ -25,13 +25,15 @@
                     <!-- Advanced Tables -->
                 {% include "shifttable.html" %}
                 <!-- ROW  -->
-                {% with nextSundayDate as sundayDate %}
-                    {% with nextSaturdayDate as saturdayDate %}
-                        {% with scheduleNext as schedule %}
-                    {% include "shifttable.html" %}
+                {% if scheduleNext %}
+                    {% with nextSundayDate as sundayDate %}
+                        {% with nextSaturdayDate as saturdayDate %}
+                            {% with scheduleNext as schedule %}
+                                {% include "shifttable.html" %}
                             {% endwith %}
-                {% endwith %}
-                {% endwith %}
+                        {% endwith %}
+                    {% endwith %}
+                {% endif %}
 
                 <div class="row">
                     <div class="col-md-3 col-sm-12 col-xs-12">

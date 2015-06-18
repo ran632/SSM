@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block head %}
 	{{block.super}}
+    <script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="application/javascript" src="static/js/history.js"></script>
 {%endblock%}
 
 {% block content %}
@@ -13,56 +15,13 @@
                             History  <small>.</small>
                         </h1>
                     </div>
-                </div> 
+                </div>
                  <!-- /. ROW  -->
                 <div class="row">
                 <div class="col-md-12">
-                    <!-- Advanced Tables -->
-                    
-                        <div class="panel-heading">
-                             <small>Choose your History range.</small>
-                        </div>
-                        <div class="panel-body">
-                            
-                            <label>&nbsp;&nbsp;&nbsp;From:&nbsp;&nbsp;&nbsp; </label>
-                             <div class="btn-group">
-								<button class="btn btn-success">-Calender-  </button>
-				                <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">1</a></li>
-                                    </ul>
-				            </div>
-                            
-                            <label>&nbsp;&nbsp;&nbsp;To:&nbsp;&nbsp;&nbsp;</label>
-                            
-                             <div class="btn-group">
-								<button class="btn btn-success">-Calender-  </button>
-				                <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                    </ul>
-				            </div>
-                            
-                                
-                           
-                        </div>
-                        <div class="panel-body">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+                <input type="date" value="{{ sundayDateISO }}" id="cal">
 
-                            <button class="btn btn-info"><i class="fa fa-pencil"></i> Days</button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button class="btn btn-info"><i class="fa fa-pencil"></i> Hours</button>  
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button class="btn btn-info"><i class="fa fa-pencil"></i> Statistic</button>  
-                        </div>
-                
-                    
-				</div>
-             <!-- /. PAGE INNER  -->
+                    {% include "shifttable.html" %}
             </div>
          <!-- /. PAGE WRAPPER  -->
         </div>

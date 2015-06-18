@@ -77,6 +77,38 @@ class HistoryHandler(webapp2.RequestHandler):
         else:
             self.redirect('/Login')
 
+        if self.request.get('date') == "":
+            givendate = Staticfunctions.getSundayDate(date.today(), 1)
+        else:
+            givendate = datetime.strptime(self.request.get('date'), '%Y-%m-%d').date()
+
+        sundayOfGivenDate = Staticfunctions.getSundayDate(givendate,1)
+        template_variables['sundayDateISO'] = sundayOfGivenDate.isoformat()
+        template_variables['sundayDate'] = sundayOfGivenDate
+        template_variables['saturdayDate'] = sundayOfGivenDate + timedelta(days=6)
+
+        schedule = Shift.qryGetWeekShiftsByDate(givendate)
+        template_variables['schedule'] = []
+        for sft in schedule:
+            template_variables['schedule'].append({
+                "empno": sft.employee_number,
+                "day": sft.day_of_the_week,
+                "hour": sft.shift_hour,
+                "role": sft.role
+            })
+
+        usersList = User.getAllUsers() #QUERY
+        template_variables['userlist'] = []
+        for tmpuser in usersList:
+            template_variables['userlist'].append({
+                "empno": tmpuser.employee_number,
+                "email": tmpuser.email,
+                "firstname": tmpuser.first_name,
+                "lastname": tmpuser.last_name,
+                "phone_num": tmpuser.phone_num
+            })
+
+
         html = template.render('web/templates/History.html', template_variables)
         self.response.write(html)
 		
