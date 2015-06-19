@@ -24,7 +24,7 @@ class Shift(ndb.Model):
     @staticmethod
     def qryGetWeekShiftsByDate(tmpdate):
         sundayDate = Staticfunctions.getSundayDate(tmpdate,1)
-        qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s')" % (sundayDate)
+        qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s') ORDER BY day_of_the_week ASC, shift_hour ASC" % (sundayDate)
         return ndb.gql(qry)
 
     @staticmethod
@@ -39,7 +39,19 @@ class Shift(ndb.Model):
     @staticmethod
     def qryGetWeekShiftsByDateEmp(tmpdate, empno):
         sundayDate = Staticfunctions.getSundayDate(tmpdate,1)
-        qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s') AND employee_number = '%s'" % (sundayDate,empno)
+        qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s') AND employee_number = '%s' ORDER BY day_of_the_week ASC, shift_hour ASC" % (sundayDate,empno)
         return ndb.gql(qry)
 
+    @staticmethod
+    def qryGetTwoWeekShiftsByEmp(empno):
+        sundayDate = datetime.combine(Staticfunctions.getSundayDate(date.today(),1), datetime.min.time ())
+        nextSundayDate = Staticfunctions.getSundayDate(date.today()+timedelta(days=7),1)
+        qry = Shift.query(ndb.AND(Shift.employee_number == '%s' % empno,
+                                  Shift.week_sunday_date >= sundayDate))
+        #qry = "SELECT * FROM Shift WHERE week_sunday_date IN (DATE('%s'), DATE('%s')) AND employee_number = '20095' ORDER BY week_sunday_date ASC, day_of_the_week ASC, shift_hour ASC" % (sundayDate,nextSundayDate,empno)
+        return ndb.gql(qry)
+
+    @staticmethod
+    def shiftToString(sft):
+        return Staticfunctions.dayToString(sft.day_of_the_week) + " " + Staticfunctions.hourToString(sft.shift_hour) + " " + (sft.week_sunday_date+timedelta(days=int(sft.day_of_the_week)-1)).strftime("%d/%m/%Y")
 

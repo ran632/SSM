@@ -26,7 +26,7 @@ class Submission(ndb.Model):
 
 class Note(ndb.Model):
     note = ndb.StringProperty()
-    num = ndb.IntegerProperty()
+    num = ndb.IntegerProperty() #number of wanted shifts
     week_sunday_date = ndb.DateProperty()
     employee_number = ndb.StringProperty()
     date_sent = ndb.DateTimeProperty()

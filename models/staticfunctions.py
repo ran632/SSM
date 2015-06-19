@@ -16,6 +16,10 @@ class Staticfunctions():
         return someDate
 
     @staticmethod
+    def dateToDate(sundayDate, day):
+        return sundayDate+timedelta(days=day-1)
+
+    @staticmethod
     def dayToString(day):
         return{
             1:'Sunday',

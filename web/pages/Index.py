@@ -7,6 +7,7 @@ from models.user import User
 from models.shift import Shift
 from models.submission import *
 from models.staticfunctions import Staticfunctions
+from models.switch import Switch
 from datetime import *
 
 
@@ -17,6 +18,9 @@ class HomeHandler(webapp2.RequestHandler):
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
 
+        if not user:
+            self.redirect('/Login')
+            return
 
         template_variables = {}
 
@@ -66,8 +70,7 @@ class HomeHandler(webapp2.RequestHandler):
             })
         if user:
             template_variables['user'] = user.email
-        else:
-            self.redirect('/Login')
+
 
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
@@ -151,12 +154,10 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
                     "day_of_the_week": sub.day_of_the_week
                 })
 
-            noteqr = Note.qryGetNoteByEmp(Staticfunctions.nextWeekDate(1) ,user.employee_number)
-
-            note = ""
-            for nt in noteqr:
-                note = nt.note
-            template_variables['note'] = note
+            note = Note.qryGetNoteByEmp(Staticfunctions.nextWeekDate(1) ,user.employee_number).get()
+            if note != None:
+                template_variables['note'] = note.note
+                template_variables['shiftnum'] = note.num
 
 
             for x in range(1,8):
@@ -177,11 +178,109 @@ class SwitchShiftsHandler(webapp2.RequestHandler):
         template_variables = {}
         if user:
             template_variables['user'] = user.email
+            template_variables['userempno'] = user.employee_number
         else:
             self.redirect('/Login')
+            return
+
+        if self.request.get('cms'): #chosen my shift
+            cms = self.request.get('cms')
+            template_variables['cms'] = cms
+            print cms
+        if self.request.get('ce'): #chosen employee
+            ce = self.request.get('ce')
+            template_variables['ce'] = ce
+
+        usersList = User.getAllActiveUsers() #QUERY
+        template_variables['userlist'] = []
+        for tmpuser in usersList:
+            template_variables['userlist'].append({
+                "empno": tmpuser.employee_number,
+                "name": tmpuser.first_name + " " + tmpuser.last_name,
+            })
+
+        allshifts = Shift.qryGetWeekShiftsByDate(date.today())
+        template_variables['allshifts'] = []
+        for sft in allshifts:
+            template_variables['allshifts'].append({
+                "id": sft.key.id(),
+                "empno": sft.employee_number,
+                "shift": Shift.shiftToString(sft)
+            })
+        allshifts2 = Shift.qryGetWeekShiftsByDate(date.today()+timedelta(days=7))
+        template_variables['allshifts2'] = []
+        for sft in allshifts2:
+            template_variables['allshifts2'].append({
+                "id": sft.key.id(),
+                "empno": sft.employee_number,
+                "shift": Shift.shiftToString(sft)
+            })
+
+        recRequests = Switch.recRequests(user.employee_number)
+        template_variables['recRequests'] = []
+        for req in recRequests:
+            try:
+                from_shift = Shift.shiftToString(Shift.get_by_id(int(req.from_shift_id)))
+            except:
+                from_shift = ""
+            try:
+                to_shift = Shift.shiftToString(Shift.get_by_id(int(req.to_shift_id)))
+            except:
+                to_shift = ""
+            template_variables['recRequests'].append({
+                "id": req.key.id(),
+                "from_empno": req.from_empno,
+                "from_shift": from_shift,
+                "to_shift": to_shift,
+                "status": req.status
+            })
+        myRequests = Switch.myRequests(user.employee_number)
+        template_variables['myRequests'] = []
+        for req in myRequests:
+            try:
+                from_shift = Shift.shiftToString(Shift.get_by_id(int(req.from_shift_id)))
+            except:
+                from_shift = ""
+            try:
+                to_shift = Shift.shiftToString(Shift.get_by_id(int(req.to_shift_id)))
+            except:
+                to_shift = ""
+            template_variables['myRequests'].append({
+                "id": req.key.id(),
+                "from_shift": from_shift,
+                "to_empno": req.to_empno,
+                "to_shift": to_shift,
+                "status": req.status
+            })
 
         html = template.render('web/templates/Switch_shifts.html', template_variables)
         self.response.write(html)
+
+class SwitchAttHandler(webapp2.RequestHandler):
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+            user = User.checkToken(self.request.cookies.get('our_token'))
+        if not user:
+            self.redirect("/")
+            return
+
+        #from_shift_id:from_shift_id, to_empno:to_empno, to_shift_id:to_shift_id
+        from_shift_id = (self.request.get('from_shift_id'))
+        to_empno = (self.request.get('to_empno'))
+        to_shift_id = (self.request.get('to_shift_id'))
+
+        switch = Switch()
+        switch.date = date.today()
+        switch.status = 'pending'
+        switch.from_empno = user.employee_number
+        switch.from_shift_id = from_shift_id
+        switch.to_empno = to_empno
+        switch.to_shift_id = to_shift_id
+        switch.put()
+
+        self.response.set_cookie('our_token', str(user.key.id()))
+        self.response.write(json.dumps({'status': 'OK'}))
 
 
 class FourOFourHandler(webapp2.RequestHandler):
@@ -348,7 +447,11 @@ class SubmissionAttHandler(webapp2.RequestHandler):
         notes.employee_number = user.employee_number
         notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
         notes.date_sent = datetime.now()
-        notes.num = int(self.request.get('numofshifts'))
+        shiftnum = self.request.get('numofshifts')
+        try:
+            notes.num = int(shiftnum)
+        except:
+            pass
         notes.put()
 
         self.response.set_cookie('our_token', str(user.key.id()))
@@ -440,6 +543,7 @@ app = webapp2.WSGIApplication([
     ('/About', AboutHandler),
     ('/SubmissionShifts', SubmissionShiftsHandler),
     ('/SwitchShifts', SwitchShiftsHandler),
+    ('/switchAtt', SwitchAttHandler),
     ('/Login', LoginHandler),
     ('/loginAtt', LoginAttHandler),
     ('/Register', RegisterHandler),

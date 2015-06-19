@@ -103,7 +103,11 @@
                             <select id ="numofshifts">
                             <option/>
                                 {% for i in "xxxxxxxx"  %}
-                                    <option>{{ forloop.counter0 }}</option>
+                                    <option
+                                            {% if forloop.counter0 == shiftnum %}
+                                            selected
+                                            {% endif %}
+                                            >{{ forloop.counter0 }}</option>
                                 {% endfor %}
                             </select>
                             </div>

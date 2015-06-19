@@ -24,6 +24,12 @@ indexes:
   - name: day_of_the_week
   - name: shift_hour
 
+- kind: Shift
+  properties:
+  - name: week_sunday_date
+  - name: day_of_the_week
+  - name: shift_hour
+
 - kind: Submission
   properties:
   - name: employee_number
@@ -43,6 +49,18 @@ indexes:
   - name: day_of_the_week
   - name: shift_hour
   - name: employee_number
+
+- kind: Switch
+  properties:
+  - name: from_empno
+  - name: status
+  - name: date
+
+- kind: Switch
+  properties:
+  - name: to_empno
+  - name: status
+  - name: date
 
 - kind: User
   properties:
