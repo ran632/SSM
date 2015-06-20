@@ -18,6 +18,12 @@ handlers:
 - url: /Admin/(.*)
   script: web.pages.Admin.app
 
+- url: /SwitchShifts
+  script: web.pages.SwitchShifts.app
+
+- url: /SwitchShifts/(.*)
+  script: web.pages.SwitchShifts.app
+
 - url: /(.*)
   script: web.pages.Index.app
   

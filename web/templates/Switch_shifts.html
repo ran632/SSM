@@ -107,8 +107,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for req in recRequests %}
-                                        <tr class="warning">
+                                    {% for req in requests %}
+                                        {% if req.to_empno == userempno %}
+                                        <tr class="
+                                        {% if req.status == "pending" %}warning{% endif %}
+                                        {% if req.status == "approved" %}success{% endif %}
+                                        {% if req.status == "declined" %}danger{% endif %}
+                                            ">
                                             <td>{{ req.to_shift }}</td>
                                             <td>
                                                 {% for emp in userlist %}
@@ -126,6 +131,7 @@
                                                 {% endif %}
                                             </td>
                                         </tr>
+                                        {% endif %}
                                     {% endfor %}
                                     </tbody>
                                 </table>
@@ -155,8 +161,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for req in myRequests %}
-                                        <tr class="warning">
+                                    {% for req in requests %}
+                                        {% if req.from_empno == userempno %}
+                                        <tr class="
+                                        {% if req.status == "pending" %}warning{% endif %}
+                                        {% if req.status == "approved" %}success{% endif %}
+                                        {% if req.status == "declined" %}danger{% endif %}
+                                            ">
                                             <td>{{ req.from_shift }}</td>
                                             <td>
                                                 {% for emp in userlist %}
@@ -167,7 +178,77 @@
                                             </td>
                                             <td>{{ req.to_shift }}</td>
                                             <td>{{ req.status }}</td>
-                                            <td></td>
+                                            <td>
+                                                {% if req.status == "pending" %}
+                                                <button class="btn btn-default" value="2" name="{{ req.id }}"><i class="fa fa-trash-o"></i></button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+
+
+    {% if useradmin %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+				        <div class="panel-heading">
+                         <h3>All Requests</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Sent by</th>
+                                            <th>Shift</th>
+                                            <th>To</th>
+                                            <th>Shift</th>
+                                            <th>Request date</th>
+                                            <th>Status</th>
+                                            <th width="150">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for req in requests %}
+                                        <tr class="
+                                        {% if req.status == "pending" %}warning{% endif %}
+                                        {% if req.status == "approved" %}success{% endif %}
+                                        {% if req.status == "declined" %}danger{% endif %}
+                                            ">
+                                        <td>
+                                            {% for emp in userlist %}
+                                                    {% if emp.empno == req.from_empno %}
+                                                        {{ emp.name }}
+                                                    {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                            <td>{{ req.from_shift }}</td>
+                                            <td>
+                                                {% for emp in userlist %}
+                                                    {% if emp.empno == req.to_empno %}
+                                                        {{ emp.name }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                            <td>{{ req.to_shift }}</td>
+                                            <td>{{ req.date }}</td>
+                                            <td>{{ req.status }}</td>
+                                            <td>
+                                                {% if req.status == "pending" %}
+                                                <button class="btn btn-success" value="1" name="{{ req.id }}"><i class="fa fa-check"></i></button>
+                                                <button class="btn btn-danger" value="0" name="{{ req.id }}"><i class="fa fa-arrows-alt"></i></button>
+                                                {% endif %}
+                                                <button class="btn btn-default" value="2" name="{{ req.id }}"><i class="fa fa-trash-o"></i></button>
+
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -177,6 +258,7 @@
                     </div>
 				</div>
             </div>
+    {% endif %}
 
 
 {%endblock%}

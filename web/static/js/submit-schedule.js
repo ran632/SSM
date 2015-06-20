@@ -19,7 +19,7 @@ $(function() {  //this is jQuery's short notation for "fire all this when page i
 
 		numOfSelectedAfter = $("select:has(option[value='"+this.value+"']:selected)").filter("[name='"+shiftNumAfter(this.name)+"']").length
 		if(numOfSelectedAfter > 0){
-			alert($(this).find("option:selected").text() + " is already selected for " + dayToString(parseInt(parseInt(shiftNumBefore(this.name)/10))) + " " + hourToString(parseInt(parseInt(shiftNumAfter(this.name)%10))));
+			alert($(this).find("option:selected").text() + " is already selected for " + dayToString(parseInt(parseInt(shiftNumAfter(this.name)/10))) + " " + hourToString(parseInt(parseInt(shiftNumAfter(this.name)%10))));
 
 		}
 

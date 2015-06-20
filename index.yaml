@@ -52,6 +52,17 @@ indexes:
 
 - kind: Switch
   properties:
+  - name: date
+  - name: status
+
+- kind: Switch
+  properties:
+  - name: date
+    direction: desc
+  - name: status
+
+- kind: Switch
+  properties:
   - name: from_empno
   - name: status
   - name: date

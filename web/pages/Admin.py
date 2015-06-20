@@ -111,16 +111,19 @@ class SchedulizeHandler(webapp2.RequestHandler):
             return
 
         givendate = datetime.strptime(self.request.get('date'), '%Y-%m-%d').date()
-        print givendate
 
         schedule = json.loads(self.request.get('schedule'))
         sunday_date= Staticfunctions.getSundayDate(givendate, 1)
         #{"empno": empno, "day": dayCount, "hour": hourCount, "role": roleCount}
         for ob in schedule:
-            if ob['empno'] == '':
+
+            shift = Shift.getShiftByDate(sunday_date,int(ob['day']),int(ob['hour']), int(ob['role']))
+            if not ob['empno']:
+                if shift:
+                    shift.key.delete()
                 continue
-            shift = Shift.getShiftByDate(sunday_date,int(ob['day']),int(ob['hour']))
-            if shift == None:
+
+            if not shift:
                 shift = Shift()
             shift.employee_number = ob['empno']
             shift.week_sunday_date = sunday_date
@@ -129,6 +132,12 @@ class SchedulizeHandler(webapp2.RequestHandler):
             shift.role = int(ob['role'])
             shift.put()
         self.response.write(json.dumps({'status':'OK'}))
+
+class FourOFourHandler(webapp2.RequestHandler):
+    def get(self, args=None):
+        template_params = {}
+        html = template.render("web/templates/404.html", template_params)
+        self.response.write(html)
 
 
 

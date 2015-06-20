@@ -4,9 +4,16 @@ $(function() {  //this is jQuery's short notation for "fire all this when page i
 	});
 	$('#submit').on('click', submitSwitch);
 	$('.btn').on('click', function(){
-		if ($(this).attr('value') == 1){
+		var actNum = $(this).attr('value');
+		var actName;
+		if (actNum == 1)
+			actName = 'Approved'
+		if (actNum == 0)
+			actName = 'Declined'
+		if (actNum == 2)
+			actName = 'Remove'
 			$.ajax({
-				url:'/switchApproved',
+				url:'/SwitchShifts/switch' + actName,
 				type:'GET',
 				dataType:'json',
 				data: {req_id:$(this).attr('name')},
@@ -18,22 +25,6 @@ $(function() {  //this is jQuery's short notation for "fire all this when page i
 					console.error(xhr, status, error);
 				}
 			});
-		}
-		else{
-			$.ajax({
-				url:'/switchDeclined',
-				type:'GET',
-				dataType:'json',
-				data: {req_id:$(this).attr('name')},
-				success:function(data, status, xhr) {
-					location.reload();
-				},
-				error:function(xhr, status, error) {
-					alert(xhr.responseText);
-					console.error(xhr, status, error);
-				}
-			});
-		}
 	});
 });
 
@@ -43,7 +34,7 @@ function submitSwitch(){
 	var to_shift_id = $('#othershifts').find('option:selected').attr('id');
 
 	$.ajax({
-		url:'/switchAtt',
+		url:'/SwitchShifts/switchAtt',
 		type:'GET',
 		dataType:'json',
 		data: {from_shift_id:from_shift_id, to_empno:to_empno, to_shift_id:to_shift_id},
