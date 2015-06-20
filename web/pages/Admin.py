@@ -112,19 +112,18 @@ class SchedulizeHandler(webapp2.RequestHandler):
 
         givendate = datetime.strptime(self.request.get('date'), '%Y-%m-%d').date()
         print givendate
-        #delete previous changes
-        nws = Shift.qryGetWeekShiftsByDate(givendate)
-        for sft in nws:
-            sft.key.delete()
 
         schedule = json.loads(self.request.get('schedule'))
+        sunday_date= Staticfunctions.getSundayDate(givendate, 1)
         #{"empno": empno, "day": dayCount, "hour": hourCount, "role": roleCount}
         for ob in schedule:
             if ob['empno'] == '':
                 continue
-            shift = Shift()
+            shift = Shift.getShiftByDate(sunday_date,int(ob['day']),int(ob['hour']))
+            if shift == None:
+                shift = Shift()
             shift.employee_number = ob['empno']
-            shift.week_sunday_date = Staticfunctions.getSundayDate(givendate, 1)
+            shift.week_sunday_date = sunday_date
             shift.day_of_the_week = int(ob['day'])
             shift.shift_hour = int(ob['hour'])
             shift.role = int(ob['role'])

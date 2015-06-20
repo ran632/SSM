@@ -55,3 +55,7 @@ class Shift(ndb.Model):
     def shiftToString(sft):
         return Staticfunctions.dayToString(sft.day_of_the_week) + " " + Staticfunctions.hourToString(sft.shift_hour) + " " + (sft.week_sunday_date+timedelta(days=int(sft.day_of_the_week)-1)).strftime("%d/%m/%Y")
 
+    @staticmethod
+    def getShiftByDate(sunday_date, day, hour):
+        qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s') AND day_of_the_week = %s AND shift_hour = %s" % (sunday_date, day, hour)
+        return ndb.gql(qry).get()
