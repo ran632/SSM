@@ -436,6 +436,61 @@ class DeleteEmployeeAttHandler(webapp2.RequestHandler):
 
         self.response.write(json.dumps({'status': 'OK'}))
 
+class StatisticsHandler(webapp2.RequestHandler):
+    def get(self):
+        user = None
+        if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
+                user = User.checkToken(self.request.cookies.get('our_token'))
+
+        template_variables = {}
+        if user:
+            template_variables['user'] = user.email
+            if user.isAdmin:
+                template_variables['useradmin'] = True
+                usersList = User.getAllUsers() #QUERY
+                template_variables['userlist'] = []
+                for tmpuser in usersList:
+                    template_variables['userlist'].append({
+                        "empno": tmpuser.employee_number,
+                        "name": tmpuser.first_name+" "+tmpuser.last_name
+                    })
+        else:
+            self.redirect("/")
+            return
+        if self.request.get('behalf'):
+            empno = self.request.get('behalf')
+        else:
+            empno = user.employee_number
+        template_variables['behalf'] = empno
+        template_variables['drafted'] = []
+        for day in range(1,8): #days a week 1-7
+            for hour in range(0,3): #shifts a day 0-2
+                template_variables['drafted'].append({
+                    "day": day,
+                    "hour": hour,
+                    "shift_name": Staticfunctions.dayToString(day)[:3] +" "+ Staticfunctions.hourToString(hour),
+                    "countShifts": Shift.countShiftBy(empno,day,hour) ,
+                    "countSubs": Submission.countSubmissionBy(empno,day,hour)
+                })
+
+        template_variables['subVSsft'] = []
+        for ent in Shift.allWeekSundayDate():
+            try:
+                num = Note.qryGetNoteByEmp(ent.week_sunday_date, empno).get().num
+                if num == None:
+                    num = 0
+            except:
+                num = 0
+            print ent.week_sunday_date
+            template_variables['subVSsft'].append({
+                "sunday_date": ent.week_sunday_date.strftime("%Y-%m-%d"),
+                "shifts": int(Shift.countShiftByDate(empno, ent.week_sunday_date)),
+                "subs": int(Submission.countSubmissionByDate(empno, ent.week_sunday_date)),
+                "wanted": int(num)
+            })
+
+        html = template.render('web/templates/Statistics.html', template_variables)
+        self.response.write(html)
 
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
@@ -450,6 +505,7 @@ app = webapp2.WSGIApplication([
     ('/UserProfileAtt', UserProfileAttHandler),
     ('/logout', LogoutHandler),
     ('/personal', PersonalHandler),
+    ('/Statistics', StatisticsHandler),
     ('/submissionAtt', SubmissionAttHandler),
     ('/DeleteEmployee', DeleteEmployeeHandler),
     ('/DeleteEmployeeAtt', DeleteEmployeeAttHandler),

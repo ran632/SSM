@@ -59,3 +59,19 @@ class Shift(ndb.Model):
     def getShiftByDate(sunday_date, day, hour, role):
         qry = "SELECT * FROM Shift WHERE week_sunday_date = DATE('%s') AND day_of_the_week = %s AND shift_hour = %s AND role = %s" % (sunday_date, day, hour, role)
         return ndb.gql(qry).get()
+
+    @staticmethod
+    def countShiftBy(empno, day, hour):
+        qry = "SELECT * FROM Shift WHERE employee_number = '%s' AND day_of_the_week = %s AND shift_hour = %s" % (empno, day, hour)
+        return ndb.gql(qry).count()
+
+    @staticmethod
+    def countShiftByDate(empno, date):
+        qry = "SELECT * FROM Shift WHERE employee_number = '%s' AND week_sunday_date = DATE('%s')" % (empno, date)
+        return ndb.gql(qry).count()
+
+    @staticmethod
+    def allWeekSundayDate():
+        qry = "SELECT DISTINCT week_sunday_date FROM Shift"
+        return ndb.gql(qry)
+

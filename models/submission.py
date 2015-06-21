@@ -24,6 +24,16 @@ class Submission(ndb.Model):
         qry = "SELECT * FROM Submission WHERE week_sunday_date = DATE('%s') AND employee_number = '%s' ORDER BY day_of_the_week ASC, shift_hour ASC" % (nextWeekDate, empno)
         return ndb.gql(qry)
 
+    @staticmethod
+    def countSubmissionBy(empno, day, hour):
+        qry = "SELECT * FROM Submission WHERE employee_number = '%s' AND day_of_the_week = %s AND shift_hour = %s" % (empno, day, hour)
+        return ndb.gql(qry).count()
+
+    @staticmethod
+    def countSubmissionByDate(empno, date):
+        qry = "SELECT * FROM Submission WHERE employee_number = '%s' AND week_sunday_date = DATE('%s')" % (empno, date)
+        return ndb.gql(qry).count()
+
 class Note(ndb.Model):
     note = ndb.StringProperty()
     num = ndb.IntegerProperty() #number of wanted shifts
@@ -46,3 +56,4 @@ class Note(ndb.Model):
     def isSentSubmissionByEmp(tmpdate, empno):
         query = Note.qryGetNoteByEmp(Staticfunctions.getSundayDate(tmpdate,1), empno)
         return query.count()
+

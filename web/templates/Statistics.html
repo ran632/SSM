@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block head %}
+	{{block.super}}
+    <script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="application/javascript" src="static/js/statistics.js"></script>
+    <script type="application/javascript">
+    $.getScript('http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js',function(){
+    $.getScript('http://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.0/morris.min.js',function(){
+
+      Morris.Area({
+        element: 'area-example',
+        data: [
+          { y: 'a', a: 1, b: 2, c: 3 },
+        ],
+        xkey: 'y',
+        ykeys: ['a', 'b', 'c'],
+        labels: ['Drafted','Wanted', 'Marked']
+
+      });
+
+      Morris.Line({
+            element: 'line-example',
+            data: [
+                {% for ent in subVSsft %}
+                    { y: '{{ ent.sunday_date }}', a: {{ ent.shifts }}, b: {{ ent.wanted }}, c: {{ ent.subs }} },
+                {% endfor %}
+            ],
+            xkey: 'y',
+            ykeys: ['a', 'b', 'c'],
+            labels: ['Drafted','Wanted', 'Submissions']
+          });
+
+          Morris.Donut({
+            element: 'donut-example',
+            data: [
+             {label: "Android", value: 12},
+             {label: "iPhone", value: 30},
+             {label: "Other", value: 20}
+            ]
+          });
+
+          Morris.Bar({
+             element: 'bar-example',
+             data: [
+                 {% for dr in drafted %}
+                    {y: '{{ dr.shift_name }}', a: {{ dr.countSubs }}, b: {{ dr.countShifts }}},
+                 {% endfor %}
+             ],
+             xkey: 'y',
+             ykeys: ['a', 'b'],
+             labels: ['Submissions', 'Drafted']
+          });
+
+    });
+});
+    </script>
+{%endblock%}
+
+{% block content %}
+<!-- /. NAV SIDE  -->
+			 <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                            Statistics
+                        </h1>
+                    </div>
+                </div> 
+                            {% if useradmin %}
+                                <select id="emplist">
+                                    <option></option>
+                                    {% for emp in userlist %}
+                                    <option id="{{ emp.empno }}"
+                                            {% if behalf == emp.empno %}
+                                            selected
+                                            {% endif %}
+                                            >{{ emp.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                    <div class="container-fluid">
+                      <hr>
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                        Shift Distribution
+                                    </div>
+                                  <div class="panel-body">
+                                    <div id="bar-example" style="height: 400px; position: relative;"></div>
+                                      </div>
+                                  </div>
+                        </div>
+                      </div>
+
+                        <div class="col-md-12">
+                            <div id="area-example" style="height: 300px; display: none;"></div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                              <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                        Week History Chart
+                                    </div>
+                                  <div class="panel-body">
+                            <div id="line-example" style="height: 300px; position: relative;"></div>
+                                      </div>
+                        </div>
+                              </div>
+                      </div>
+                        <div class="col-md-6">
+                            <div id="donut-example" style="height: 0px; display: none;"></div>
+                        </div>
+
+
+                      </div>
+                    </div>
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+     <!-- /. WRAPPER  -->
+	 </div>
+	 
+{%endblock%}
