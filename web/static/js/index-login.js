@@ -37,7 +37,7 @@ function submitRegister() {
 	var empno = $('#EmployeeNumber').val();
     var phone_num = $('#phone').val();
     $.ajax({
-		url:'/registerAtt',
+		url:'/Admin/registerAtt',
 		type:'GET',
 		dataType:'json',
         data:{email:email, password:password, isAdmin:isAdmin, firstname:firstname, lastname:lastname, empno:empno, phone_num:phone_num},

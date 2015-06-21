@@ -4,9 +4,13 @@
 
 $(function() {  //this is jQuery's short notation for "fire all this when page is ready"
     $('#submit').on('click', submitShift);
+	$('#emplist').on('change', function(){
+		location.href = '/SubmissionShifts?behalf=' + $(this).find('option:selected').attr('id');
+	});
 });
 
 function submitShift() {
+	var behalf = $('#emplist').find('option:selected').attr('id');
 	var shifts = []
 	var notes = $('textarea#notes').val();
 	var numofshifts = $('#numofshifts').val();
@@ -23,7 +27,7 @@ function submitShift() {
 		url:'/submissionAtt',
 		type:'GET',
 		dataType:'json',
-		data:{shifts:JSON.stringify(shifts), notes:notes, numofshifts:numofshifts},
+		data:{shifts:JSON.stringify(shifts), notes:notes, numofshifts:numofshifts, behalf:behalf},
 		success:function(data, status, xhr) {
 			location.reload();
 		},

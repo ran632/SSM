@@ -13,7 +13,6 @@ from datetime import *
 
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
-
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
@@ -141,36 +140,47 @@ class SubmissionShiftsHandler(webapp2.RequestHandler):
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
                 user = User.checkToken(self.request.cookies.get('our_token'))
-
         template_variables = {}
-        if user:
-            template_variables['user'] = user.email
+        if not user:
+            self.redirect("/")
+            return
 
-            nws = Submission.qryGetNextWeekSubmissionsByEmp(user.employee_number) #next week submission by empno
-            template_variables['submissions'] = []
-            for sub in nws:
-                print sub
-                template_variables['submissions'].append({
-                    "shift_hour": sub.shift_hour,
-                    "day_of_the_week": sub.day_of_the_week
+        template_variables['user'] = user.email
+        behalf = self.request.get('behalf')
+        if user.isAdmin:
+            if not behalf:
+                behalf = user.employee_number
+            template_variables['useradmin'] = True
+            usersList = User.getAllUsers() #QUERY
+            template_variables['userlist'] = []
+            for tmpuser in usersList:
+                template_variables['userlist'].append({
+                    "empno": tmpuser.employee_number,
+                    "name": tmpuser.first_name+" "+tmpuser.last_name
                 })
-
-            note = Note.qryGetNoteByEmp(Staticfunctions.nextWeekDate(1) ,user.employee_number).get()
-            if note != None:
-                template_variables['note'] = note.note
-                template_variables['shiftnum'] = note.num
-
-
-            for x in range(1,8):
-                template_variables['day%d' % (x)] = Staticfunctions.nextWeekDate(x)
         else:
-            self.redirect('/Login')
+            behalf = user.employee_number
+        template_variables['behalf'] = behalf
+        nws = Submission.qryGetNextWeekSubmissionsByEmp(behalf) #next week submission by empno
+        template_variables['submissions'] = []
+        for sub in nws:
+            print sub
+            template_variables['submissions'].append({
+                "shift_hour": sub.shift_hour,
+                "day_of_the_week": sub.day_of_the_week
+            })
+
+        note = Note.qryGetNoteByEmp(Staticfunctions.nextWeekDate(1) ,behalf).get()
+        if note != None:
+            template_variables['note'] = note.note
+            template_variables['shiftnum'] = note.num
+
+
+        for x in range(1,8):
+            template_variables['day%d' % (x)] = Staticfunctions.nextWeekDate(x)
 
         html = template.render('web/templates/Submission_shifts.html', template_variables)
         self.response.write(html)
-
-
-
 
 class FourOFourHandler(webapp2.RequestHandler):
     def get(self, args=None):
@@ -213,10 +223,10 @@ class RegisterHandler(webapp2.RequestHandler):
     def get(self):
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
-                user = User.checkToken(self.request.cookies.get('our_token'))
-
+            user = User.checkToken(self.request.cookies.get('our_token'))
         template_variables = {}
-        if user:
+        template_variables['user'] = user.email
+        if not user or not user.isAdmin:
             self.redirect('/')
 
         html = template.render('web/templates/Register.html', template_variables)
@@ -281,7 +291,6 @@ class RegisterAttHandler(webapp2.RequestHandler):
         user.phone_num = phone_num
         user.isActive = True
         user.put()
-        self.response.set_cookie('our_token', str(user.key.id()))
         self.response.write(json.dumps({'status': 'OK'}))
 
 
@@ -304,15 +313,18 @@ class PersonalHandler(webapp2.RequestHandler):
         html = template.render('web/templates/Home.html', template_variables)
         self.response.write(html)
 
-
 class SubmissionAttHandler(webapp2.RequestHandler):
     def get(self):
+
         user = None
         if self.request.cookies.get('our_token'):    #the cookie that should contain the access token!
             user = User.checkToken(self.request.cookies.get('our_token'))
         if not user:
             self.redirect("/")
-        nws = Submission.qryGetNextWeekSubmissionsByEmp(user.employee_number)
+        behalf = self.request.get('behalf')
+        if not behalf:
+            behalf = user.employee_number
+        nws = Submission.qryGetNextWeekSubmissionsByEmp(behalf)
         for sub in nws:
             sub.key.delete()
 
@@ -323,17 +335,17 @@ class SubmissionAttHandler(webapp2.RequestHandler):
             submission.shift_hour = int(tmpshift['shiftHour'])
             submission.day_of_the_week = int(tmpshift['weekDay'])
             submission.week_sunday_date = Staticfunctions.nextWeekDate(1)
-            submission.employee_number = user.employee_number
+            submission.employee_number = behalf
             submission.put()
 
-        lastnote = Note.qryGetNoteByEmp(Staticfunctions.nextWeekDate(1),user.employee_number)
+        lastnote = Note.qryGetNoteByEmp(Staticfunctions.nextWeekDate(1),behalf)
         for tmpnote in lastnote:
             tmpnote.key.delete()
 
 
         notes = Note()
         notes.note = self.request.get('notes')
-        notes.employee_number = user.employee_number
+        notes.employee_number = behalf
         notes.week_sunday_date = Staticfunctions.nextWeekDate(1)
         notes.date_sent = datetime.now()
         shiftnum = self.request.get('numofshifts')

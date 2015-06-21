@@ -90,6 +90,10 @@ class AdminHandler(webapp2.RequestHandler):
                 "numofshifts": note.num
             })
 
+        progress = (float(allNotes.count())/float(usersList.count()))*100
+        print progress
+        template_variables['progress'] = progress
+
         if user and user.isAdmin == True:
             template_variables['user'] = user.email
         else:
