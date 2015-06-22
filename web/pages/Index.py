@@ -31,7 +31,7 @@ class HomeHandler(webapp2.RequestHandler):
                 "role": sft.role
             })
 
-        schedule2 = Shift.qryGetWeekShiftsByDate(date.today()+ timedelta(days=7))
+        schedule2 = Shift.qryGetWeekShiftsByDate(date.today()+timedelta(days=7))
         if schedule2.count == 0:
             print 0
         else:

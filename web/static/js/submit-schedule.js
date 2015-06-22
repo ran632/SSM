@@ -6,18 +6,23 @@ $(function() {  //this is jQuery's short notation for "fire all this when page i
 
 function submitSchedule() {
 	var schedule = new Array();
-	for(dayCount = 1 ; dayCount < 8 ; dayCount++){
-		for(hourCount = 0 ; hourCount < 3 ; hourCount++){
-			for(roleCount = 1 ; roleCount < 4 ; roleCount++) {
+	for(var dayCount = 1 ; dayCount < 8 ; dayCount++){
+		for(var hourCount = 0 ; hourCount < 3 ; hourCount++){
+			for(var roleCount = 1 ; roleCount < 4 ; roleCount++) {
 				var empno = document.getElementById("sel" + dayCount + hourCount + roleCount).value;
-				schedule.push({"empno": empno, "day": dayCount, "hour": hourCount, "role": roleCount})
+                var i = dayCount;
+                var j = hourCount;
+                var k = roleCount;
+				schedule.push({"empno": empno, "day": i, "hour": j, "role": k});
+                //schedule.push({"day": i});
+                //schedule.push({"hour": j});
+                //schedule.push({"role": k});
 			}
 		}
 	}
-
 	$.ajax({
 		url:'/Admin/schedulizeAtt',
-		type:'GET',
+		type:'POST',
 		dataType:'json',
 		data: {schedule:JSON.stringify(schedule)},
 		success:function(data, status, xhr) {
@@ -28,7 +33,6 @@ function submitSchedule() {
 			console.error(xhr, status, error);
 		}
 	});
-
 }
 
 function dateChanged(){

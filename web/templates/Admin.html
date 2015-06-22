@@ -26,12 +26,12 @@
                 </div>
                 
                 <button class="btn btn-primary"><i class="fa fa-edit "></i> Edit Schdule</button>
-                <button class="btn btn-success"><i class="fa fa-user "></i> Create New Employee</button>
-                <button  onclick="window.location='DeleteEmployee'" class="btn btn-danger"><i class="fa fa-pencil"></i> Delete Employee</button>
+                <button onclick="window.location='Register'" class="btn btn-success"><i class="fa fa-user "></i> Create New Employee</button>
+                <button onclick="window.location='DeleteEmployee'" class="btn btn-danger"><i class="fa fa-pencil"></i> Delete Employee</button>
 
                 <input type="date" value="{{ sundayDateISO }}" id="cal">
                 <h1 class="pager">
-                    <small>Weekly Schdule: {{ sundayDate }} - {{ saturdayDate }}</small>
+                    <small>Weekly Schedule: {{ sundayDate }} - {{ saturdayDate }}</small>
                 </h1>
 
                 <div class="panel panel-default">
@@ -150,7 +150,7 @@
                                             <th>Role</th>
                                             <th>Sunday</th>
                                             <th>Monday</th>
-                                            <th>Tuseday</th>
+                                            <th>Tuesday</th>
                                             <th>Wednesday</th>
                                             <th>Thursday</th>
                                             <th>Friday</th>
@@ -176,6 +176,7 @@
                                             {% for i in "xxxxxxx" %}
                                             <td>
                                             <!-- sel[day][hour][role]-->
+
                                                       <select class="form-control" id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
                                                       <option></option>
                                                       {% for emp in userlist %}
