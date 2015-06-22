@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block head %}
 	{{block.super}}
+    <script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="application/javascript" src="static/js/switchshifts.js"></script>
 {%endblock%}
 
 {% block content %}
@@ -14,65 +16,249 @@
                 </div> 
                  <!-- /. ROW  -->
                 <div class="row">
-                <div class="col-md-12">
-                    <!-- Advanced Tables -->
-                    
-                    <div class="panel-body">
-                        <label>Selects Date:</label>
-                            <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
+                <div class="col-md-4 col-sm-4">
+                    <div class="panel panel-primary">
+				        <div class="panel-heading">
+                         Switch
+                        </div>
+                        <div class="panel-body">
+                            <h4>Choose employee</h4>
+                            <select id="emplist">
+                                <option/>
+                                {% for emp in userlist %}
+                                    {% if emp.empno != userempno %}
+                                        <option id="{{ emp.empno }}"
+                                                {% if emp.empno == ce %}
+                                                    selected
+                                                    {% endif %}
+                                                >{{ emp.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
                             </select>
-                    </div>
-                        
-                    <div class="panel-body">
-                        <label>Shift Type:</label>
-                        <label class="radio-inline">
-                            <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="">Morning
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">Evening
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline3" value="option3">Night
-                        </label>
-                    </div>
-                    
-                    <div class="panel-body">
-                        <label>Selects Employee:</label>
-                            <select class="form-control">
-                                    <option>Employee1</option>
-                                    <option>Employee2</option>
-                                    <option>Employee3</option>
+                            <h4>Your shifts</h4>
+                            <select id="myshifts">
+                                <option/>
+                                {% for sft in allshifts %}
+                                    {% if sft.empno == userempno %}
+                                        <option id="{{ sft.id }}"
+                                                {% if sft.id == cms %}
+                                                    selected
+                                                {% endif %}
+                                                >{{ sft.shift }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for sft in allshifts2 %}
+                                    {% if sft.empno == userempno %}
+                                        <option id="{{ sft.id }}"
+                                                {% if sft.id == cms %}
+                                                    selected
+                                                {% endif %}
+                                                >{{ sft.shift }}</option>
+                                    {% endif %}
+                                {% endfor %}
                             </select>
-                    </div>
-                        
-                    <div class="panel-body">
-                            <div class="form-group">
-                                <label>Notes:</label>
-                                <textarea class="form-control" rows="3"></textarea>
-                            </div>
-                    </div>
-                            
-                    <div class="panel-body">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-default center-block">Submit Requset:</button>
-                            </div>
-                    </div>
-                        
 
-                    
-            
-                    
+
+                            <h4>His/Her shifts</h4>
+                            <select id ="othershifts">
+                                <option/>
+                                {% for sft in allshifts %}
+                                    {% if ce == sft.empno %}
+                                        <option id="{{ sft.id }}">{{ sft.shift }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for sft in allshifts2 %}
+                                    {% if ce == sft.empno %}
+                                        <option id="{{ sft.id }}">{{ sft.shift }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        <br>
+                        <br>
+                        <h5>
+                        <button id="submit">submit</button>
+                            </h5>
+                        </div>
+
+				    </div>
+                    <!-- Advanced Tables -->
+
 				</div>
              <!-- /. PAGE INNER  -->
             </div>
-         <!-- /. PAGE WRAPPER  -->
-        </div>
-     <!-- /. WRAPPER  -->
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+				        <div class="panel-heading">
+                         <h3>Received Requests</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>My Shift</th>
+                                            <th>Switch with</th>
+                                            <th>His/Her Shift</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for req in requests %}
+                                        {% if req.to_empno == userempno %}
+                                        <tr class="
+                                        {% if req.status == "pending" %}warning{% endif %}
+                                        {% if req.status == "approved" %}success{% endif %}
+                                        {% if req.status == "declined" %}danger{% endif %}
+                                            ">
+                                            <td>{{ req.to_shift }}</td>
+                                            <td>
+                                                {% for emp in userlist %}
+                                                    {% if emp.empno == req.from_empno %}
+                                                        {{ emp.name }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                            <td>{{ req.from_shift }}</td>
+                                            <td>{{ req.status }}</td>
+                                            <td>
+                                                {% if req.status == "pending" %}
+                                                <button class="btn btn-success" value="1" name="{{ req.id }}"><i class="fa fa-check"></i></button>
+                                                <button class="btn btn-danger" value="0" name="{{ req.id }}"><i class="fa fa-arrows-alt"></i></button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+				</div>
+            </div>
+                 <!-- /. ROW  -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+				        <div class="panel-heading">
+                         <h3>My Requests</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>My Shift</th>
+                                            <th>Switch with</th>
+                                            <th>His/Her Shift</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for req in requests %}
+                                        {% if req.from_empno == userempno %}
+                                        <tr class="
+                                        {% if req.status == "pending" %}warning{% endif %}
+                                        {% if req.status == "approved" %}success{% endif %}
+                                        {% if req.status == "declined" %}danger{% endif %}
+                                            ">
+                                            <td>{{ req.from_shift }}</td>
+                                            <td>
+                                                {% for emp in userlist %}
+                                                    {% if emp.empno == req.to_empno %}
+                                                        {{ emp.name }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                            <td>{{ req.to_shift }}</td>
+                                            <td>{{ req.status }}</td>
+                                            <td>
+                                                {% if req.status == "pending" %}
+                                                <button class="btn btn-default" value="2" name="{{ req.id }}"><i class="fa fa-trash-o"></i></button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+
+
+    {% if useradmin %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+				        <div class="panel-heading">
+                         <h3>All Requests</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Sent by</th>
+                                            <th>Shift</th>
+                                            <th>To</th>
+                                            <th>Shift</th>
+                                            <th>Request date</th>
+                                            <th>Status</th>
+                                            <th width="150">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for req in requests %}
+                                        <tr class="
+                                        {% if req.status == "pending" %}warning{% endif %}
+                                        {% if req.status == "approved" %}success{% endif %}
+                                        {% if req.status == "declined" %}danger{% endif %}
+                                            ">
+                                        <td>
+                                            {% for emp in userlist %}
+                                                    {% if emp.empno == req.from_empno %}
+                                                        {{ emp.name }}
+                                                    {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                            <td>{{ req.from_shift }}</td>
+                                            <td>
+                                                {% for emp in userlist %}
+                                                    {% if emp.empno == req.to_empno %}
+                                                        {{ emp.name }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                            <td>{{ req.to_shift }}</td>
+                                            <td>{{ req.date }}</td>
+                                            <td>{{ req.status }}</td>
+                                            <td>
+                                                {% if req.status == "pending" %}
+                                                <button class="btn btn-success" value="1" name="{{ req.id }}"><i class="fa fa-check"></i></button>
+                                                <button class="btn btn-danger" value="0" name="{{ req.id }}"><i class="fa fa-arrows-alt"></i></button>
+                                                {% endif %}
+                                                <button class="btn btn-default" value="2" name="{{ req.id }}"><i class="fa fa-trash-o"></i></button>
+
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+    {% endif %}
+
+
 {%endblock%}

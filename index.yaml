@@ -10,6 +10,26 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Shift
+  properties:
+  - name: day_of_the_week
+  - name: shift_hour
+  - name: week_sunday_date
+  - name: employee_number
+
+- kind: Shift
+  properties:
+  - name: employee_number
+  - name: week_sunday_date
+  - name: day_of_the_week
+  - name: shift_hour
+
+- kind: Shift
+  properties:
+  - name: week_sunday_date
+  - name: day_of_the_week
+  - name: shift_hour
+
 - kind: Submission
   properties:
   - name: employee_number
@@ -28,6 +48,47 @@ indexes:
   - name: week_sunday_date
   - name: day_of_the_week
   - name: shift_hour
+  - name: employee_number
+
+- kind: Switch
+  properties:
+  - name: date
+  - name: status
+
+- kind: Switch
+  properties:
+  - name: date
+    direction: desc
+  - name: status
+
+- kind: Switch
+  properties:
+  - name: from_empno
+  - name: status
+  - name: date
+
+- kind: Switch
+  properties:
+  - name: status
+  - name: date
+    direction: desc
+
+- kind: Switch
+  properties:
+  - name: status
+    direction: desc
+  - name: date
+    direction: desc
+
+- kind: Switch
+  properties:
+  - name: to_empno
+  - name: status
+  - name: date
+
+- kind: User
+  properties:
+  - name: email
   - name: employee_number
 
 - kind: User

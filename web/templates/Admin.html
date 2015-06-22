@@ -25,13 +25,19 @@
                     </div>
                 </div>
                 
-                <button class="btn btn-primary"><i class="fa fa-edit "></i> Edit Schdule</button>
-                <button onclick="window.location='Register'" class="btn btn-success"><i class="fa fa-user "></i> Create New Employee</button>
-                <button onclick="window.location='DeleteEmployee'" class="btn btn-danger"><i class="fa fa-pencil"></i> Delete Employee</button>
 
+                <button onclick="window.location='Register'"class="btn btn-info"><i class="fa fa-user "></i> Add New Employee</button>
+                <button  onclick="window.location='DeleteEmployee'" class="btn btn-danger"><i class="fa fa-pencil"></i> Delete Employee</button>
+                {% for sub in nextWeekSubmissions %}
+                    {% if sub.day == 0 or sub.day == 8 %}
+                        <select class = "shiftselect" name="{{ sub.day }}{{ sub.hour }}" style="display:none;">
+                            <option value="{{ sub.empno }}" selected></option>
+                        </select>
+                    {% endif %}
+                {% endfor %}
                 <input type="date" value="{{ sundayDateISO }}" id="cal">
                 <h1 class="pager">
-                    <small>Weekly Schedule: {{ sundayDate }} - {{ saturdayDate }}</small>
+                    <small>Weekly Schdule: {{ sundayDate }} - {{ saturdayDate }}</small>
                 </h1>
 
                 <div class="panel panel-default">
@@ -39,6 +45,10 @@
                         Employees' submission so far
                     </div>
                     <div class="panel-body">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ progress }}%">
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
@@ -80,50 +90,55 @@
                                 </tbody>
                             </table>
                         </div>
-                    <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover">
-                            </table>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Employees' Notes
-                    </div>
-                    <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th width="10%">Employee Name </th>
-                                        <th width="70%">Note </th>
+                                        <th width="10%">Name </th>
+                                        <th width="60%">Note </th>
                                         <th width="20%">Date sent </th>
+                                        <th width="5%"><i class="fa fa-table"></i></th>
+                                        <th width="5%"><i class="fa fa-edit"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for note in notes %}
-                                    <tr>
+                                {% for emp in userlist %}
+                                    <tr class="{% if emp.isSent == 0 %}danger{% else %}success{% endif %}" id="tr{{ emp.empno }}">
                                         <td><b>
-                                            {% for emp in userlist %}
+                                            {{ emp.firstname }} {{ emp.lastname }}
+                                        </b></td>
+                                        <td>
+                                            {% for note in notes %}
                                                 {% if emp.empno == note.empno %}
-                                                    {{ emp.firstname }} {{ emp.lastname }}
+                                                    {{ note.note }}
                                                 {% endif %}
                                             {% endfor %}
-                                        </b></td>
-                                        <td> {{ note.note }}</td>
-                                        <td> {{ note.date_sent }}</td>
+                                        </td>
+                                        <td>
+                                            {% for note in notes %}
+                                                {% if emp.empno == note.empno %}
+                                                    {{ note.date_sent }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                    <td>
+                                        {% for note in notes %}
+                                                {% if emp.empno == note.empno %}
+                                                    {{ note.numofshifts }}
+                                                {% endif %}
+                                            {% endfor %}
+                                    </td>
+                                    <td id="count{{ emp.empno }}">
+                                        <!-- sum of chosen-->
+                                    </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-                    <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover">
-                            </table>
-                    </div>
                     </div>
                 </div>
+
 
 
                 <div class="row">
@@ -150,7 +165,7 @@
                                             <th>Role</th>
                                             <th>Sunday</th>
                                             <th>Monday</th>
-                                            <th>Tuesday</th>
+                                            <th>Tuseday</th>
                                             <th>Wednesday</th>
                                             <th>Thursday</th>
                                             <th>Friday</th>
@@ -176,8 +191,9 @@
                                             {% for i in "xxxxxxx" %}
                                             <td>
                                             <!-- sel[day][hour][role]-->
-
-                                                      <select class="form-control" id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
+                                                      <select class="form-control shiftselect thisweek"
+                                                              name="{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}"
+                                                              id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
                                                       <option></option>
                                                       {% for emp in userlist %}
                                                               <option
@@ -213,7 +229,7 @@
                     {% endfor %}
                         </div>
                     <div class="form-group">
-                        <button class="center-block" id="submit">Submit</button>
+                        <button id="submit">Submit</button>
                     </div>
                 <!-- /. ROW  -->
 
@@ -229,6 +245,7 @@
                                     <p>
                                         <button id="edit" class="btn btn-primary"><i class="fa fa-edit "></i> Edit Users</button>
                                     </p>
+
                                         <thead>
                                             <tr>
                                                 <th>S No.</th>
@@ -241,12 +258,12 @@
                                         </thead>
                                         <tbody>
                                             {% for emp in userlist %}
-                                                <tr class="{% if emp.isSent == 0 %}danger{% else %}success{% endif %}">
+                                                <tr>
                                                     <td>{{ forloop.counter }}</td>
-                                                    <td id="empno">{{ emp.empno }}</td>
+                                                    <td class="empno" contenteditable='false' id="empno">{{ emp.empno }}</td>
                                                     <td contenteditable='false' id="firstname">{{ emp.firstname }}</td>
                                                     <td contenteditable='false' id="lastname">{{ emp.lastname }}</td>
-                                                    <td id="email">{{ emp.email }}</td>
+                                                    <td contenteditable='false' id="email">{{ emp.email }}</td>
                                                     <td contenteditable='false' id="phone_num">{{ emp.phone_num }}</td>
 {#                                                    <th><button id="edit" name="edit">Edit User</button></th>#}
                                                 </tr>

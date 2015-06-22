@@ -10,7 +10,7 @@
 			 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            Submission shifts  <small>.</small>
+                            Submission shifts
                         </h1>
                     </div>
                 </div> 
@@ -20,7 +20,20 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            {% if useradmin %}
+                                <select id="emplist">
+                                    <option></option>
+                                    {% for emp in userlist %}
+                                    <option id="{{ emp.empno }}"
+                                            {% if behalf == emp.empno %}
+                                            selected
+                                            {% endif %}
+                                            >{{ emp.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
                              <small>Submit your shifts here.</small>
+                            {% endif %}
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -100,11 +113,21 @@
                                         
                                     </tbody>
                                 </table>
+                            <select id ="numofshifts">
+                            <option/>
+                                {% for i in "xxxxxxxx"  %}
+                                    <option
+                                            {% if forloop.counter0 == shiftnum %}
+                                            selected
+                                            {% endif %}
+                                            >{{ forloop.counter0 }}</option>
+                                {% endfor %}
+                            </select>
                             </div>
                             
                         </div>
                     </div>
-                
+
                     <div class="form-group">
                         <label>Notes</label>
                         <textarea class="form-control" rows="3" name="notes" id="notes">{{ note }}</textarea>
