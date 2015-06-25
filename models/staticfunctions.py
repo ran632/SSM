@@ -15,6 +15,7 @@ class Staticfunctions():
         someDate += timedelta(days=day-1)
         return someDate
 
+
     @staticmethod
     def dateToDate(sundayDate, day):
         return sundayDate+timedelta(days=day-1)

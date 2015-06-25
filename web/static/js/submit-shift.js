@@ -1,16 +1,24 @@
 /**
  * Created by Yuri on 5/20/2015.
  */
+var caldate;
+var behalf;
 
 $(function() {  //this is jQuery's short notation for "fire all this when page is ready"
     $('#submit').on('click', submitShift);
-	$('#emplist').on('change', function(){
-		location.href = '/SubmissionShifts?behalf=' + $(this).find('option:selected').attr('id');
-	});
+	$('#emplist').on('change', modArgs);
+	$('#cal').on('change', modArgs);
 });
 
+function modArgs(){
+	behalf = $('#emplist').find('option:selected').attr('id');
+	caldate = $('#cal').val();
+	location.href = '/SubmissionShifts?behalf=' + behalf + "&date=" + caldate;
+}
+
 function submitShift() {
-	var behalf = $('#emplist').find('option:selected').attr('id');
+	behalf = $('#emplist').find('option:selected').attr('id');
+	caldate = $('#cal').val();
 	var shifts = []
 	var notes = $('textarea#notes').val();
 	var numofshifts = $('#numofshifts').val();
@@ -27,7 +35,7 @@ function submitShift() {
 		url:'/submissionAtt',
 		type:'GET',
 		dataType:'json',
-		data:{shifts:JSON.stringify(shifts), notes:notes, numofshifts:numofshifts, behalf:behalf},
+		data:{shifts:JSON.stringify(shifts), notes:notes, numofshifts:numofshifts, behalf:behalf, date:caldate},
 		success:function(data, status, xhr) {
 			location.reload();
 		},
