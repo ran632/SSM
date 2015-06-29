@@ -25,10 +25,10 @@
                                             {% for emp in userlist %}
                                                 <tr>
                                                     <td>{{ forloop.counter }}</td>
-                                                    <td class="empno" contenteditable='false' id="empno">{{ emp.empno }}</td>
+                                                    <td class="empno" id="empno">{{ emp.empno }}</td>
                                                     <td contenteditable='false' id="firstname">{{ emp.firstname }}</td>
                                                     <td contenteditable='false' id="lastname">{{ emp.lastname }}</td>
-                                                    <td contenteditable='false' id="email">{{ emp.email }}</td>
+                                                    <td id="email">{{ emp.email }}</td>
                                                     <td contenteditable='false' id="phone_num">{{ emp.phone_num }}</td>
 {#                                                    <th><button id="edit" name="edit">Edit User</button></th>#}
                                                 </tr>
