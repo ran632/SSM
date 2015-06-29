@@ -47,7 +47,7 @@
                                                               <option
                                                                 {% for sub in nextWeekSubmissions %}
                                                                         {% if emp.empno == sub.empno and sub.day == forloop.parentloop.parentloop.counter and sub.hour == forloop.parentloop.parentloop.parentloop.parentloop.counter0 %}
-                                                                            data ="1" class ="greenColor"
+                                                                            class ="greenColor"
                                                                         {% endif %}
                                                                 {% endfor %}
                                                                        value ="{{ emp.empno }}"
