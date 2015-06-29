@@ -51,7 +51,7 @@
                                         <tr>
                                             <th>Sunday<br>{{ day1 }}</th>
                                             <th>Monday<br>{{ day2 }}</th>
-                                            <th>Tuseday<br>{{ day3 }}</th>
+                                            <th>Tuesday<br>{{ day3 }}</th>
                                             <th>Wednesday<br>{{ day4 }}</th>
                                             <th>Thursday<br>{{ day5 }}</th>
                                             <th>Friday<br>{{ day6 }}</th>
@@ -122,6 +122,7 @@
                                         
                                     </tbody>
                                 </table>
+                            Number of shifts:
                             <select id ="numofshifts">
                             <option/>
                                 {% for i in "xxxxxxxx"  %}
@@ -131,6 +132,7 @@
                                             {% endif %}
                                             >{{ forloop.counter0 }}</option>
                                 {% endfor %}
+
                             </select>
                             </div>
                             

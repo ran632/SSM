@@ -49,29 +49,18 @@ function saveProfile() {
         }
     }
 
-
-    for(var i = 1 ; i < rowLength; i++){
-        var empno = arr[i][1];
-        var firstname = arr[i][2];
-        var lastname = arr[i][3];
-        var email = arr[i][4];
-        var phone_num = arr[i][5];
-
-        $.ajax({
-            url:'/UserProfileAtt',
-            type:'GET',
-            dataType:'json',
-            data:{empno:empno, firstname:firstname, lastname:lastname, email:email, phone_num:phone_num},
-            success:function(data, status, xhr) {
-                document.location.href = '/Admin';
-            },
-            error:function(xhr, status, error) {
-                alert(xhr.responseText);
-                console.error(xhr, status, error);
-            }
-        });
-    }
-
-
+    $.ajax({
+        url:'/UserProfileAtt',
+        type:'POST',
+        dataType:'json',
+        data:{editArr:JSON.stringify(arr), rowLength:rowLength},
+        success:function(data, status, xhr) {
+            document.location.href = '/Admin';
+        },
+        error:function(xhr, status, error) {
+            alert(xhr.responseText);
+            console.error(xhr, status, error);
+        }
+    });
 
 }
