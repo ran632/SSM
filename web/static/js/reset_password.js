@@ -9,11 +9,12 @@ $(function() {  //this is jQuery's short notation for "fire all this when page i
 function resetPass() {
     var email = $('#repeat_email').val();
     var password = $('#reset_password').val();
+    var repeat_password = $('#repeat_password').val();
     $.ajax({
 		url:'/ResetPasswordAtt',
 		type:'GET',
 		dataType:'json',
-        data:{email:email, password:password},
+        data:{email:email, password:password, repeat_password: repeat_password},
 		success:function(data, status, xhr) {
             document.location.href = '/Login';
 		},
