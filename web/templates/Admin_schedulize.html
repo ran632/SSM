@@ -43,21 +43,33 @@
                                                               name="{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}"
                                                               id="sel{{ forloop.counter }}{{ forloop.parentloop.parentloop.counter0 }}{{ forloop.parentloop.counter }}">
                                                       <option></option>
-                                                      {% for emp in userlist %}
-                                                              <option
-                                                                {% for sub in nextWeekSubmissions %}
-                                                                        {% if emp.empno == sub.empno and sub.day == forloop.parentloop.parentloop.counter and sub.hour == forloop.parentloop.parentloop.parentloop.parentloop.counter0 %}
-                                                                            class ="greenColor"
+                                                      {% for day in pop %}
+                                                        {% if forloop.counter0 == forloop.parentloop.counter %}
+                                                            {% for hour in day %}
+                                                                {% if forloop.counter0 == forloop.parentloop.parentloop.parentloop.parentloop.counter0 %}
+                                                                    {% for role in hour %}
+                                                                        {% if forloop.counter0 == forloop.parentloop.parentloop.parentloop.parentloop.counter %}
+                                                                            {% for nom in role %}
+                                                                                <option
+                                                                                    {% if nom.isSubbed %}
+                                                                                        class ="greenColor"
+                                                                                        {% else %}
+                                                                                        class ="redColor"
+                                                                                        {% endif %}
+                                                                                    value="{{ nom.empno }}"
+                                                                                    {% if nom.isSelected %}
+                                                                                    selected
+                                                                                    {% endif %}
+                                                                                >
+                                                                                {{ nom.name }}
+                                                                                </option>
+                                                                            {% endfor %}
                                                                         {% endif %}
-                                                                {% endfor %}
-                                                                       value ="{{ emp.empno }}"
-                                                                      {% for sft in shifts %}
-                                                                            {% if sft.empno == emp.empno and sft.day == forloop.parentloop.parentloop.counter and sft.hour == forloop.parentloop.parentloop.parentloop.parentloop.counter0 and sft.role == forloop.parentloop.parentloop.parentloop.counter %}
-                                                                                selected
-                                                                            {% endif %}
-                                                                        {% endfor %}
-                                                                      >{{ emp.firstname }} {{ emp.lastname }}</option>
-                                                                        {% endfor %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                          {% endif %}
+                                                      {% endfor %}
                                                       </select>
                                             </td>
 
