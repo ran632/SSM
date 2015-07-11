@@ -96,6 +96,7 @@ indexes:
   - name: email
   - name: employee_number
   - name: first_name
+    direction: asc
   - name: isActive
   - name: last_name
   - name: phone_num
@@ -105,6 +106,7 @@ indexes:
   - name: email
   - name: employee_number
   - name: first_name
+    direction: asc
   - name: last_name
 
 - kind: User
@@ -112,6 +114,17 @@ indexes:
   - name: email
   - name: employee_number
   - name: first_name
+    direction: asc
+  - name: last_name
+  - name: phone_num
+
+- kind: User
+  properties:
+  - name: first_name
+    direction: asc
+  - name: email
+  - name: employee_number
+  - name: isActive
   - name: last_name
   - name: phone_num
 
@@ -126,7 +139,9 @@ indexes:
   - name: email
   - name: employee_number
   - name: first_name
+    direction: asc
   - name: last_name
+    direction: asc
 
 - kind: User
   properties:
@@ -134,5 +149,23 @@ indexes:
   - name: email
   - name: employee_number
   - name: first_name
+    direction: asc
   - name: last_name
   - name: phone_num
+
+- kind: User
+  properties:
+  - name: isActive
+  - name: first_name
+    direction: asc
+
+- kind: User
+  properties:
+  - name: isActive
+  - name: first_name
+    direction: asc
+  - name: email
+  - name: employee_number
+  - name: last_name
+  - name: phone_num
+
