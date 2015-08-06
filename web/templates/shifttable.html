@@ -26,27 +26,35 @@
                                     <tbody>
                                     {% for j in "xxxx" %}
                                         {% if not forloop.counter == 4 or forloop.parentloop.counter == 1 %}
+                                            <tr
                                         {% if forloop.parentloop.counter == 1 %}
-                                            <tr class="success">
+                                            class="success"
                                             {% endif %}
                                         {% if forloop.parentloop.counter == 2 %}
-                                            <tr class="info">
+                                            class="info"
                                             {% endif %}
                                         {% if forloop.parentloop.counter == 3 %}
-                                            <tr class="warning">
+                                            class="warning"
                                             {% endif %}
+                                         {% if forloop.counter == 1 %}
+                                             style="font-weight:bold"
+                                             {% endif %}
+                                                    >
 
                                             <td>
                                                 <label>{{ forloop.counter }}</label>
                                             </td>
                                             {% for i in "xxxxxxx" %}
-                                            <td>
-                                            <!-- sel[day][hour][role]-->
+                                                <!-- sel[day][hour][role]-->
+                                            <td
                                                       {% for sft in schedule %}
                                                           {% if sft.day == forloop.parentloop.counter and sft.hour == forloop.parentloop.parentloop.parentloop.counter0 and sft.role == forloop.parentloop.parentloop.counter %}
                                                               {% for emp in userlist %}
                                                                 {% if emp.empno == sft.empno %}
-                                                                    {{ emp.firstname }} {{ emp.lastname }}
+                                                                    {% if userempno == emp.empno %}
+                                                                        class="danger"
+                                                                    {% endif %}
+                                                                        >{{ emp.firstname }} {{ emp.lastname }}
                                                                 {% endif %}
                                                               {% endfor %}
                                                           {% endif %}

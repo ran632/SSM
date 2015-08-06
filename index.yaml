@@ -117,6 +117,15 @@ indexes:
 
 - kind: User
   properties:
+  - name: first_name
+  - name: email
+  - name: employee_number
+  - name: isActive
+  - name: last_name
+  - name: phone_num
+
+- kind: User
+  properties:
   - name: isActive
   - name: email
 
@@ -134,5 +143,19 @@ indexes:
   - name: email
   - name: employee_number
   - name: first_name
+  - name: last_name
+  - name: phone_num
+
+- kind: User
+  properties:
+  - name: isActive
+  - name: first_name
+
+- kind: User
+  properties:
+  - name: isActive
+  - name: first_name
+  - name: email
+  - name: employee_number
   - name: last_name
   - name: phone_num

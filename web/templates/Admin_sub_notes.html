@@ -37,12 +37,21 @@
                                         </b></td>
                                         {% for i in "xxxxxxx" %}
                                             <td>
-                                            {% for sub in nextWeekSubmissions %}
-                                                {% if sub.day == forloop.parentloop.counter and sub.hour == forloop.parentloop.parentloop.counter0 %}
-                                                {{ sub.full_name }}<br>
-                                                {% endif %}
+                                            {% for day in pop %}
+                                                        {% if forloop.counter0 == forloop.parentloop.counter %}
+                                                            {% for hour in day %}
+                                                                {% if forloop.counter0 == forloop.parentloop.parentloop.parentloop.counter0 %}
+                                                                    {% for nom in hour.1 %}
+                                                                        {% if nom.isSubbed %}
+                                                                        {{ nom.name }}<br>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
                                             {% endfor %}
-                                        {% endfor %}
+                                            {% endfor %}
+
                                     </tr>
                                 {% endfor %}
                                 </tbody>
