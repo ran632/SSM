@@ -32,15 +32,7 @@ function submitSwitch(){
 	var from_shift_id = $('#myshifts').find('option:selected').attr('id');
 	var to_empno = $('#emplist').find('option:selected').attr('id');
 	var to_shift_id = $('#othershifts').find('option:selected').attr('id');
-
-	if(to_empno.isEmpty) {
-		alert("Please choose employee to switch with");
-		return
-	}
-	if(from_shift_id.isEmpty && to_shift_id.isEmpty) {
-		alert("No shift selected");
-		return
-	}
+	
 	$.ajax({
 		url:'/SwitchShifts/switchAtt',
 		type:'GET',
