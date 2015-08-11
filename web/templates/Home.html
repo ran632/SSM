@@ -32,13 +32,18 @@
                         <div class="panel panel-primary text-center no-boder bg-color-blue">
                             <div class="panel-body">
                                 <i class="fa fa-book fa-5x"></i>
-                                <h3>{{ Nextshift }} </h3>
+                                {% if Nextshift %}
+                                <h3>{{ Nextshift }}</h3>
+                                {% else %}
+                                <h3><br></h3>
+                                {% endif %}
                             </div>
                             <div class="panel-footer back-footer-blue">
                                 Next shift
                             </div>
                         </div>
                     </div>
+                    <a href="SubmissionShifts">
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="panel panel-primary text-center no-boder bg-color-red">
                             <div class="panel-body">
@@ -62,6 +67,8 @@
                             </div>
                         </div>
                     </div>
+                    </a>
+                    <a href="SwitchShifts">
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="panel panel-primary text-center no-boder bg-color-brown">
                             <div class="panel-body">
@@ -73,6 +80,7 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
 
                 <div class="row">
@@ -84,7 +92,9 @@
                     {% with nextSundayDate as sundayDate %}
                         {% with nextSaturdayDate as saturdayDate %}
                             {% with scheduleNext as schedule %}
+                                {% with weekdates2 as weekdates1 %}
                                 {% include "shifttable.html" %}
+                                    {% endwith %}
                             {% endwith %}
                         {% endwith %}
                     {% endwith %}
