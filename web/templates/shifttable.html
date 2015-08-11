@@ -55,6 +55,9 @@
                                                                         class="danger"
                                                                     {% endif %}
                                                                         >{{ emp.firstname }} {{ emp.lastname }}
+                                                                    {% if sft.shiftnote %}
+                                                                        <br><span style="font-weight:normal;">{{ sft.shiftnote }}</span>
+                                                                    {% endif %}
                                                                 {% endif %}
                                                               {% endfor %}
                                                           {% endif %}
