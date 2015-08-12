@@ -5,7 +5,7 @@ $(function() {  //this is jQuery's short notation for "fire all this when page i
 	$('#prnt').on('click', function () {
 		$('body > :not(.printversion)').hide(); //hide all nodes directly under the body
 		$('.printversion').appendTo('body');
-		
+
 		$('.success').removeClass( 'success' );
 		$('.info').removeClass( 'info' );
 		$('.warning').removeClass( 'warning' );
