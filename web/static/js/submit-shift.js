@@ -31,6 +31,7 @@ function submitShift() {
 			}
 		}
 	}
+    alert("Submissions sent successfully");
 	$.ajax({
 		url:'/submissionAtt',
 		type:'GET',
