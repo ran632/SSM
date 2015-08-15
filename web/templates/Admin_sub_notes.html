@@ -43,8 +43,9 @@
                                                                 {% if forloop.counter0 == forloop.parentloop.parentloop.parentloop.counter0 %}
                                                                     {% for nom in hour.1 %}
                                                                         {% if nom.isSubbed %}
-                                                                        {{ nom.name }}<br>
+                                                                        {{ nom.name }}
                                                                         {% endif %}
+                                                                        <br>
                                                                     {% endfor %}
                                                                 {% endif %}
                                                             {% endfor %}

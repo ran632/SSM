@@ -1,0 +1,465 @@
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover " id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                        <th>Sunday</th>
+                        <th>Monday</th>
+                        <th>Tuseday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in "xxxx" %}
+                    <tr class="success">
+                        <td><b>{{ forloop.counter }}</b></td>
+                        <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="10"
+                            id="sel10{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.1.0 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                        <input type="text" style="display:none; width: 100%" id="txt10{{ forloop.counter }}">
+                        </td>
+                        <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="20"
+                            id="sel20{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.2.0 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                        <input type="text" style="display:none; width: 100%" id="txt20{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="30"
+                            id="sel30{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.3.0 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt30{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="40"
+                            id="sel40{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.4.0 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt40{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="50"
+                            id="sel50{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.5.0 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt50{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="60"
+                            id="sel60{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.6.0 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt60{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="70"
+                            id="sel70{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.7.0 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt70{{ forloop.counter }}">
+                        </td>
+                    </tr>
+                {% endfor %}
+                    <tr><td/></tr>
+                    {% for i in "xxx" %}
+                    <tr class="info">
+                        <td><b>{{ forloop.counter }}</b></td>
+                        <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="11"
+                            id="sel11{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.1.1 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                        <input type="text" style="display:none; width: 100%" id="txt11{{ forloop.counter }}">
+                        </td>
+                        <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="21"
+                            id="sel21{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.2.1 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                        <input type="text" style="display:none; width: 100%" id="txt21{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="31"
+                            id="sel31{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.3.1 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt31{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="41"
+                            id="sel41{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.4.1 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt41{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="51"
+                            id="sel51{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.5.1 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt51{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="61"
+                            id="sel61{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.6.1 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt61{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="71"
+                            id="sel71{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.7.1 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt71{{ forloop.counter }}">
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr><td/></tr>
+                    {% for i in "xxx" %}
+                    <tr class="warning">
+                        <td><b>{{ forloop.counter }}</b></td>
+                        <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="12"
+                            id="sel12{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.1.2 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                        <input type="text" style="display:none; width: 100%" id="txt12{{ forloop.counter }}">
+                        </td>
+                        <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="22"
+                            id="sel22{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.2.2 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                        <input type="text" style="display:none; width: 100%" id="txt22{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="32"
+                            id="sel32{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.3.2 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt32{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="42"
+                            id="sel42{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.4.2 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt42{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="52"
+                            id="sel52{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.5.2 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt52{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="62"
+                            id="sel62{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.6.2 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt62{{ forloop.counter }}">
+                        </td>
+                    <td>
+                            <select class="form-control shiftselect thisweek"
+                            name="72"
+                            id="sel72{{ forloop.counter }}">
+                            <option></option>
+                                {% for emp in pop.7.2 %}
+                                    <option
+                                        {% if emp.isSubbed %}
+                                            class ="greenColor"
+                                        {% else %}
+                                            class ="redColor"
+                                        {% endif %}
+                                        value="{{ emp.empno }}"
+                                        {% if emp.isSelected == forloop.parentloop.counter %}
+                                            selected
+                                        {% endif %}>{{ emp.name }}</option>
+                                {% endfor %}
+                            </select>
+                    <input type="text" style="display:none; width: 100%" id="txt72{{ forloop.counter }}">
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="" id="submit" class="btn btn-primary btn-lg">Submit</a>&emsp;&emsp;
+        <a href="" id="send" class="btn btn-primary btn-lg">Send Emails</a>
+    </div>
+</div>
