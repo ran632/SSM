@@ -41,7 +41,7 @@
                                                         {% if forloop.counter0 == forloop.parentloop.counter %}
                                                             {% for hour in day %}
                                                                 {% if forloop.counter0 == forloop.parentloop.parentloop.parentloop.counter0 %}
-                                                                    {% for nom in hour.1 %}
+                                                                    {% for nom in hour %}
                                                                         {% if nom.isSubbed %}
                                                                         {{ nom.name }}
                                                                         {% endif %}
@@ -51,7 +51,8 @@
                                                             {% endfor %}
                                                         {% endif %}
                                             {% endfor %}
-                                            {% endfor %}
+                                            </td>
+                                        {% endfor %}
 
                                     </tr>
                                 {% endfor %}
