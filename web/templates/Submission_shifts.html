@@ -20,11 +20,11 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                        <input type="date" value="{{ sundayDateISO }}" id="cal"
+                        <input type="date" min="2015-09-13" max="2015-10-10"value="{{ sundayDateISO }}" id="cal">
                                {% if not useradmin %}
-                               style="display: none;"
+                               <!--style="display: none;"-->
                                {% endif %}
-                                >
+
 
                             {% if useradmin %}
 
