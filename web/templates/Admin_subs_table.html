@@ -1,0 +1,194 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Employees' submission so far
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Sunday</th>
+                        <th>Monday</th>
+                        <th>Tuseday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <b>
+                            Morning
+                            </b>
+                        </td>
+                        <td>
+                            {% for emp in pop.1.0 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.2.0 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.3.0 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.4.0 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.5.0 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.6.0 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.7.0 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>
+                            Evening
+                            </b>
+                        </td>
+                        <td>
+                            {% for emp in pop.1.1 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.2.1 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.3.1 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.4.1 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.5.1 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.6.1 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.7.1 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <b>
+                            Night
+                            </b>
+                        </td>
+                        <td>
+                            {% for emp in pop.1.2 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.2.2 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.3.2 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.4.2 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.5.2 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.6.2 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for emp in pop.7.2 %}
+                                {% if emp.isSubbed %}
+                                    {{ emp.name }}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                 </tbody>
+            </table>
+        </div>
+    </div>
+</div>
